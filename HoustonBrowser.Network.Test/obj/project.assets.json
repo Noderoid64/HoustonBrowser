@@ -5748,23 +5748,39 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD:HoustonBrowser.Network.Test/obj/project.assets.json
     "C:\\Users\\Euegen\\.nuget\\packages\\": {},
+=======
+    "C:\\Users\\ynedb\\.nuget\\packages\\": {},
+>>>>>>> [Update] Create project:ISDBrowser.Network.Test/obj/project.assets.json
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD:HoustonBrowser.Network.Test/obj/project.assets.json
       "projectUniqueName": "E:\\ISD\\HoustonBrowser\\HoustonBrowser.Network.Test\\HoustonBrowser.Network.Test.csproj",
       "projectName": "HoustonBrowser.Network.Test",
       "projectPath": "E:\\ISD\\HoustonBrowser\\HoustonBrowser.Network.Test\\HoustonBrowser.Network.Test.csproj",
       "packagesPath": "C:\\Users\\Euegen\\.nuget\\packages\\",
       "outputPath": "E:\\ISD\\HoustonBrowser\\HoustonBrowser.Network.Test\\obj\\",
+=======
+      "projectUniqueName": "D:\\ISDBrowser\\ISDBrowser.Network.Test\\ISDBrowser.Network.Test.csproj",
+      "projectName": "ISDBrowser.Network.Test",
+      "projectPath": "D:\\ISDBrowser\\ISDBrowser.Network.Test\\ISDBrowser.Network.Test.csproj",
+      "packagesPath": "C:\\Users\\ynedb\\.nuget\\packages\\",
+      "outputPath": "D:\\ISDBrowser\\ISDBrowser.Network.Test\\obj\\",
+>>>>>>> [Update] Create project:ISDBrowser.Network.Test/obj/project.assets.json
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
+<<<<<<< HEAD:HoustonBrowser.Network.Test/obj/project.assets.json
         "C:\\Users\\Euegen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+        "C:\\Users\\ynedb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> [Update] Create project:ISDBrowser.Network.Test/obj/project.assets.json
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
