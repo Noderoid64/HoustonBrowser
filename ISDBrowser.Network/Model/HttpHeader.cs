@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Hello.Http.Model.Headers;
+using HttpModule.Model.Headers;
 
-namespace Hello.Http.Model
+namespace HttpModule.Model
 {
     public class HttpHeader : IParseable
     {

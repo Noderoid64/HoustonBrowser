@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hello.Http.Model.Headers
+namespace HttpModule.Model.Headers
 {
     public static class GeneralHeader
     {

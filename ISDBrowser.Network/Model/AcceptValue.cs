@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hello.Http.Model
+namespace HttpModule.Model
 {
     public class AcceptValue : IParseable
     {

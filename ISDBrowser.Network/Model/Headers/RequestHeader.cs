@@ -1,4 +1,4 @@
-﻿namespace Hello.Http.Model.Headers
+﻿namespace HttpModule.Model.Headers
 {
     public static class RequestHeader
     {

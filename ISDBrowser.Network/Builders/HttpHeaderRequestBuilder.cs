@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Hello.Http.Model;
-using Hello.Http.Model.Headers;
+using HttpModule.Model;
+using HttpModule.Model.Headers;
 
 namespace Hello.Http.Builders
 {
