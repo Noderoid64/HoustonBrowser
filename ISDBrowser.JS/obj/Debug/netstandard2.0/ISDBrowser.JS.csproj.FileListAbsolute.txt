@@ -1,0 +1,9 @@
+E:\apps\ISDProject\ISDBrowser\ISDBrowser.JS\bin\Debug\netstandard2.0\ISDBrowser.JS.deps.json
+E:\apps\ISDProject\ISDBrowser\ISDBrowser.JS\bin\Debug\netstandard2.0\ISDBrowser.JS.dll
+E:\apps\ISDProject\ISDBrowser\ISDBrowser.JS\bin\Debug\netstandard2.0\ISDBrowser.JS.pdb
+E:\apps\ISDProject\ISDBrowser\ISDBrowser.JS\obj\Debug\netstandard2.0\ISDBrowser.JS.csprojAssemblyReference.cache
+E:\apps\ISDProject\ISDBrowser\ISDBrowser.JS\obj\Debug\netstandard2.0\ISDBrowser.JS.csproj.CoreCompileInputs.cache
+E:\apps\ISDProject\ISDBrowser\ISDBrowser.JS\obj\Debug\netstandard2.0\ISDBrowser.JS.AssemblyInfoInputs.cache
+E:\apps\ISDProject\ISDBrowser\ISDBrowser.JS\obj\Debug\netstandard2.0\ISDBrowser.JS.AssemblyInfo.cs
+E:\apps\ISDProject\ISDBrowser\ISDBrowser.JS\obj\Debug\netstandard2.0\ISDBrowser.JS.dll
+E:\apps\ISDProject\ISDBrowser\ISDBrowser.JS\obj\Debug\netstandard2.0\ISDBrowser.JS.pdb
