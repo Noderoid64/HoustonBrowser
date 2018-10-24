@@ -1,0 +1,9 @@
+D:\Git\ISDBrowser\ISDBrowser.Network\bin\Debug\netstandard2.0\ISDBrowser.Network.deps.json
+D:\Git\ISDBrowser\ISDBrowser.Network\bin\Debug\netstandard2.0\ISDBrowser.Network.dll
+D:\Git\ISDBrowser\ISDBrowser.Network\bin\Debug\netstandard2.0\ISDBrowser.Network.pdb
+D:\Git\ISDBrowser\ISDBrowser.Network\obj\Debug\netstandard2.0\ISDBrowser.Network.csprojAssemblyReference.cache
+D:\Git\ISDBrowser\ISDBrowser.Network\obj\Debug\netstandard2.0\ISDBrowser.Network.csproj.CoreCompileInputs.cache
+D:\Git\ISDBrowser\ISDBrowser.Network\obj\Debug\netstandard2.0\ISDBrowser.Network.AssemblyInfoInputs.cache
+D:\Git\ISDBrowser\ISDBrowser.Network\obj\Debug\netstandard2.0\ISDBrowser.Network.AssemblyInfo.cs
+D:\Git\ISDBrowser\ISDBrowser.Network\obj\Debug\netstandard2.0\ISDBrowser.Network.dll
+D:\Git\ISDBrowser\ISDBrowser.Network\obj\Debug\netstandard2.0\ISDBrowser.Network.pdb
