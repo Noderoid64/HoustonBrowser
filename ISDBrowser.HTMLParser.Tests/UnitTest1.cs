@@ -8,7 +8,7 @@ namespace ISDBrowser.HTMLParser.Tests
         [Fact]
         public void Test1()
         {
-
+            
         }
     }
 }
