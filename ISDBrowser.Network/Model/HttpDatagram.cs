@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpModule.Model
 {
-    public abstract class HttpDatagram : IParseable
+    internal abstract class HttpDatagram : IParseable
     {
         public HttpVersion Version { get; protected set; }
         public HttpHeader header { get; set; }

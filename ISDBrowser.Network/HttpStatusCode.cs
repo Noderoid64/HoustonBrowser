@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpModule
 {
-    public static class HttpStatusCodes
+    internal static class HttpStatusCodes
     {
         // 1xx Information
         public const ushort Continue = 100;

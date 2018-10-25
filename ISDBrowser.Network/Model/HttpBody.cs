@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpModule.Model
 {
-    public class HttpBody : IParseable
+    internal class HttpBody : IParseable
     {
         public byte[] GetBytes(Encoding encoder)
         {

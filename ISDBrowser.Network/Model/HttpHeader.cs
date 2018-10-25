@@ -8,7 +8,7 @@ using HttpModule.Model.Headers;
 
 namespace HttpModule.Model
 {
-    public class HttpHeader : IParseable
+    internal class HttpHeader : IParseable
     {
         public List<HttpHeaderField> Fields { get; private set; }
 
@@ -19,14 +19,7 @@ namespace HttpModule.Model
 
         public void SetField(HttpHeaderField field)
         {
-            if(Fields.FirstOrDefault(x=> x.Name == field.Name) is HttpHeaderField a)
-            {
-                a.AddValues(field.Values);
-            }
-            else
-            {
-                Fields.Add(field);
-            }
+            
         }
 
         public byte[] GetBytes(Encoding encoder)

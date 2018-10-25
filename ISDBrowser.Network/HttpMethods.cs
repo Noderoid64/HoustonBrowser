@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpModule
 {
-    public enum HttpMethods
+    internal enum HttpMethods
     {
         OPTIONS,
         GET,

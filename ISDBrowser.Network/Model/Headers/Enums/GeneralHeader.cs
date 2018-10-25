@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpModule.Model.Headers
 {
-    public static class GeneralHeader
+    internal static class GeneralHeader
     {
         public const string CacheControl = "Cache-Control";
         public const string Connection = "Connection";

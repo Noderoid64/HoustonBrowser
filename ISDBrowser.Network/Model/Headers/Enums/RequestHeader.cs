@@ -1,6 +1,6 @@
 ﻿namespace HttpModule.Model.Headers
 {
-    public static class RequestHeader
+    internal static class RequestHeader
     {
         public const string Accept = "Accept";
         public const string AcceptCharset = "Accept-Charset";

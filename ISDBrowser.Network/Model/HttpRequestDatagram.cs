@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpModule.Model
 {
-    class HttpRequestDatagram : HttpDatagram
+   internal class HttpRequestDatagram : HttpDatagram
     {
 
         public HttpMethods Method { get; private set; }

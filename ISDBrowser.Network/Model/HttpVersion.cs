@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpModule.Model
 {
-    public class HttpVersion : IParseable
+    internal class HttpVersion : IParseable
     {
         public uint Major { get; private set; }
         public uint Minor { get; private set; }

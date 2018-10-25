@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HttpModule.Model
 {
-    class HttpResponseDatagram : HttpDatagram
+  internal  class HttpResponseDatagram : HttpDatagram
     {
         public HttpResponseDatagram(ushort statusCode, string ReasonPhrase, HttpVersion version) : base(version)
         {

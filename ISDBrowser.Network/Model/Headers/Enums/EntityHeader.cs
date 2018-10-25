@@ -1,6 +1,6 @@
 ﻿namespace HttpModule.Model.Headers
 {
-    public static class EntityHeader
+    internal static class EntityHeader
     {
         public const string Allow = "Allow";
         public const string ContentEncoding = "Content-Encoding";

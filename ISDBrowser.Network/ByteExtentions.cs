@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hello.Http
 {
-    public static class ByteExtentions
+    internal static class ByteExtentions
     {
         
     }

@@ -1,6 +1,6 @@
 ﻿namespace HttpModule.Model.Headers
 {
-    public static class ResponseHeader
+    internal static class ResponseHeader
     {
         public const string AcceptRanges = "Accept-Ranges";
         public const string Age = "Age";
