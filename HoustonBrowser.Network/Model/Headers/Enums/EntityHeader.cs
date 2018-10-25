@@ -1,4 +1,4 @@
-﻿namespace HttpModule.Model.Headers
+﻿namespace HoustonBrowser.HttpModule.Model.Headers
 {
     internal static class EntityHeader
     {

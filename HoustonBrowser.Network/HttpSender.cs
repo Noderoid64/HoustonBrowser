@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace HttpModule
+namespace HoustonBrowser.HttpModule
 {
     public class HttpSender
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpModule.Model.Headers
+namespace HoustonBrowser.HttpModule.Model.Headers
 {
     internal static class GeneralHeader
     {

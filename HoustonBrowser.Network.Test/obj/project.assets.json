@@ -1681,6 +1681,16 @@
         "build": {
           "build/netcoreapp1.0/xunit.runner.visualstudio.props": {}
         }
+      },
+      "HoustonBrowser.Network/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/HoustonBrowser.Network.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HoustonBrowser.Network.dll": {}
+        }
       }
     }
   },
@@ -5729,10 +5739,16 @@
         "xunit.runner.visualstudio.2.3.1.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "HoustonBrowser.Network/1.0.0": {
+      "type": "project",
+      "path": "../HoustonBrowser.Network/HoustonBrowser.Network.csproj",
+      "msbuildProject": "../HoustonBrowser.Network/HoustonBrowser.Network.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.1": [
+      "HoustonBrowser.Network >= 1.0.0",
       "Microsoft.NET.Test.Sdk >= 15.8.0",
       "Microsoft.NETCore.App >= 2.1.0",
       "xunit >= 2.3.1",
@@ -5768,7 +5784,11 @@
       },
       "frameworks": {
         "netcoreapp2.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "d:\\Git\\ISDBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj": {
+              "projectPath": "d:\\Git\\ISDBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

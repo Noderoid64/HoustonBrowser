@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HttpModule.Model
+namespace HoustonBrowser.HttpModule.Model
 {
    internal interface IParseable
     {

@@ -4,46 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using HttpModule.Model.Headers;
+using HoustonBrowser.HttpModule.Model.Headers;
 
-namespace HttpModule.Model
+namespace HoustonBrowser.HttpModule.Model
 {
     internal class HttpHeader : IParseable
     {
-        public List<HttpHeaderField> Fields { get; private set; }
-
+        private List<HttpHeaderField> fields;
         public HttpHeader()
         {
-            Fields = new List<HttpHeaderField>();
+            fields = new List<HttpHeaderField>();
         }
-
-        public void SetField(HttpHeaderField field)
+        public void AddHeaderField(HttpHeaderField field)
         {
-            
+            if (fields.FirstOrDefault(x => x.name == field.name)!=null)
+                throw new Exception("Header field already exist");
+                else
+                fields.Add(field);
         }
 
+        #region IParseable
         public byte[] GetBytes(Encoding encoder)
         {
-            byte[] bytes = new byte[0];
-            for (int i = 0; i < Fields.Count; i++)
-            {
-                bytes = bytes.Concat(Fields[i].GetBytes(encoder)).ToArray();
-                bytes = bytes.Concat(encoder.GetBytes("\r\n")).ToArray();
-            }
-            return bytes.Concat(encoder.GetBytes("\r\n")).ToArray();
+            throw new NotImplementedException();
         }
 
         public string GetString()
-        {
-            string localString = "";
-            for (int i = 0; i < Fields.Count; i++)
-            {
-                localString += Fields[i].GetString() + "\r\n";
-            }
-            return localString + "\r\n";
-        }
-
-        public void SetFromString(string value)
         {
             throw new NotImplementedException();
         }
@@ -52,6 +38,12 @@ namespace HttpModule.Model
         {
             throw new NotImplementedException();
         }
+
+        public void SetFromString(string value)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 
 

@@ -1,7 +1,7 @@
 using System;
-using HttpModule.Model;
+using HoustonBrowser.HttpModule.Model;
 
-namespace HttpModule
+namespace HoustonBrowser.HttpModule
 {
     internal class HttpRequestBuilder
     {
