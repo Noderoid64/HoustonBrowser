@@ -1,0 +1,5 @@
+.vs/*
+.dtbcache
+.cache
+.lock
+HoustonBrowser.Network/obj/HoustonBrowser.Network.csproj.nuget.cache
