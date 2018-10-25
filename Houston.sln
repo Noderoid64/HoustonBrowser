@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISDBrowser.Network", "ISDBr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISDBrowser.Network.Test", "ISDBrowser.Network.Test\ISDBrowser.Network.Test.csproj", "{9DBF7B41-80E7-4509-ABA5-4F9D47325799}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{9DBF7B41-80E7-4509-ABA5-4F9D47325799}.Release|x64.Build.0 = Release|Any CPU
 		{9DBF7B41-80E7-4509-ABA5-4F9D47325799}.Release|x86.ActiveCfg = Release|Any CPU
 		{9DBF7B41-80E7-4509-ABA5-4F9D47325799}.Release|x86.Build.0 = Release|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Debug|x64.Build.0 = Debug|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Debug|x86.Build.0 = Debug|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Release|x64.ActiveCfg = Release|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Release|x64.Build.0 = Release|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC51A94C-B478-4E7B-BCA4-25E3673CF3CF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
