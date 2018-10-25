@@ -176,23 +176,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Nod\\.nuget\\packages\\": {},
+    "C:\\Users\\Euegen\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Git\\ISDBrowser\\ISDBrowser.Network\\ISDBrowser.Network.csproj",
+      "projectUniqueName": "E:\\ISD\\HoustonBrowser\\ISDBrowser.Network\\ISDBrowser.Network.csproj",
       "projectName": "ISDBrowser.Network",
-      "projectPath": "D:\\Git\\ISDBrowser\\ISDBrowser.Network\\ISDBrowser.Network.csproj",
-      "packagesPath": "C:\\Users\\Nod\\.nuget\\packages\\",
-      "outputPath": "D:\\Git\\ISDBrowser\\ISDBrowser.Network\\obj\\",
+      "projectPath": "E:\\ISD\\HoustonBrowser\\ISDBrowser.Network\\ISDBrowser.Network.csproj",
+      "packagesPath": "C:\\Users\\Euegen\\.nuget\\packages\\",
+      "outputPath": "E:\\ISD\\HoustonBrowser\\ISDBrowser.Network\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Nod\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Euegen\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

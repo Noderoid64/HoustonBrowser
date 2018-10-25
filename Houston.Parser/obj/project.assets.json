@@ -182,11 +182,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ISD\\ISDBrowser\\ISDBrowser.HTMLParser\\ISDBrowser.HTMLParser.csproj",
-      "projectName": "ISDBrowser.HTMLParser",
-      "projectPath": "E:\\ISD\\ISDBrowser\\ISDBrowser.HTMLParser\\ISDBrowser.HTMLParser.csproj",
+      "projectUniqueName": "E:\\ISD\\HoustonBrowser\\Houston.Parser\\HoustonBrowser.Parser.csproj",
+      "projectName": "HoustonBrowser.Parser",
+      "projectPath": "E:\\ISD\\HoustonBrowser\\Houston.Parser\\HoustonBrowser.Parser.csproj",
       "packagesPath": "C:\\Users\\Euegen\\.nuget\\packages\\",
-      "outputPath": "E:\\ISD\\ISDBrowser\\ISDBrowser.HTMLParser\\obj\\",
+      "outputPath": "E:\\ISD\\HoustonBrowser\\Houston.Parser\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
