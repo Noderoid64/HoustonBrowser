@@ -182,11 +182,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ISDBrowser\\ISDBrowser.DOM\\ISDBrowser.DOM.csproj",
-      "projectName": "ISDBrowser.DOM",
-      "projectPath": "D:\\ISDBrowser\\ISDBrowser.DOM\\ISDBrowser.DOM.csproj",
+      "projectUniqueName": "E:\\HoustonBrowser\\HoustonBrowser.DOM\\HoustonBrowser.DOM.csproj",
+      "projectName": "HoustonBrowser.DOM",
+      "projectPath": "E:\\HoustonBrowser\\HoustonBrowser.DOM\\HoustonBrowser.DOM.csproj",
       "packagesPath": "C:\\Users\\ynedb\\.nuget\\packages\\",
-      "outputPath": "D:\\ISDBrowser\\ISDBrowser.DOM\\obj\\",
+      "outputPath": "E:\\HoustonBrowser\\HoustonBrowser.DOM\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
