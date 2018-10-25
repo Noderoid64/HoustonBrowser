@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.Parsing", "H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.Parsing.Test", "HoustonBrowser.Parsing.Test\HoustonBrowser.Parsing.Test.csproj", "{D3ADB822-5230-4E75-B61C-6085B190DB87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoustonBrowser.Core", "HoustonBrowser.Core\HoustonBrowser.Core.csproj", "{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{D3ADB822-5230-4E75-B61C-6085B190DB87}.Release|x64.Build.0 = Release|Any CPU
 		{D3ADB822-5230-4E75-B61C-6085B190DB87}.Release|x86.ActiveCfg = Release|Any CPU
 		{D3ADB822-5230-4E75-B61C-6085B190DB87}.Release|x86.Build.0 = Release|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Debug|x64.Build.0 = Debug|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Debug|x86.Build.0 = Debug|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Release|x64.ActiveCfg = Release|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Release|x64.Build.0 = Release|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Release|x86.ActiveCfg = Release|Any CPU
+		{8E7F0774-39F9-486B-AF3D-4B45CD120DAE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
