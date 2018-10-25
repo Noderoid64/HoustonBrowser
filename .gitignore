@@ -3,3 +3,11 @@
 .cache
 .lock
 HoustonBrowser.Network/obj/HoustonBrowser.Network.csproj.nuget.cache
+HoustonBrowser.Parsing.Test/obj/HoustonBrowser.Parsing.Test.csproj.nuget.cache
+HoustonBrowser.Parsing/obj/Debug/netstandard2.0/HoustonBrowser.Parsing.csproj.CoreCompileInputs.cache
+HoustonBrowser.Parsing.Test/obj/Debug/netcoreapp2.1/HoustonBrowser.Parsing.Test.csproj.CoreCompileInputs.cache
+HoustonBrowser.Network/obj/Debug/netstandard2.0/HoustonBrowser.Network.csproj.CoreCompileInputs.cache
+HoustonBrowser.Network/obj/Debug/netstandard2.0/HoustonBrowser.Network.csprojAssemblyReference.cache
+HoustonBrowser.Network.Test/obj/HoustonBrowser.Network.Test.csproj.nuget.cache
+HoustonBrowser.Network.Test/obj/Debug/netcoreapp2.1/HoustonBrowser.Network.Test.csproj.CoreCompileInputs.cache
+HoustonBrowser.Parsing/obj/HoustonBrowser.Parsing.csproj.nuget.cache
