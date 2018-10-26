@@ -2,7 +2,7 @@
 using Avalonia;
 using Avalonia.Logging.Serilog;
 
-namespace ISDBrowser
+namespace HoustonBrowser
 {
     class Program
     {
