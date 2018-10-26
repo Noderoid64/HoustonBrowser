@@ -2,7 +2,7 @@ using System;
 
 namespace HoustonBrowser.JS
 {
-    class MockJS: IJS
+    public class MockJS: IJS
     {
         void Process(string rawJS)
         {

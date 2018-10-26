@@ -2,13 +2,6 @@ using System;
 
 namespace HoustonBrowser.JS
 {
-    enum EventPhase
-    {
-        CapturingPhase = 1,
-        AtTarget,
-        BubblingPhase
-    }
-
     class Event
     {
         public readonly string type;

@@ -2,7 +2,7 @@ using System;
 
 namespace HoustonBrowser.JS
 {
-    interface IJS
+    public interface IJS
     {
         void Process(string rawJS);
 
