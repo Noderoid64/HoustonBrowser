@@ -232,7 +232,10 @@ _Pvt_Extensions
 .fake/
 
 .vs/*
+.vscode
+bin
 .dtbcache
 .cache
-*.lock
+.lock
 *.cache
+
