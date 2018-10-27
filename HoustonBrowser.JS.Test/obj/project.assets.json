@@ -1680,7 +1680,7 @@
       },
       "HoustonBrowser.JS/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETCoreApp,Version=v2.1",
         "compile": {
           "bin/placeholder/HoustonBrowser.JS.dll": {}
         },
@@ -5781,7 +5781,6 @@
             "version": "[15.7.0, )"
           },
           "Microsoft.NETCore.App": {
-            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
