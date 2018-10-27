@@ -32,7 +32,7 @@ Cache-Control: s-maxage=<seconds>
             {
                 case Params.NoChache:
                     {
-                        value = "no-cache ";
+                        value = "no-cache";
                     }
                     break;
                 case Params.MaxAge:

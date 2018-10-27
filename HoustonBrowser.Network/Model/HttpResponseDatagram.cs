@@ -13,8 +13,8 @@ namespace HoustonBrowser.HttpModule.Model
 
         }
 
-        public ushort StatusCode { get; private set; }
-        public string ReasonPhrase { get; private set; }
+        public ushort StatusCode { get; set; }
+        public string ReasonPhrase { get; set; }
 
         public override byte[] GetBytes(Encoding encoder)
         {

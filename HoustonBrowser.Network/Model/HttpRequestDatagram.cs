@@ -9,13 +9,13 @@ namespace HoustonBrowser.HttpModule.Model
    internal class HttpRequestDatagram : HttpDatagram
     {
 
-        public HttpMethods Method { get; private set; }
-        public string Uri { get; private set; }
+        public HttpMethods Method { get; set; }
+        public string Url { get; set; }
 
-        public HttpRequestDatagram(HttpMethods method, string uri, HttpVersion version) : base(version)
+        public HttpRequestDatagram(HttpMethods method, string url, HttpVersion version) : base(version)
         {
             this.Method = method;
-            this.Uri = uri;
+            this.Url = url;
         }
 
         public override bool isRequest()
@@ -30,7 +30,7 @@ namespace HoustonBrowser.HttpModule.Model
 
         public override byte[] GetBytes(Encoding encoder)
         {
-            return encoder.GetBytes(Method.ToString() + " " + Uri)
+            return encoder.GetBytes(Method.ToString() + " " + Url)
                 .Concat(Version.GetBytes(encoder)).ToArray()
                 .Concat(encoder.GetBytes("\r\n")).ToArray()
                 .Concat(header.GetBytes(encoder)).ToArray()
@@ -39,7 +39,7 @@ namespace HoustonBrowser.HttpModule.Model
 
         public override string GetString()
         {
-            return Method.ToString() + " " + Uri + " " + Version.GetString() + "\r\n" + header.GetString() + body?.GetString();
+            return Method.ToString() + " " + Url + " " + Version.GetString() + "\r\n" + header.GetString() + body?.GetString();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HoustonBrowser.HttpModule
 {
-    internal static class HttpStatusCodes
+    internal static class HttpStatusCode
     {
         // 1xx Information
         public const ushort Continue = 100;

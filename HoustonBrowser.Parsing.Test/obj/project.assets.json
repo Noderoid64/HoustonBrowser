@@ -5746,11 +5746,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Git\\ISDBrowser\\HoustonBrowser.Parsing.Test\\HoustonBrowser.Parsing.Test.csproj",
+      "projectUniqueName": "D:\\Git\\ISDBrowser\\HoustonBrowser.Parsing.Test\\HoustonBrowser.Parsing.Test.csproj",
       "projectName": "HoustonBrowser.Parsing.Test",
-      "projectPath": "d:\\Git\\ISDBrowser\\HoustonBrowser.Parsing.Test\\HoustonBrowser.Parsing.Test.csproj",
+      "projectPath": "D:\\Git\\ISDBrowser\\HoustonBrowser.Parsing.Test\\HoustonBrowser.Parsing.Test.csproj",
       "packagesPath": "C:\\Users\\Nod\\.nuget\\packages\\",
-      "outputPath": "d:\\Git\\ISDBrowser\\HoustonBrowser.Parsing.Test\\obj\\",
+      "outputPath": "D:\\Git\\ISDBrowser\\HoustonBrowser.Parsing.Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -5785,7 +5785,6 @@
             "version": "[15.8.0, )"
           },
           "Microsoft.NETCore.App": {
-            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true

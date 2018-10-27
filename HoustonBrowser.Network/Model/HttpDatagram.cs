@@ -8,7 +8,7 @@ namespace HoustonBrowser.HttpModule.Model
 {
     internal abstract class HttpDatagram : IParseable
     {
-        public HttpVersion Version { get; protected set; }
+        public HttpVersion Version { get; set; }
         public HttpHeader header { get; set; }
         public HttpBody body { get; set; }
 

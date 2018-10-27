@@ -19,7 +19,7 @@ namespace HoustonBrowser.HttpModule.Model
         }
         virtual public string GetString()
         {
-            throw new NotImplementedException();
+            return name.ToString() + ": " + value.ToString();
         }
         virtual public void SetFromBytes(byte[] value, Encoding encoder)
         {

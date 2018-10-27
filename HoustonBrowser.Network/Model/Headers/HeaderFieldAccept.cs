@@ -8,10 +8,17 @@ namespace HoustonBrowser.HttpModule.Model
         private const string FieldName = "Accept";
         public enum Type : int { any, text, image, application }
         public enum SubType : int { any, html, xhtmlXml, xml, xhtml, jpeg }
-        public HeaderFieldAccept(Type type, SubType subType, float q = 1)
+        public HeaderFieldAccept(Type type, SubType subType, float q = 2)
         {
             base.name = FieldName;
-
+            AddValue(type, subType, q);
+        }
+        public void AddValue(Type type, SubType subType, float q = 1)
+        {
+            if (base.name != string.Empty)
+                base.value = GetStringFromType(type) + "/" + GetStringFromSubType(subType);
+            if (q <= 1 && q >= 0)
+                base.value += ";q=" + Math.Round(q, 3);
         }
         private string GetStringFromType(Type type)
         {

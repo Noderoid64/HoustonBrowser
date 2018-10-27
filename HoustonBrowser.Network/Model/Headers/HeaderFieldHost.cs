@@ -1,5 +1,7 @@
 using System;
 
+ 
+
 namespace HoustonBrowser.HttpModule.Model
 {
     internal class HeaderFieldHost : HttpHeaderField
@@ -10,6 +12,9 @@ namespace HoustonBrowser.HttpModule.Model
             base.name = FieldName;
             base.value = host;
         }
+        
+    }
+    public class VisubleTo{
         
     }
 }
