@@ -233,12 +233,6 @@ _Pvt_Extensions
 
 .vs/*
 .dtbcache
-*.cache
+.cache
 *.lock
-*.pdb
-HoustonBrowser.Network.Test/obj/HoustonBrowser.Network.Test.csproj.nuget.cache
-HoustonBrowser.Network/obj/HoustonBrowser.Network.csproj.nuget.cache
-HoustonBrowser.Network/obj/Debug/netstandard2.0/HoustonBrowser.Network.assets.cache
-HoustonBrowser.Network.Test/obj/Debug/netcoreapp2.1/HoustonBrowser.Network.Test.assets.cache
-HoustonBrowser.Network.Test/obj/Debug/netcoreapp2.1/HoustonBrowser.Network.Test.csproj.CoreCompileInputs.cache
-HoustonBrowser.Network.Test/obj/Debug/netcoreapp2.1/HoustonBrowser.Network.Test.csprojAssemblyReference.cache
+*.cache

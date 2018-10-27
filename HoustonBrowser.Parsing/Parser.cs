@@ -1,19 +1,19 @@
 ﻿using System;
 
-namespace ISDBrowser.HTMLParser
+namespace HoustonBrowser
 {
-    public class Parser
+    public class Parser:IParser
     {
         private string HTMLDoc;
 
         public Parser()
         {
-
+            
         }
 
-        HTMLDOM ParseHTMLDoc()
+        string IParser.Parse()
         {
-            HTMLDOM domTree = new HTMLDOM();
+            //HTMLDOM domTree = new HTMLDOM();
             Conditions conditions;
             int currentCondition = 0,currentSymIndex = 0;
             bool endOfDocument = false;
@@ -43,7 +43,8 @@ namespace ISDBrowser.HTMLParser
                 }
                 currentSymIndex++;
             }
-            return domTree;
+            //return domTree;
+            return "";
         }
     }
 }
