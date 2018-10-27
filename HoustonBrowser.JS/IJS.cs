@@ -4,7 +4,7 @@ namespace HoustonBrowser.JS
 {
     public interface IJS
     {
-        void Process(string rawJS);
+        string Process(string rawJS);
 
     }
 }

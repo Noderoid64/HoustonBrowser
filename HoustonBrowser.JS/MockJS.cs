@@ -2,11 +2,11 @@ using System;
 
 namespace HoustonBrowser.JS
 {
-    public class MockJS: IJS
+    public class MockJS : IJS
     {
-        void Process(string rawJS)
+        public string Process(string rawJS)
         {
-            System.Console.WriteLine("JS Works");
+            return "JS Works";
         }
     }
 }
