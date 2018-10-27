@@ -4,7 +4,7 @@ namespace HoustonBrowser
 {
     public class mogParser:IParser
     {
-        object IParser.Parse()
+        string IParser.Parse()
         {
             
             return " Parser is alive! ";
