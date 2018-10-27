@@ -5762,11 +5762,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\Git\\ISDBrowser\\HoustonBrowser.Network.Test\\HoustonBrowser.Network.Test.csproj",
+      "projectUniqueName": "D:\\Git\\ISDBrowser\\HoustonBrowser.Network.Test\\HoustonBrowser.Network.Test.csproj",
       "projectName": "HoustonBrowser.Network.Test",
-      "projectPath": "d:\\Git\\ISDBrowser\\HoustonBrowser.Network.Test\\HoustonBrowser.Network.Test.csproj",
+      "projectPath": "D:\\Git\\ISDBrowser\\HoustonBrowser.Network.Test\\HoustonBrowser.Network.Test.csproj",
       "packagesPath": "C:\\Users\\Nod\\.nuget\\packages\\",
-      "outputPath": "d:\\Git\\ISDBrowser\\HoustonBrowser.Network.Test\\obj\\",
+      "outputPath": "D:\\Git\\ISDBrowser\\HoustonBrowser.Network.Test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -5785,8 +5785,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "d:\\Git\\ISDBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj": {
-              "projectPath": "d:\\Git\\ISDBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj"
+            "D:\\Git\\ISDBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj": {
+              "projectPath": "D:\\Git\\ISDBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj"
             }
           }
         }
@@ -5805,7 +5805,6 @@
             "version": "[15.8.0, )"
           },
           "Microsoft.NETCore.App": {
-            "suppressParent": "All",
             "target": "Package",
             "version": "[2.1.0, )",
             "autoReferenced": true
