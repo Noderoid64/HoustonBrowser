@@ -11,7 +11,7 @@ namespace HoustonBrowser.Core
         IParser parser;
         IUI ui;
 
-        public event Action onRender;
+        public event Action<object, object> onRender;
 
         public Core(IUI ui)
         {
@@ -31,12 +31,14 @@ namespace HoustonBrowser.Core
 
         private void Ui_onMouseClick(object sender, Avalonia.Input.PointerPressedEventArgs e)
         {
-            
+            string s = httpClient.GET("") + parser.Parse();
+            onRender(this, s);
         }
 
         private void Ui_onKeyDown(object sender, Avalonia.Input.KeyEventArgs e)
         {
-            
+            string s = httpClient.GET("") + parser.Parse();
+            onRender(this,s);
         }
     }
 }

@@ -42,9 +42,9 @@ namespace HoustonBrowser
             onMouseClick(sender, e);
         }
         
-        private void Core_onRender()
+        private void Core_onRender(object sender, object data)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
