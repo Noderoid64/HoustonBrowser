@@ -1,4 +1,4 @@
-interface IParser
+public interface IParser
 {
-    
+    string Parse();
 }

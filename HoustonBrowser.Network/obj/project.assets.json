@@ -176,23 +176,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Euegen\\.nuget\\packages\\": {},
+    "C:\\Users\\Nod\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ISD\\HoustonBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj",
+      "projectUniqueName": "d:\\Git\\ISDBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj",
       "projectName": "HoustonBrowser.Network",
-      "projectPath": "E:\\ISD\\HoustonBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj",
-      "packagesPath": "C:\\Users\\Euegen\\.nuget\\packages\\",
-      "outputPath": "E:\\ISD\\HoustonBrowser\\HoustonBrowser.Network\\obj\\",
+      "projectPath": "d:\\Git\\ISDBrowser\\HoustonBrowser.Network\\HoustonBrowser.Network.csproj",
+      "packagesPath": "C:\\Users\\Nod\\.nuget\\packages\\",
+      "outputPath": "d:\\Git\\ISDBrowser\\HoustonBrowser.Network\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Euegen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Nod\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

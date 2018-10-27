@@ -11,7 +11,7 @@ namespace HoustonBrowser
             
         }
 
-        object ParseHTMLDoc()
+        string IParser.Parse()
         {
             //HTMLDOM domTree = new HTMLDOM();
             Conditions conditions;
@@ -44,7 +44,7 @@ namespace HoustonBrowser
                 currentSymIndex++;
             }
             //return domTree;
-            return new object();
+            return "";
         }
     }
 }
