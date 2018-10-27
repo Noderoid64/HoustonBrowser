@@ -1,4 +1,4 @@
 interface IParser
 {
-    
+    object Parse();
 }

@@ -2,3 +2,6 @@
 .dtbcache
 .cache
 .lock
+*.cache
+*.cache
+*.cache

@@ -11,7 +11,7 @@ namespace HoustonBrowser
             
         }
 
-        object ParseHTMLDoc()
+        object IParser.Parse()
         {
             //HTMLDOM domTree = new HTMLDOM();
             Conditions conditions;
