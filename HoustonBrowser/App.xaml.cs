@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Markup.Xaml;
 
-namespace ISDBrowser
+namespace HoustonBrowser
 {
     public class App : Application
     {
