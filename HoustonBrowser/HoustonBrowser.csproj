@@ -16,6 +16,6 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.6.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ISDBrowser.Network\ISDBrowser.Network.csproj" />
+    <ProjectReference Include="..\HoustonBrowser.Core\HoustonBrowser.Core.csproj" />
   </ItemGroup>
 </Project>
