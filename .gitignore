@@ -1,7 +1,8 @@
 .vs/*
 .dtbcache
-.cache
-.lock
+*.cache
+*.lock
+*.pdb
 HoustonBrowser.Network/obj/HoustonBrowser.Network.csproj.nuget.cache
 HoustonBrowser.Parsing.Test/obj/HoustonBrowser.Parsing.Test.csproj.nuget.cache
 HoustonBrowser.Parsing/obj/Debug/netstandard2.0/HoustonBrowser.Parsing.csproj.CoreCompileInputs.cache
