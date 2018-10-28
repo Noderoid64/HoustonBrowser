@@ -47,7 +47,7 @@ namespace HoustonBrowser.HttpModule.Builders
         }
         public bool isReady()
         {
-            return false;
+            return true;
         }
         public HttpDatagram Build()
         {
