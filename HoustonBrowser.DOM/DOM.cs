@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ISDBrowser.DOM
+namespace HoustonBrowser.DOM
 {
     public class DOM
     {

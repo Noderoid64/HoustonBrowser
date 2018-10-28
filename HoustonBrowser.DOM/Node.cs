@@ -1,13 +1,13 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using ISDBrowser.DOM.Interface;
+using HoustonBrowser.DOM.Interface;
 
-namespace ISDBrowser.DOM
+namespace HoustonBrowser.DOM
 {
     public class Node : INode
     {
-        enum NodeType
+        public enum TypeOfNode
         {
             ELEMENT_NODE = 1,
             ATTRIBUTE_NODE,
@@ -23,24 +23,47 @@ namespace ISDBrowser.DOM
             NOTATION_NODE
         }
 
-        string nodeName;   // Узнать про кодировку
+        string nodeName;
         string nodeValue;
-        NodeType nodeType;
+        TypeOfNode nodeType;
         Node parentNode;
         List<Node> childNodes;
         Node firstChild;
         Node lastChild;
         Node previousSibling;
         Node nextSibling;
-        // readonly NamedNodeMap attributes; // предоставляет поиск узлоа во имени
-        // readonly Document ownerDocument;
+
+        protected NamedNodeMap attributes;
+        readonly Document ownerDocument;
+
+        public string NodeName { get => nodeName; }
+        public string NodeValue { get => nodeValue; }
+        public TypeOfNode NodeType { get => nodeType; }
+        public Node ParentNode { get => parentNode; }
+        public List<Node> ChildNodes { get => childNodes; }
+        public Node FirstChild { get => firstChild; }
+        public Node LastChild { get => lastChild; }
+        public Node PreviousSibling { get => previousSibling; }
+        public Node NextSibling { get => nextSibling; }
+        public NamedNodeMap Attributes { get => attributes; }
+        public Document OwnerDocument { get => ownerDocument; }
+
+        public Node() { }
+
+        public Node(TypeOfNode nodeType, string nodeName, string nodeValue)
+        {
+            this.nodeType = nodeType;
+            this.nodeName = nodeName;
+            this.nodeValue = nodeValue;
+        }
 
         public Node(Node parentNode)
         {
             this.parentNode = parentNode;
             childNodes = new List<Node>();
         }
-        public Node insertBefore(Node newChild, Node refChild)
+
+        public Node InsertBefore(Node newChild, Node refChild)
         {
             if (childNodes.Contains(refChild))
             {
@@ -50,7 +73,8 @@ namespace ISDBrowser.DOM
 
             return newChild;
         }
-        public Node replaceChild(Node newChild, Node oldChild)
+
+        public Node ReplaceChild(Node newChild, Node oldChild)
         {
             if (childNodes.Contains(oldChild))
             {
@@ -61,7 +85,7 @@ namespace ISDBrowser.DOM
 
             return newChild;
         }
-        public Node removeChild(Node oldChild)
+        public Node RemoveChild(Node oldChild)
         {
             if (childNodes.Contains(oldChild))
             {
@@ -69,19 +93,22 @@ namespace ISDBrowser.DOM
             }
             return oldChild;
         }
-        public Node appendChild(Node newChild)
+
+        public Node AppendChild(Node newChild)
         {
             childNodes.Add(newChild);
             return newChild;
         }
-        public bool hasChildNodes()
+
+        public bool HasChildNodes()
         {
             if (childNodes.Count == 0)
                 return true;
             else
                 return false;
         }
-        public Node cloneNode(bool deep)
+
+        public Node CloneNode(bool deep)
         {
             if (deep)
             {
@@ -89,16 +116,16 @@ namespace ISDBrowser.DOM
                 {
                     foreach (var node in childNodes)
                     {
-                        return node.cloneNode(deep);
+                        return node.CloneNode(deep);
                     }
                 }
                 else
                 {
-                    
+
                 }
             }
-            
-            return (Node) this.MemberwiseClone();
+
+            return (Node)this.MemberwiseClone();
         }
     }
 }
