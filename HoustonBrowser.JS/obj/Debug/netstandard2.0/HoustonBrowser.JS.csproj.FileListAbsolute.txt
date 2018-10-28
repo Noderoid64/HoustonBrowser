@@ -1,9 +1,0 @@
-E:\apps\ISDProject\ISDBrowser\HoustonBrowser.JS\bin\Debug\netstandard2.0\HoustonBrowser.JS.deps.json
-E:\apps\ISDProject\ISDBrowser\HoustonBrowser.JS\bin\Debug\netstandard2.0\HoustonBrowser.JS.dll
-E:\apps\ISDProject\ISDBrowser\HoustonBrowser.JS\bin\Debug\netstandard2.0\HoustonBrowser.JS.pdb
-E:\apps\ISDProject\ISDBrowser\HoustonBrowser.JS\obj\Debug\netstandard2.0\HoustonBrowser.JS.csprojAssemblyReference.cache
-E:\apps\ISDProject\ISDBrowser\HoustonBrowser.JS\obj\Debug\netstandard2.0\HoustonBrowser.JS.csproj.CoreCompileInputs.cache
-E:\apps\ISDProject\ISDBrowser\HoustonBrowser.JS\obj\Debug\netstandard2.0\HoustonBrowser.JS.AssemblyInfoInputs.cache
-E:\apps\ISDProject\ISDBrowser\HoustonBrowser.JS\obj\Debug\netstandard2.0\HoustonBrowser.JS.AssemblyInfo.cs
-E:\apps\ISDProject\ISDBrowser\HoustonBrowser.JS\obj\Debug\netstandard2.0\HoustonBrowser.JS.dll
-E:\apps\ISDProject\ISDBrowser\HoustonBrowser.JS\obj\Debug\netstandard2.0\HoustonBrowser.JS.pdb
