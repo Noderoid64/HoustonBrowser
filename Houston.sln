@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.JS.Test", "H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.Core", "HoustonBrowser.Core\HoustonBrowser.Core.csproj", "{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoustonBrowser.Controls", "HoustonBrowser.Controls\HoustonBrowser.Controls.csproj", "{20A043C4-DAA5-429A-B253-104B028B6E18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
