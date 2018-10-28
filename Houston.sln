@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoustonBrowser.JS", "Housto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoustonBrowser.JS.Test", "HoustonBrowser.JS.Test\HoustonBrowser.JS.Test.csproj", "{377BC1F9-2B86-47D2-BF54-522DB2627415}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoustonBrowser.Controls", "HoustonBrowser.Controls\HoustonBrowser.Controls.csproj", "{20A043C4-DAA5-429A-B253-104B028B6E18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,18 @@ Global
 		{377BC1F9-2B86-47D2-BF54-522DB2627415}.Release|x64.Build.0 = Release|Any CPU
 		{377BC1F9-2B86-47D2-BF54-522DB2627415}.Release|x86.ActiveCfg = Release|Any CPU
 		{377BC1F9-2B86-47D2-BF54-522DB2627415}.Release|x86.Build.0 = Release|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Debug|x64.Build.0 = Debug|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Debug|x86.Build.0 = Debug|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Release|x64.ActiveCfg = Release|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Release|x64.Build.0 = Release|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Release|x86.ActiveCfg = Release|Any CPU
+		{20A043C4-DAA5-429A-B253-104B028B6E18}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
