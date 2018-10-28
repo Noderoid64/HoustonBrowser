@@ -54,7 +54,11 @@ Cache-Control: s-maxage=<seconds>
             }
         }
         #region IParseble
+<<<<<<< HEAD
         public override void FromString(string value)
+=======
+        public override FromString(string value)
+>>>>>>> [Update] realize IParseble
         {
 
         }

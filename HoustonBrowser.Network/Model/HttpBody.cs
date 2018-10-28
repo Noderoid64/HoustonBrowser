@@ -8,11 +8,14 @@ namespace HoustonBrowser.HttpModule.Model
 {
     internal class HttpBody : IParseable
     {
+<<<<<<< HEAD
         string content;
         public HttpBody(string content)
         {
             this.content = content;
         }
+=======
+>>>>>>> [Update] realize IParseble
         #region IParseble
         public void FromString(string value)
         {

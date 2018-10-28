@@ -16,7 +16,11 @@ namespace HoustonBrowser.HttpModule.Model
         {
             Version = version;
             header = new HttpHeader();
+<<<<<<< HEAD
             body = new HttpBody(null);
+=======
+            body = new HttpBody();
+>>>>>>> [Update] realize IParseble
         }
 
         public abstract bool isValidStart();
