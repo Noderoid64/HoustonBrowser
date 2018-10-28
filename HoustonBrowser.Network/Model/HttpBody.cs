@@ -8,24 +8,16 @@ namespace HoustonBrowser.HttpModule.Model
 {
     internal class HttpBody : IParseable
     {
-        public byte[] GetBytes(Encoding encoder)
+        #region IParseble
+        public void FromString(string value)
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         public string GetString()
         {
-            return null;
-        }
-
-        public void SetFromBytes(byte[] value, Encoding encoder)
-        {
             throw new NotImplementedException();
         }
-
-        public void SetFromString(string value)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }
