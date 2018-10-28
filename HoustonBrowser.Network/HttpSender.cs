@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Sockets;
+using System.Net;
 
 
 namespace HoustonBrowser.HttpModule
@@ -12,14 +13,16 @@ namespace HoustonBrowser.HttpModule
         private const int port = 80;
         TcpClient client;
 
-       public string SendHttp(string host, string message)
+        public string SendHttp(string host, string message)
         {
             try
             {
-                client = new TcpClient(host, port);
+
+                client = new TcpClient(getIpByHostname(host), port);
+
                 NetworkStream stream = client.GetStream();
 
-                byte[] data = Encoding.Unicode.GetBytes(message);
+                byte[] data = Encoding.GetEncoding("ISO-8859-1").GetBytes(message);
                 stream.Write(data, 0, data.Length);
 
                 data = new byte[1024]; // буфер для получаемых данных
@@ -28,7 +31,7 @@ namespace HoustonBrowser.HttpModule
                 do
                 {
                     bytes = stream.Read(data, 0, data.Length);
-                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                    builder.Append(Encoding.GetEncoding("ISO-8859-1").GetString(data, 0, bytes));
                 }
                 while (stream.DataAvailable);
 
@@ -46,6 +49,14 @@ namespace HoustonBrowser.HttpModule
 
             }
             return null;
+        }
+
+        public string getIpByHostname(string hostname)
+        {
+            if(hostname.StartsWith("http://"))
+            hostname = hostname.Replace("http://","");
+            IPAddress hostEntry = (Dns.GetHostAddresses(hostname))[0];
+            return hostEntry.ToString();
         }
     }
 }
