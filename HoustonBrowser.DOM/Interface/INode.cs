@@ -1,15 +1,15 @@
 using System;
 
-namespace ISDBrowser.DOM.Interface
+namespace HoustonBrowser.DOM.Interface
 {
     public interface INode
     {
-        Node insertBefore(Node newChild, Node refChild);
-        Node replaceChild(Node newChild, Node oldChild);
-        Node removeChild(Node oldChild);
+        Node InsertBefore(Node newChild, Node refChild);
+        Node ReplaceChild(Node newChild, Node oldChild);
+        Node RemoveChild(Node oldChild);
 
-        Node appendChild(Node newChild);
-        bool hasChildNodes();
-        Node cloneNode(bool deep);
+        Node AppendChild(Node newChild);
+        bool HasChildNodes();
+        Node CloneNode(bool deep);
     }
 }
