@@ -8,9 +8,7 @@ namespace HoustonBrowser.HttpModule.Model
 {
    internal interface IParseable
     {
-        byte[] GetBytes(Encoding encoder);
         string GetString();
-        void SetFromString(string value);
-        void SetFromBytes(byte[] value, Encoding encoder);
+        void FromString(string value);
     }
 }

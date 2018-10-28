@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HoustonBrowser.HttpModule.Model
 {
-   internal class HttpRequestDatagram : HttpDatagram
+    internal class HttpRequestDatagram : HttpDatagram
     {
 
         public HttpMethods Method { get; set; }
@@ -18,28 +18,44 @@ namespace HoustonBrowser.HttpModule.Model
             this.Url = url;
         }
 
-        public override bool isRequest()
-        {
-            return true;
-        }
-
+        #region  HttpDatagram
         public override bool isValidStart()
         {
             throw new NotImplementedException();
         }
 
-        public override byte[] GetBytes(Encoding encoder)
+        public override bool isRequest()
         {
-            return encoder.GetBytes(Method.ToString() + " " + Url)
-                .Concat(Version.GetBytes(encoder)).ToArray()
-                .Concat(encoder.GetBytes("\r\n")).ToArray()
-                .Concat(header.GetBytes(encoder)).ToArray()
-                .Concat(body.GetBytes(encoder)).ToArray();
+            return true;
         }
 
+        #endregion
+
+        #region IParseble
         public override string GetString()
         {
-            return Method.ToString() + " " + Url + " " + Version.GetString() + "\r\n" + header.GetString() + body?.GetString();
+            return Method.ToString() + " " + Url + " " + Version.GetString() + "\r\n" + header?.GetString() + body?.GetString();
         }
+        public override void FromString(string value)
+        {
+
+            int headerIndex = value.IndexOf("\r\n");
+            int bodyIndex = value.IndexOf("\r\n\r\n");
+
+            string startString = value.Substring(0, headerIndex + 2);
+            string headerString = value.Substring(headerIndex + 2, bodyIndex - headerIndex);
+            string bodyString = value.Substring(bodyIndex + 4);
+
+            string[] startParam = startString.Split(' ');
+
+            Method.FromString(startParam[0]);
+            Url = startParam[1];
+            Version.FromString(startParam[2].Substring(0,startParam.Length -2));
+
+            header.FromString(headerString);
+            body.FromString(bodyString);
+            
+        }
+        #endregion
     }
 }
