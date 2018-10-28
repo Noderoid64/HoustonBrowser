@@ -1,6 +1,7 @@
 using HoustonBrowser.HttpModule.Builders;
 using HoustonBrowser.HttpModule.Parsers;
 using HoustonBrowser.HttpModule.Model;
+using System.Text;
 
 namespace HoustonBrowser.HttpModule
 {
@@ -10,11 +11,11 @@ namespace HoustonBrowser.HttpModule
         {
             //http://www.netside.net/boba/webmasters.html
             string[] local = host.Split('/');
-            host = local[0] + "//" + local[1];
+            host = local[0] + "//" + local[2];
             string url = "";
-            for (int i = 2; i < local.Length; i++)
+            for (int i = 3; i < local.Length; i++)
             {
-                url += local[i] + "/";
+                url += "/" + local[i];
             }
             
             HttpDatagramBuilder httpDatagramBuilder = new HttpDatagramBuilder();
@@ -27,7 +28,9 @@ namespace HoustonBrowser.HttpModule
             {
                 HttpSender sender = new HttpSender();
                 IHttpDatagramParser parser = new HttpDatagramParser();
-                return sender.SendHttp(host, parser.Parse(httpDatagramBuilder.Build()));
+                string request = parser.Parse(httpDatagramBuilder.Build());
+                string response = sender.SendHttp(host, request);
+                return response;
             }
 
             return null;
