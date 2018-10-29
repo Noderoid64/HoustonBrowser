@@ -23,8 +23,8 @@ namespace HoustonBrowser.DOM
             NOTATION_NODE
         }
 
-        readonly string nodeName;
-        readonly string nodeValue;
+        protected readonly string nodeName;
+        protected string nodeValue;
         TypeOfNode nodeType;
         Node parentNode;
         List<Node> childNodes;

@@ -11,7 +11,7 @@ namespace HoustonBrowser.DOM
         public string PublicId { get => publicId; }
         public string SystemId { get => systemId; }
         public string NotationName { get => nodeName; }
-        public Entity() :
+        public Entity(string notationName) :
             base(TypeOfNode.ENTITY_NODE, notationName, null)
         { }
     }

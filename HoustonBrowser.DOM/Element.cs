@@ -8,7 +8,9 @@ namespace HoustonBrowser.DOM
     {
         public string TagName { get => nodeName; }
 
-        
+        public Element(string tagName) :
+                    base(TypeOfNode.ELEMENT_NODE, tagName, null)
+        { }
 
         public string GetAttribute(string name)
         {
