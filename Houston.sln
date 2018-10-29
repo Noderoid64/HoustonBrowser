@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.Parsing", "H
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.Parsing.Test", "HoustonBrowser.Parsing.Test\HoustonBrowser.Parsing.Test.csproj", "{D3ADB822-5230-4E75-B61C-6085B190DB87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoustonBrowser.JS", "HoustonBrowser.JS\HoustonBrowser.JS.csproj", "{664D198C-01F2-45FC-AB30-D87BBBE3DB7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.JS", "HoustonBrowser.JS\HoustonBrowser.JS.csproj", "{664D198C-01F2-45FC-AB30-D87BBBE3DB7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoustonBrowser.JS.Test", "HoustonBrowser.JS.Test\HoustonBrowser.JS.Test.csproj", "{377BC1F9-2B86-47D2-BF54-522DB2627415}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.JS.Test", "HoustonBrowser.JS.Test\HoustonBrowser.JS.Test.csproj", "{377BC1F9-2B86-47D2-BF54-522DB2627415}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.Core", "HoustonBrowser.Core\HoustonBrowser.Core.csproj", "{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoustonBrowser.Controls", "HoustonBrowser.Controls\HoustonBrowser.Controls.csproj", "{20A043C4-DAA5-429A-B253-104B028B6E18}"
 EndProject
@@ -125,6 +127,18 @@ Global
 		{20A043C4-DAA5-429A-B253-104B028B6E18}.Release|x64.Build.0 = Release|Any CPU
 		{20A043C4-DAA5-429A-B253-104B028B6E18}.Release|x86.ActiveCfg = Release|Any CPU
 		{20A043C4-DAA5-429A-B253-104B028B6E18}.Release|x86.Build.0 = Release|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Debug|x64.Build.0 = Debug|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Debug|x86.Build.0 = Debug|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Release|x64.ActiveCfg = Release|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Release|x64.Build.0 = Release|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Release|x86.ActiveCfg = Release|Any CPU
+		{781C953F-D1FD-4C73-BFAE-5DC2C5F00939}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
