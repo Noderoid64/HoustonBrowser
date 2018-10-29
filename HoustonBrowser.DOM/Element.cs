@@ -6,13 +6,9 @@ namespace HoustonBrowser.DOM
 {
     public class Element: Node, IElement
     {
-        string tagName;
+        public string TagName { get => nodeName; }
 
-        public Element(string tagName): 
-            base(TypeOfNode.ELEMENT_NODE, tagName, null)
-        {
-            this.tagName = tagName;
-        }
+        
 
         public string GetAttribute(string name)
         {

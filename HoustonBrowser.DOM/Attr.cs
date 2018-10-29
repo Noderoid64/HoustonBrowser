@@ -4,15 +4,14 @@ namespace HoustonBrowser.DOM
 {
     public class Attr : Node
     {
-        string name;
         bool specified;
-        public string Name { get => name; }
-        public bool Specified { get => specified; }
-        public string Value { get; set; }
 
-        public Attr(string name)
-        {
-            this.name = name;
-        }
+        public string Name { get => nodeName; }
+        public bool Specified { get => specified; }
+        public string Value { get => nodeValue; set { value = nodeValue; } }
+
+        public Attr(string name, string value) :
+            base(TypeOfNode.ATTRIBUTE_NODE, name, value)
+        { }
     }
 }

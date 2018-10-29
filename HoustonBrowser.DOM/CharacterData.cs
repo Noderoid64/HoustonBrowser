@@ -8,8 +8,11 @@ namespace HoustonBrowser.DOM.Interface
         string data;
         long length;
 
-        public CharacterData(TypeOfNode nodeType):
-            base(TypeOfNode.DOCUMENT_NODE, "#text", null) { }
+        public long Length { get => length; }
+        public CharacterData(TypeOfNode nodeType) :
+            base(TypeOfNode.DOCUMENT_NODE, "#text", null)
+        { }
+
         public string SubstringData(long offset, long count)
         {
             return null;
@@ -17,12 +20,12 @@ namespace HoustonBrowser.DOM.Interface
 
         public void AppendData(string arg)
         {
-     
+
         }
 
         public void InsertData(long offset, string arg)
         {
- 
+
         }
 
         public void DeleteData(long offset, long count)

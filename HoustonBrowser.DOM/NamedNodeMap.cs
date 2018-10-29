@@ -9,10 +9,12 @@ namespace HoustonBrowser.DOM
         private Dictionary<string, Node> nodeMap;
 
         public int Length { get => nodeMap.Count; }
+        
         public NamedNodeMap()
         {
             nodeMap = new Dictionary<string, Node>();
         }
+
         public Node GetNamedItem(string name)
         {
             Node node;
@@ -21,6 +23,7 @@ namespace HoustonBrowser.DOM
             else
                 return null;
         }
+
         public Node SetNamedItem(Node arg)
         {
             Node node = null;
@@ -30,6 +33,7 @@ namespace HoustonBrowser.DOM
             nodeMap.Add(arg.NodeName, arg);
             return node;
         }
+
         public Node RemoveNamedItem(string name)
         {
             Node node = null;
