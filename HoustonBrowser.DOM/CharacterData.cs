@@ -5,37 +5,45 @@ namespace HoustonBrowser.DOM.Interface
 {
     public class CharacterData : Node, ICharacterData
     {
-        string data;
-        long length;
+        int length;
 
-        public long Length { get => length; }
-        public CharacterData(TypeOfNode nodeType) :
-            base(TypeOfNode.DOCUMENT_NODE, "#text", null)
-        { }
+        public string Data { get => nodeValue; set => value = nodeValue; }
+        public int Length { get => length; }
 
-        public string SubstringData(long offset, long count)
+        public CharacterData(TypeOfNode nodeType, string nodeName, string data) :
+            base(TypeOfNode.DOCUMENT_NODE, nodeName, data)
         {
-            return null;
+            length = data.Length;
+        }
+
+        public string SubstringData(int offset, int count)
+        {
+            return Data.Substring(offset, Data.Length);
         }
 
         public void AppendData(string arg)
         {
-
+            Data += arg;
+            length = Data.Length;
         }
 
-        public void InsertData(long offset, string arg)
+        public void InsertData(int offset, string arg)
         {
-
+            Data = Data.Insert(offset, arg);
+            length = Data.Length;
         }
 
-        public void DeleteData(long offset, long count)
+        public void DeleteData(int offset, int count)
         {
-
+            Data = Data.Remove(offset, count);
+            length = Data.Length;
         }
 
-        public void ReplaceData(long offset, long count, string arg)
+        public void ReplaceData(int offset, int count, string arg)
         {
-
+            Data = Data.Remove(offset, count);
+            Data = Data.Insert(offset, arg);
+            length = Data.Length;
         }
     }
 }

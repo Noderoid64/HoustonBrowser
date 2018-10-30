@@ -4,6 +4,6 @@ namespace HoustonBrowser.DOM.Interface
 {
     public interface IText: ICharacterData
     {
-        Text splitText(long offset);
+        Text SplitText(int offset);
     }
 }

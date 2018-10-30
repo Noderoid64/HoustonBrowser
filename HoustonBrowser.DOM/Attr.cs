@@ -8,7 +8,7 @@ namespace HoustonBrowser.DOM
 
         public string Name { get => nodeName; }
         public bool Specified { get => specified; }
-        public string Value { get => nodeValue; set { value = nodeValue; } }
+        public string Value { get => nodeValue; set => value = nodeValue; }
 
         public Attr(string name) :
                     base(TypeOfNode.ATTRIBUTE_NODE, name, null)

@@ -5,8 +5,8 @@ namespace HoustonBrowser.DOM
 {
     public class EntityReference : Node
     {
-        public EntityReference() :
-            base(TypeOfNode.ENTITY_REFERENCE_NODE, null, null)
+        public EntityReference(string nameEntityRef) :
+            base(TypeOfNode.ENTITY_REFERENCE_NODE, nameEntityRef, null)
         { }
     }
 }

@@ -96,6 +96,7 @@ namespace HoustonBrowser.DOM
 
         public Node AppendChild(Node newChild)
         {
+            newChild.parentNode = this;
             childNodes.Add(newChild);
             return newChild;
         }

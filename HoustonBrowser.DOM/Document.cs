@@ -14,18 +14,39 @@ namespace HoustonBrowser.DOM
             return new Element(tagName);
         }
                                           
-        // DocumentFragment createDocumentFragment();
-        // Text createTextNode(string data);
-        // Comment createComment(string data);
-        // CDATASection createCDATASection(string data);                          
-        // ProcessingInstruction createProcessingInstruction(string target, string data);
+        public DocumentFragment CreateDocumentFragment()
+        {
+            return new DocumentFragment();
+        }
+
+        public Text CreateTextNode(string data)
+        {
+            return new Text(data);
+        }
+        
+        public Comment CreateComment(string data)
+        {
+            return new Comment(data);
+        }
+
+        public CDATASection CreateCDATASection(string data)
+        {
+            return new CDATASection(data);
+        }                       
+        public ProcessingInstruction CreateProcessingInstruction(string target, string data)
+        {
+            return new ProcessingInstruction(target, data);
+        }
                                                         
         public Attr CreateAttribute(string name)
         {
             return new Attr(name);
         }
                                             
-        // EntityReference createEntityReference(string name);
+        public EntityReference CreateEntityReference(string name)
+        {
+            return new EntityReference(name);
+        }
                                                   
         public List<Node> GetElementsByTagName(string name)
         {

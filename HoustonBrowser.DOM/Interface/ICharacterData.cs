@@ -4,10 +4,10 @@ namespace HoustonBrowser.DOM.Interface
 {
     public interface ICharacterData : INode
     {
-        string SubstringData(long offset, long count);
+        string SubstringData(int offset, int count);
         void AppendData(string arg);
-        void InsertData(long offset, string arg);
-        void DeleteData(long offset, long count);
-        void ReplaceData(long offset, long count, string arg);
+        void InsertData(int offset, string arg);
+        void DeleteData(int offset, int count);
+        void ReplaceData(int offset, int count, string arg);
     }
 }

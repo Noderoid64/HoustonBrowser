@@ -3,10 +3,10 @@ using HoustonBrowser.DOM.Interface;
 
 namespace HoustonBrowser.DOM
 {
-    public class Comment : Node
+    public class Comment : CharacterData
     {
         public Comment(string contentComment) :
-            base(TypeOfNode.ENTITY_NODE, "#comment", contentComment)
+            base(TypeOfNode.COMMENT_NODE, "#comment", contentComment)
         { }
 
     }
