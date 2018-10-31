@@ -19,9 +19,9 @@ namespace HoustonBrowser
             core.onRender += Core_onRender;
         }
 
-        public event Action<object, PointerPressedEventArgs> onMouseClick;
-        public event Action<object, KeyEventArgs> onKeyDown;
-        public event Action<object, object> onPageLoad;
+        public event EventHandler<PointerPressedEventArgs> onMouseClick;
+        public event EventHandler<KeyEventArgs> onKeyDown;
+        public event EventHandler<object> onPageLoad;
 
         private void InitializeComponent()
         {
@@ -29,7 +29,7 @@ namespace HoustonBrowser
             checkButton=this.Find<Button>("checkButton");
 
             this.PointerPressed += MainWindow_PointerPressed;
-            this.KeyDown += MainWindow_KeyDown;
+            this.KeyDown += MainWindow_KeyDown;     
         }
 
         private void MainWindow_KeyDown(object sender, Avalonia.Input.KeyEventArgs e)
@@ -42,7 +42,7 @@ namespace HoustonBrowser
             onMouseClick(sender, e);
         }
         
-        private void Core_onRender(object sender, object data)
+        private void Core_onRender(object sender, RenderEventArgs data)
         {
             
         }
