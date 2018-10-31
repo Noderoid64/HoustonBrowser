@@ -19,5 +19,12 @@
                     Foreground="#ffffff">
                     Check components
             </Button>
+        <TextBlock Name = "checkString"
+                   FontSize="18" 
+                   FontWeight="DemiBold"
+                   HorizontalAlignment="Center"
+                   Margin="0,10,0,10"
+                   Foreground="#334d99">
+        </TextBlock>
     </StackPanel>
 </Window>
