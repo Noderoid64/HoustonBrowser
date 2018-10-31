@@ -17,5 +17,7 @@ namespace HoustonBrowser.DOM.Interface
         EntityReference CreateEntityReference(string name);
                                                   
         List<Node> GetElementsByTagName(string tagname);
+
+        string DomWork();
     }
 }
