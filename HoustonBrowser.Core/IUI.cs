@@ -6,8 +6,8 @@ namespace HoustonBrowser.Core
 {
     public interface IUI
     {
-        event Action<object, Avalonia.Input.PointerPressedEventArgs> onMouseClick;
-        event Action<object, Avalonia.Input.KeyEventArgs> onKeyDown;
-        event Action<object, object> onPageLoad;
+        event EventHandler<Avalonia.Input.PointerPressedEventArgs> onMouseClick;
+        event EventHandler<Avalonia.Input.KeyEventArgs> onKeyDown;
+        event EventHandler< object> onPageLoad;
     }
 }
