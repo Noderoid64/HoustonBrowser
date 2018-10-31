@@ -16,7 +16,7 @@ namespace HoustonBrowser
         public MainWindow()
         {
             InitializeComponent();
-            core = new Core.Core(this);
+            core = new Core.Core(this, checkButton);
             core.onRender += Core_onRender;
         }
 
