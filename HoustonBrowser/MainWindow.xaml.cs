@@ -32,12 +32,12 @@ namespace HoustonBrowser
             this.KeyDown += MainWindow_KeyDown;     
         }
 
-        private void MainWindow_KeyDown(object sender, Avalonia.Input.KeyEventArgs e)
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             onKeyDown(sender, e);
         }
 
-        private void MainWindow_PointerPressed(object sender, Avalonia.Input.PointerPressedEventArgs e)
+        private void MainWindow_PointerPressed(object sender, PointerPressedEventArgs e)
         {
             onMouseClick(sender, e);
         }

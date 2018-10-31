@@ -1,7 +1,7 @@
 ﻿using System;
 using HoustonBrowser.HttpModule;
 using HoustonBrowser;
-
+using Avalonia.Input;
 
 namespace HoustonBrowser.Core
 {
@@ -29,13 +29,13 @@ namespace HoustonBrowser.Core
 
         }
 
-        private void Ui_onMouseClick(object sender, Avalonia.Input.PointerPressedEventArgs e)
+        private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
         {
             string s = httpClient.GET("") + parser.Parse();
             onRender(this, new RenderEventArgs(s));
         }
 
-        private void Ui_onKeyDown(object sender, Avalonia.Input.KeyEventArgs e)
+        private void Ui_onKeyDown(object sender, KeyEventArgs e)
         {
             string s = httpClient.GET("") + parser.Parse();
             onRender(this, new RenderEventArgs(s));
