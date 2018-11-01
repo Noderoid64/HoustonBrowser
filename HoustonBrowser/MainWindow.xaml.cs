@@ -4,20 +4,29 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using HoustonBrowser.Core;
+using HoustonBrowser.Controls;
+using Avalonia.Media;
+using System.Collections.Generic;
 
 namespace HoustonBrowser
 {
     public class MainWindow : Window, IUI
     {
-        private Button checkButton;
+        private Avalonia.Controls.Button checkButton;
         private TextBlock checkString;
-        private Core.Core core;
+        private IBrowserControl control;
+        private MyPanel panel;
 
         public MainWindow()
         {
             InitializeComponent();
-            core = new Core.Core(this, checkButton);
-            core.onRender += Core_onRender;
+
+            control=new BrowserControl();
+            control.BackgroundBrush=new SolidColorBrush(new Color(145,220,66,0));
+            control.Form=new RectangleGeometry(new Rect(10,10,30,30));
+            panel=this.Find<MyPanel>("panel");
+            panel.Controls=new List<IBrowserControl>();
+            panel.Controls.Add(control);
         }
 
         public event EventHandler<PointerPressedEventArgs> onMouseClick;
@@ -27,11 +36,7 @@ namespace HoustonBrowser
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
-            checkButton=this.Find<Button>("checkButton");
-            checkString=this.Find<TextBlock>("checkString");
-
-            this.PointerPressed += MainWindow_PointerPressed;
-            this.KeyDown += MainWindow_KeyDown;     
+           
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
@@ -44,10 +49,5 @@ namespace HoustonBrowser
             onMouseClick(sender, e);
         }
         
-        private void Core_onRender(object sender, RenderEventArgs data)
-        {
-            checkString.Text=data.Data;
-            checkString.InvalidateVisual();
-        }
     }
 }
