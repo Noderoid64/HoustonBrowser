@@ -14,7 +14,7 @@ namespace HoustonBrowser
         string IParser.Parse()
         {
             //HTMLDOM domTree = new HTMLDOM();
-            Conditions conditions;
+            /*Conditions conditions;
             int currentCondition = 0,currentSymIndex = 0;
             bool endOfDocument = false;
             string currentTag = "";
@@ -42,8 +42,9 @@ namespace HoustonBrowser
                     }
                 }
                 currentSymIndex++;
-            }
+            }*/
             //return domTree;
+            int insertionMode;
             return "";
         }
     }
