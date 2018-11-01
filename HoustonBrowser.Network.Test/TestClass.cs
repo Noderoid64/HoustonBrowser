@@ -9,11 +9,14 @@ namespace HoustonBrowser.HttpModule.Test
 {
     public class TestClass
     {
+        //http://www.netside.net/boba/webmasters.html
+        //192.168.0.110
+        //houstonbrowsertest.ddns.net
         [Fact]
         public void TestVoid(){
             IHttpClient client = new HttpClient();
 
-            string real = client.GET("http://www.netside.net/boba/webmasters.html");
+            string real = client.GetHtml("http://www.netside.net/boba/webmasters.html");
 
             Assert.NotEmpty(real);
         }
