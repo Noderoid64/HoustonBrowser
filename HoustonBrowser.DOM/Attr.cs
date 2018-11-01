@@ -4,7 +4,7 @@ namespace HoustonBrowser.DOM
 {
     public class Attr : Node
     {
-        bool specified;
+        private bool specified;
 
         public string Name { get => nodeName; }
         public bool Specified { get => specified; }

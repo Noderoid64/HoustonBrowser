@@ -5,7 +5,7 @@ namespace HoustonBrowser.DOM.Interface
 {
     public class CharacterData : Node, ICharacterData
     {
-        int length;
+        private int length;
 
         public string Data { get => nodeValue; set => value = nodeValue; }
         public int Length { get => length; }

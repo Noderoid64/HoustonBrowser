@@ -5,8 +5,8 @@ namespace HoustonBrowser.DOM
 {
     public class Entity : Node
     {
-        readonly string publicId;
-        readonly string systemId;
+        private string publicId;
+        private string systemId;
 
         public string PublicId { get => publicId; }
         public string SystemId { get => systemId; }

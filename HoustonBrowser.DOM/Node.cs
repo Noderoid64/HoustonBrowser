@@ -25,13 +25,13 @@ namespace HoustonBrowser.DOM
 
         protected readonly string nodeName;
         protected string nodeValue;
-        TypeOfNode nodeType;
-        Node parentNode;
-        List<Node> childNodes;
-        Node firstChild;
-        Node lastChild;
-        Node previousSibling;
-        Node nextSibling;
+        private TypeOfNode nodeType;
+        protected Node parentNode;
+        private List<Node> childNodes;
+        private Node firstChild;
+        private Node lastChild;
+        private Node previousSibling;
+        private Node nextSibling;
 
         protected NamedNodeMap attributes;
         readonly Document ownerDocument;

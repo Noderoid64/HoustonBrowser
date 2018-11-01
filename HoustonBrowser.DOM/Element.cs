@@ -10,7 +10,9 @@ namespace HoustonBrowser.DOM
 
         public Element(string tagName) :
                     base(TypeOfNode.ELEMENT_NODE, tagName, null)
-        { }
+        { 
+            attributes = new NamedNodeMap();
+        }
 
         public string GetAttribute(string name)
         {
