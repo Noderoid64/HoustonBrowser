@@ -45,7 +45,7 @@ namespace HoustonBrowser.HttpModule
             }
             finally
             {
-                client.Close();
+                client?.Close();
 
             }
             return null;

@@ -34,7 +34,13 @@ namespace HoustonBrowser.HttpModule.Model
         #region IParseble
         public override string GetString()
         {
-            return Method.ToString() + " " + Url + " " + Version.GetString() + "\r\n" + header?.GetString() + body?.GetString();
+            string request = "";
+            request += Method.ToString() + " ";
+            request += (Url==null? "/" : Url) + " ";
+            request += Version.GetString()+ "\r\n";
+            request += header?.GetString();
+            request += body?.GetString();
+            return request;
         }
         public override void FromString(string value)
         {

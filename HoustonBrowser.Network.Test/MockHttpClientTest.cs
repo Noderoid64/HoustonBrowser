@@ -9,7 +9,7 @@ namespace HoustonBrowser.HttpModule.Test{
             IHttpClient httpClient = new MockHttpClient();
 
         
-        Assert.Equal(httpClient.GET(""), "HttpModule is working");
+        Assert.Equal(httpClient.GetStatus(), "HttpModule is working");
         }
         
     }

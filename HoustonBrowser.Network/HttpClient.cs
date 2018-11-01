@@ -7,19 +7,18 @@ namespace HoustonBrowser.HttpModule
 {
     public class HttpClient : IHttpClient
     {
-        public string GET(string host)
+        public string GetCss(string host)
         {
-            //http://www.netside.net/boba/webmasters.html
-            string[] local = host.Split('/');
-            host = local[0] + "//" + local[2];
-            string url = "";
-            for (int i = 3; i < local.Length; i++)
-            {
-                url += "/" + local[i];
-            }
+            throw new System.NotImplementedException();
+        }
+
+        public string GetHtml(string host)
+        {
+            string uri = UrlBuilder.GetRequestUri(host);
+            host = UrlBuilder.GetHost(host);
             
             HttpDatagramBuilder httpDatagramBuilder = new HttpDatagramBuilder();
-            httpDatagramBuilder.AddStart(HttpMethods.GET, url, new HttpVersion(1, 1));
+            httpDatagramBuilder.AddStart(HttpMethods.GET, uri, new HttpVersion(1, 1));
             httpDatagramBuilder
             .AddHeader(new HeaderFieldHost(host))
             .AddHeader(new HeaderFieldCacheControl(HeaderFieldCacheControl.Params.NoChache))
@@ -34,6 +33,11 @@ namespace HoustonBrowser.HttpModule
             }
 
             return null;
+        }
+
+        public string GetStatus()
+        {
+            return "HttpClient works";
         }
     }
 }
