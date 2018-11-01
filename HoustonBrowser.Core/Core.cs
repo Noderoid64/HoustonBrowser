@@ -71,21 +71,36 @@ namespace HoustonBrowser.Core
 
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
         {
+<<<<<<< HEAD
             string s = httpClient.GetStatus() + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             //onRender(this, new RenderEventArgs(s));
+=======
+            string s = httpClient.GetStatus() + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
+            onRender(this, new RenderEventArgs(s));
+>>>>>>> [Fix] httpPageLoader
         }
 
         private void Ui_onKeyDown(object sender, KeyEventArgs e)
         {
+<<<<<<< HEAD
 
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             //onRender(this, new RenderEventArgs(s));
+=======
+            string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
+            onRender(this, new RenderEventArgs(s));
+>>>>>>> [Fix] httpPageLoader
         }
 
         private void Button_onMouseClick(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             //onRender(this, new RenderEventArgs(s));
+=======
+            string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
+            onRender(this, new RenderEventArgs(s));
+>>>>>>> [Fix] httpPageLoader
         }
     }
 }
