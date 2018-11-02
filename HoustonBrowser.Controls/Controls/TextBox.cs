@@ -29,5 +29,18 @@ namespace HoustonBrowser.Controls
         {
                 KeyUp?.Invoke(sender, e);
         } 
+
+        public override void Render(DrawingContext context)
+        {
+            DefaultStyles();
+            base.Render(context);
+        }       
+
+        public void DefaultStyles()
+        {
+            this.BackgroundBrush = new SolidColorBrush(new Color(145, 203,218,41));
+            this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,30,30));
+
+        }       
     }
 }

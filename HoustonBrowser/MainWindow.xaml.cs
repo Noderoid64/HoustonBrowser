@@ -14,19 +14,37 @@ namespace HoustonBrowser
     {
         private Avalonia.Controls.Button checkButton;
         private TextBlock checkString;
-        private IBrowserControl control;
         private MyPanel panel;
+        private HoustonBrowser.Controls.Button myButton;
+        private Label myLabel;
+        private HoustonBrowser.Controls.TextBox myTextBox;
+        private HoustonBrowser.Controls.TabControl myTab;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            control=new BrowserControl();
-            control.BackgroundBrush=new SolidColorBrush(new Color(145,220,66,0));
-            control.Form=new RectangleGeometry(new Rect(10,10,30,30));
             panel=this.Find<MyPanel>("panel");
             panel.Controls=new List<IBrowserControl>();
-            panel.Controls.Add(control);
+
+            myButton=new HoustonBrowser.Controls.Button();
+            myButton.Left=myButton.Top=50;
+            panel.Controls.Add(myButton);
+
+            myLabel=new Label();
+            myLabel.Top=myLabel.Left=100;
+            panel.Controls.Add(myLabel);
+
+            myTextBox=new HoustonBrowser.Controls.TextBox();
+            myTextBox.Top=myTextBox.Left=150;
+            panel.Controls.Add(myTextBox);
+
+            myTab=new HoustonBrowser.Controls.TabControl();
+            myTab.Top=myTab.Left=200;
+            panel.Controls.Add(myTab);
+
+            myButton.Click+=(s,e)=>Method();
+            this.PointerPressed+=(s,e)=>Method();
         }
 
         public event EventHandler<PointerPressedEventArgs> onMouseClick;
@@ -37,6 +55,12 @@ namespace HoustonBrowser
         {
             AvaloniaXamlLoader.Load(this);
            
+        }
+
+        private void Method()
+        {
+            myTab.Top=400;
+            this.InvalidateVisual();
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
