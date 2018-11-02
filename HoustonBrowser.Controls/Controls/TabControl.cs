@@ -23,14 +23,14 @@ namespace HoustonBrowser.Controls
 
        public override void Render(DrawingContext context)
         {
-            DefaultStyles();
             base.Render(context);
         }       
 
         public void DefaultStyles()
         {
             this.BackgroundBrush = new SolidColorBrush(new Color(145,10,220,224));
-            this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,30,30));
+            this.Width=this.Height=30;
+            this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,this.Width,this.Height));
 
         }
        
