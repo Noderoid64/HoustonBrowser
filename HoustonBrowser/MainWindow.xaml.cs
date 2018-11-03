@@ -31,6 +31,7 @@ namespace HoustonBrowser
             myButton=new HoustonBrowser.Controls.Button();
             myButton.Left=myButton.Top=50;
             myButton.DefaultStyles();
+            myButton.Text="Button";
             panel.Controls.Add(myButton);
 
             myLabel=new Label();
@@ -48,7 +49,8 @@ namespace HoustonBrowser
             myTab.DefaultStyles();
             panel.Controls.Add(myTab);
 
-            this.PointerPressed+=myButton_OnClick;
+            this.PointerPressed+=panel_OnClick;
+            myButton.PointerPressed+=myButton_OnClick;
         }
 
         public event EventHandler<PointerPressedEventArgs> onMouseClick;
@@ -61,14 +63,19 @@ namespace HoustonBrowser
            
         }
 
-        private void myButton_OnClick(object sender, PointerPressedEventArgs e)
+        private void panel_OnClick(object sender, PointerPressedEventArgs e)
         {
             Point location = e.GetPosition(panel);
             if (location.X>=myButton.Left && location.X<=myButton.Width+myButton.Left && location.Y>=myButton.Top && location.Y<=myButton.Top+myButton.Height)
                 { 
-                    myTab.BackgroundBrush=new SolidColorBrush(new Color(145,20,20,20));
-                    panel.InvalidateVisual();
+                    myButton.OnPointerPressed(sender,e);
                 }
+        }
+
+        private void myButton_OnClick(object sender, PointerPressedEventArgs e)
+        {
+            myTab.BackgroundBrush=new SolidColorBrush(new Color(145,20,20,20));
+            panel.InvalidateVisual();
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)

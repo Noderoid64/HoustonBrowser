@@ -26,12 +26,13 @@ namespace HoustonBrowser.Controls
 
             public event EventHandler<KeyEventArgs> KeyDown;
             public event EventHandler<RoutedEventArgs> Click; 
+            public event EventHandler<PointerPressedEventArgs> PointerPressed; 
 
             public BrowserControl(){}
 
             public virtual void Render(DrawingContext context)
             {
-                context.DrawGeometry(BackgroundBrush, StrokePen, Form);
+                context.DrawGeometry(BackgroundBrush, null, Form);
 
                 if(!String.IsNullOrEmpty(Text))
                 {Point origin = new Point(Left, Top);
@@ -54,6 +55,11 @@ namespace HoustonBrowser.Controls
             public virtual void OnKeyDown(object sender,KeyEventArgs e)
             {
                 KeyDown?.Invoke(sender, e);
+            }
+
+            public virtual void OnPointerPressed(object sender, PointerPressedEventArgs e)
+            {
+                PointerPressed?.Invoke(sender, e);
             }
 
             //mock
