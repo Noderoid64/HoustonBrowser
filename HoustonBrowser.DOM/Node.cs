@@ -39,6 +39,7 @@ namespace HoustonBrowser.DOM
         public string NodeName { get => nodeName; }
         public string NodeValue { get => nodeValue; }
         public TypeOfNode NodeType { get => nodeType; }
+      //  public int NodeType { get => (int)nodeType; }
         public Node ParentNode { get => parentNode; }
         public List<Node> ChildNodes { get => childNodes; }
         public Node FirstChild { get => firstChild; }
