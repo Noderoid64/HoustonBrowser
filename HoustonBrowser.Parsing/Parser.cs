@@ -1,6 +1,8 @@
 ﻿using System;
+using HoustonBrowser.DOM;
+using System.Collections.Generic;
 
-namespace HoustonBrowser
+namespace HoustonBrowser.Parser
 {
     public class Parser:IParser
     {
@@ -11,7 +13,7 @@ namespace HoustonBrowser
             
         }
 
-        string IParser.Parse()
+        public string Parse()
         {
             //HTMLDOM domTree = new HTMLDOM();
             /*Conditions conditions;
@@ -44,8 +46,43 @@ namespace HoustonBrowser
                 currentSymIndex++;
             }*/
             //return domTree;
-            int insertionMode;
+           
+            
             return "";
         }
+        public Document Parse(string value)
+        {
+            Stack<Node> stackOfOpenedElements = new Stack<Node>();
+            int insertMode = (int)InsertionModes.Initial;
+            int currentTemplateInsertMode = (int)InsertionModes.Initial;
+            List<int> StackOfTemplateInsertModesUsed = new List<int>();
+            Document doc = new Document();
+            //1
+            bool last = false;
+            //2
+            //List<Node> stackOfOpenedElements = new List<Node>();
+            //stackOfOpenedElements.Add(new Node());
+            //3
+            Node ancestor = new Node();
+            while (!last)
+            {
+                if (!ancestor.Equals(stackOfOpenedElements.Peek()))
+                {
+                    last = true;
+                }
+                //4
+                //5
+                //6
+                //7
+                //8
+                //9
+                //10
+                //11
+
+            }
+
+            return doc;
+        }
+
     }
 }

@@ -8,6 +8,7 @@ using HoustonBrowser.Controls;
 using HoustonBrowser.JS;
 using HoustonBrowser.DOM;
 using HoustonBrowser.DOM.Interface;
+using HoustonBrowser.Parser;
 
 namespace HoustonBrowser.Core
 {
@@ -27,7 +28,7 @@ namespace HoustonBrowser.Core
         {
             this.ui = ui;
             this.httpClient = new MockHttpClient();
-            this.parser = new mogParser();
+            this.parser = new mockParser();
             this.control=new BrowserControl();
             this.js=new MockJS();
             this.button=button;

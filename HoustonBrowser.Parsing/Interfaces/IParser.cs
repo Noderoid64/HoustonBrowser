@@ -1,4 +1,10 @@
-public interface IParser
+using HoustonBrowser.DOM;
+
+namespace HoustonBrowser.Parser
 {
-    string Parse();
+    public interface IParser
+    {
+        string Parse();
+        Document Parse(string value);
+    }
 }

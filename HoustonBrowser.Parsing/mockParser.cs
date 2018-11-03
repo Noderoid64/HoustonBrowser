@@ -1,13 +1,19 @@
 using System;
+using HoustonBrowser.DOM;
 
-namespace HoustonBrowser
+namespace HoustonBrowser.Parser
 {
-    public class mogParser:IParser
+    public class mockParser:IParser
     {
-        string IParser.Parse()
+
+        public string Parse()
         {
-            
             return " Parser is alive! ";
+        }
+
+        public Document Parse(string value)
+        {
+            return new Document();
         }
     }
 }
