@@ -10,12 +10,13 @@ namespace HoustonBrowser
     public class MainWindow : Window, IUI
     {
         private Button checkButton;
+        private TextBlock checkString;
         private Core.Core core;
 
         public MainWindow()
         {
             InitializeComponent();
-            core = new Core.Core(this);
+            core = new Core.Core(this, checkButton);
             core.onRender += Core_onRender;
         }
 
@@ -27,6 +28,7 @@ namespace HoustonBrowser
         {
             AvaloniaXamlLoader.Load(this);
             checkButton=this.Find<Button>("checkButton");
+            checkString=this.Find<TextBlock>("checkString");
 
             this.PointerPressed += MainWindow_PointerPressed;
             this.KeyDown += MainWindow_KeyDown;     
@@ -44,7 +46,8 @@ namespace HoustonBrowser
         
         private void Core_onRender(object sender, RenderEventArgs data)
         {
-            
+            checkString.Text=data.Data;
+            checkString.InvalidateVisual();
         }
     }
 }

@@ -17,24 +17,21 @@ namespace HoustonBrowser.HttpModule.Model
             this.Minor = minor;
         }
 
-        public byte[] GetBytes(Encoding encoder)
-        {
-            return encoder.GetBytes(GetString());
-        }
-
+        #region IParseble
         public string GetString()
         {
             return "HTTP/" + Major.ToString() + "." + Minor.ToString();
         }
-
-        public void SetFromString(string value)
+        public void FromString(string value)
         {
-            throw new NotImplementedException();
+            value = value.Substring(5);
+            string [] localString = value.Split('/');
+            Major = uint.Parse(localString[0]);
+            Minor = uint.Parse(localString[1]);
         }
+        #endregion
 
-        public void SetFromBytes(byte[] value, Encoding encoder)
-        {
-            throw new NotImplementedException();
-        }
+        public static HttpVersion Get11() => new HttpVersion(1, 1);
+        public static HttpVersion Get10() => new HttpVersion(1, 0);
     }
 }

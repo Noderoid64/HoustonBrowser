@@ -15,23 +15,17 @@ namespace HoustonBrowser.HttpModule.Model
         public HttpDatagram(HttpVersion version)
         {
             Version = version;
+            header = new HttpHeader();
+            body = new HttpBody(null);
         }
 
         public abstract bool isValidStart();
         public abstract bool isRequest();
 
-        public abstract byte[] GetBytes(Encoding encoder);
-
+        #region IParseble
         public abstract string GetString();
 
-        public void SetFromString(string value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetFromBytes(byte[] value, Encoding encoder)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void FromString(string value);
+        #endregion
     }
 }
