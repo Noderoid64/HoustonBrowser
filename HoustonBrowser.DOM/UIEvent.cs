@@ -1,4 +1,4 @@
-namespace HoustonBrowser.JS
+namespace HoustonBrowser.DOM
 {
     class UIEvent : Event
     {
