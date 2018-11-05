@@ -17,7 +17,12 @@ namespace HoustonBrowser.DOM
         void InitMutationEvent(string typeArg, bool canBubbleArg, bool cancelableArg, Node relatedNodeArg,
             string prevValueArg, string newValueArg, string attrNameArg, int attrChangeArg)
         {
+            
+        }
 
+        void InitMutationEvent(Node relatedNodeArg) //Remove Node
+        {
+            
         }
     }
 }

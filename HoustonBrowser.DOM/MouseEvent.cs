@@ -16,6 +16,10 @@ namespace HoustonBrowser.DOM
             int detailArg, int screenXArg, int screenYArg, int clientXArg, int clientYArg, bool ctrlKeyArg, bool altKeyArg,
             bool shiftKeyArg, bool metaKeyArg, int buttonArg, EventTarget relatedTargetArg)
         {
+            
+        }
+        public void InitMouseEvent()
+        {
 
         }
     }
