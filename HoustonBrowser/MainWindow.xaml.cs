@@ -3,51 +3,49 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
-using HoustonBrowser.Core;
+using HoustonBrowser.Controls;
 
 namespace HoustonBrowser
 {
-    public class MainWindow : Window, IUI
+    public class MainWindow : Window
     {
-        private Button checkButton;
-        private TextBlock checkString;
-        private Core.Core core;
+        private Avalonia.Controls.Button backButton;
+        private Avalonia.Controls.Button forwardButton;
+        private Avalonia.Controls.Button refreshButton;
 
         public MainWindow()
         {
             InitializeComponent();
-            core = new Core.Core(this, checkButton);
-            core.onRender += Core_onRender;
+
+            backButton=this.Find<Avalonia.Controls.Button>("btnBack");
+            forwardButton=this.Find<Avalonia.Controls.Button>("btnForward");
+            refreshButton=this.Find<Avalonia.Controls.Button>("btnRefresh");   
+
         }
-
-        public event EventHandler<PointerPressedEventArgs> onMouseClick;
-        public event EventHandler<KeyEventArgs> onKeyDown;
-        public event EventHandler<object> onPageLoad;
-
         private void InitializeComponent()
         {
-            AvaloniaXamlLoader.Load(this);
-            checkButton=this.Find<Button>("checkButton");
-            checkString=this.Find<TextBlock>("checkString");
-
-            this.PointerPressed += MainWindow_PointerPressed;
-            this.KeyDown += MainWindow_KeyDown;     
+            AvaloniaXamlLoader.Load(this);            
         }
 
-        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        public void ShowAlert(string text)
         {
-            onKeyDown(sender, e);
+            Window alertWindow = new Window();
+            alertWindow.Position=this.Position;
+            alertWindow.Width = 150;
+            alertWindow.Height=100;
+            StackPanel stackPanel = new StackPanel();
+            stackPanel.Orientation = Orientation.Vertical;
+            TextBlock alertText = new TextBlock();
+            alertText.Margin = new Thickness(10, 10, 0, 10);
+            alertText.Text = text;
+            stackPanel.Children.Add(alertText);
+            Avalonia.Controls.Button okButton = new Avalonia.Controls.Button();
+            okButton.Width = 30;
+            okButton.Content ="Ok";
+            stackPanel.Children.Add(okButton);
+            alertWindow.Content = stackPanel;
+            alertWindow.ShowDialog();
         }
 
-        private void MainWindow_PointerPressed(object sender, PointerPressedEventArgs e)
-        {
-            onMouseClick(sender, e);
-        }
-        
-        private void Core_onRender(object sender, RenderEventArgs data)
-        {
-            checkString.Text=data.Data;
-            checkString.InvalidateVisual();
-        }
     }
 }
