@@ -4,6 +4,9 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
 using HoustonBrowser.Controls;
+using Avalonia.Media;
+using System.Collections.Generic;
+using Avalonia.Interactivity;
 
 namespace HoustonBrowser
 {
@@ -12,6 +15,7 @@ namespace HoustonBrowser
         private Avalonia.Controls.Button backButton;
         private Avalonia.Controls.Button forwardButton;
         private Avalonia.Controls.Button refreshButton;
+        private MyPanel drawPanel;
 
         public MainWindow()
         {
@@ -19,8 +23,9 @@ namespace HoustonBrowser
 
             backButton=this.Find<Avalonia.Controls.Button>("btnBack");
             forwardButton=this.Find<Avalonia.Controls.Button>("btnForward");
-            refreshButton=this.Find<Avalonia.Controls.Button>("btnRefresh");   
-
+            refreshButton=this.Find<Avalonia.Controls.Button>("btnRefresh");  
+            drawPanel=this.Find<MyPanel>("drawingCanvas"); 
+            
         }
         private void InitializeComponent()
         {
