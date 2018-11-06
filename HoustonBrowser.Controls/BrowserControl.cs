@@ -24,6 +24,8 @@ namespace HoustonBrowser.Controls
             public Typeface TextTypeface {get;set;}
             public TextAlignment AlignText {get;set;}
 
+            public bool IsDefault {get;set;}
+
             public event EventHandler<KeyEventArgs> KeyDown;
             public event EventHandler<RoutedEventArgs> Click; 
 
