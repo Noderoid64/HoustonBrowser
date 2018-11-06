@@ -1,7 +1,7 @@
 using System;
 using HoustonBrowser.DOM;
 
-namespace HoustonBrowser.Parser
+namespace HoustonBrowser.Parsing
 {
     public class mockParser:IParser
     {

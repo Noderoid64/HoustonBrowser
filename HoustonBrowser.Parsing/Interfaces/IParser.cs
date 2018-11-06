@@ -1,6 +1,6 @@
 using HoustonBrowser.DOM;
 
-namespace HoustonBrowser.Parser
+namespace HoustonBrowser.Parsing
 {
     public interface IParser
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using HoustonBrowser.DOM;
 using System.Collections.Generic;
+using HoustonBrowser.Parsing.Enums;
 
-namespace HoustonBrowser.Parser
+namespace HoustonBrowser.Parsing
 {
     public class Parser:IParser
     {
@@ -70,14 +71,7 @@ namespace HoustonBrowser.Parser
                 {
                     last = true;
                 }
-                //4
-                //5
-                //6
-                //7
-                //8
-                //9
-                //10
-                //11
+                
 
             }
 

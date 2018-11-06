@@ -8,7 +8,7 @@ using HoustonBrowser.Controls;
 using HoustonBrowser.JS;
 using HoustonBrowser.DOM;
 using HoustonBrowser.DOM.Interface;
-using HoustonBrowser.Parser;
+using HoustonBrowser.Parsing;
 
 namespace HoustonBrowser.Core
 {

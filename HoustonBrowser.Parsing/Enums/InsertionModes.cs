@@ -1,6 +1,6 @@
 using System;
 
-namespace HoustonBrowser.Parser
+namespace HoustonBrowser.Parsing.Enums
 {
     enum InsertionModes
     {
