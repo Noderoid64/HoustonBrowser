@@ -23,11 +23,12 @@ namespace HoustonBrowser.Controls
             public IBrush ForegroundBrush {get;set;}
             public Typeface TextTypeface {get;set;}
             public TextAlignment AlignText {get;set;}
-
             public bool IsDefault {get;set;}
+            public bool IsPressed {get;set;}
 
             public event EventHandler<KeyEventArgs> KeyDown;
-            public event EventHandler<RoutedEventArgs> Click; 
+            public event EventHandler<PointerPressedEventArgs> PointerPressed;
+            public event EventHandler<PointerReleasedEventArgs> PointerReleased;
 
             public BrowserControl(){}
 
@@ -38,24 +39,31 @@ namespace HoustonBrowser.Controls
                 if(!String.IsNullOrEmpty(Text))
                 {Point origin = new Point(Left, Top);
                 FormattedText controlText = new FormattedText();
-                controlText.Text=Text;
+                controlText.Text = Text;
                 Size textConstraint = new Size(Width, Height);
                 controlText.Constraint = textConstraint;
-                controlText.Typeface=TextTypeface;
-                controlText.TextAlignment=AlignText;    
+                controlText.Typeface = TextTypeface;
+                controlText.TextAlignment = AlignText;    
 
                 context.DrawText(ForegroundBrush, origin, controlText);
                 }
             }
 
-            public virtual void OnClick (object sender, RoutedEventArgs e)
-            {
-                Click?.Invoke(sender, e);
-            }
-
             public virtual void OnKeyDown(object sender,KeyEventArgs e)
             {
                 KeyDown?.Invoke(sender, e);
+            }
+
+            public virtual void OnPointerPressed(object sender, PointerPressedEventArgs e)
+            {
+                IsPressed=true;
+                PointerPressed?.Invoke(sender, e);
+            }
+
+            public void OnPointerReleased(object sender, PointerReleasedEventArgs e)
+            {
+                IsPressed=false;
+                PointerReleased?.Invoke(sender, e);
             }
 
             //mock
