@@ -19,10 +19,5 @@ namespace HoustonBrowser.DOM
         {
             
         }
-
-        void InitMutationEvent(Node relatedNodeArg) //Remove Node
-        {
-            
-        }
     }
 }
