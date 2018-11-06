@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Xunit;
+using System;
 
 namespace HoustonBrowser.DOM.Test
 {
-    public class Class1
+    class Class1
     {
+
     }
 }
