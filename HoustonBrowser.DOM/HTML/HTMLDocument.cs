@@ -10,10 +10,15 @@ namespace HoustonBrowser.DOM.HTML
         public string Title {get; set;}
         
         public HTMLDocument(): base() {}
+
+
         public void Open() {}
         public void Close() {}
+
         public void Write(string text) {}
+
         public void Writeln(string text) {}
+
         public Node[] GetElementByName(string elementName) 
         {
             return null;

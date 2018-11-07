@@ -12,6 +12,7 @@ namespace HoustonBrowser.DOM
         public string Lang {get; set;}
         public string Dir {get; set;}
         public string ClassName {get; set;}
+
         public HTMLElement(string tagName): base(tagName) {}   
     }
 }

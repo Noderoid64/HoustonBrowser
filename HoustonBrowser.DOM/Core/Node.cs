@@ -99,6 +99,10 @@ namespace HoustonBrowser.DOM.Core
         public Node AppendChild(Node newChild)
         {
             newChild.parentNode = this;
+
+            if (childNodes.Count == 0)
+                firstChild = newChild;
+            lastChild = newChild;
             childNodes.Add(newChild);
             return newChild;
         }
