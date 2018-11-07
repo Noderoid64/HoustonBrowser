@@ -27,14 +27,6 @@ namespace HoustonBrowser
         public event EventHandler<KeyEventArgs> onKeyDown;
         public event EventHandler<PageLoadEventArgs> onPageLoad;
 
-        private Avalonia.Controls.TextBox urlTextBox;
-        private Avalonia.Controls.Button searchButton;
-        private Core.Core core;
-
-        public event EventHandler<PointerPressedEventArgs> onMouseClick;
-        public event EventHandler<KeyEventArgs> onKeyDown;
-        public event EventHandler<PageLoadEventArgs> onPageLoad;
-
 
         public MainWindow()
         {
