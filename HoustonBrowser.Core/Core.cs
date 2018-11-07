@@ -24,22 +24,24 @@ namespace HoustonBrowser.Core
 
         public event EventHandler<RenderEventArgs> onRender;
 
-        public Core(IUI ui, Avalonia.Controls.Button button)
+        public Core(IUI ui)
         {
             this.ui = ui;
             this.httpClient = new MockHttpClient();
             this.parser = new mockParser();
             this.control=new BrowserControl();
             this.js=new MockJS();
-            this.button=button;
+            
             this.dom = new MockDocument();
 
             ui.onKeyDown += Ui_onKeyDown;
             ui.onMouseClick += Ui_onMouseClick;
             ui.onPageLoad += Ui_onPageLoad;
 
-            button.Click+=Button_onMouseClick;
+            //button.Click+=Button_onMouseClick;
 
+            parser = new Parser();
+            parser.Parse("<!DOCTYPE><HTML><HEAD></HEAD><BODY></BODY></HTML>");
         }
 
         private void Ui_onPageLoad(object sender, object e)

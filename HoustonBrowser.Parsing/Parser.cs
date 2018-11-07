@@ -53,11 +53,11 @@ namespace HoustonBrowser.Parsing
         }
         public Document Parse(string value)
         {
-            Stack<Node> stackOfOpenedElements = new Stack<Node>();
+            List<Node> stackOfOpenedElements = new List<Node>();
             int insertMode = (int)InsertionModes.Initial;
             int currentTemplateInsertMode = (int)InsertionModes.Initial;
             List<int> StackOfTemplateInsertModesUsed = new List<int>();
-            List<Node> stackOfOpenTags = new List<Node>();
+            List<Node> listOfOpenTags = new List<Node>();
             Document doc = new Document();
             HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
             //1
@@ -83,7 +83,35 @@ namespace HoustonBrowser.Parsing
                             {
                                 case (int)InsertionModes.Initial:
                                     {
-
+                                        switch (token.Value.ToLower())
+                                        {
+                                            case "html":
+                                                {
+                                                    listOfOpenTags.Add(new HTMLTags.HTMLHtmlElement());
+                                                    //doc.
+                                                    break;
+                                                }
+                                            case "head":
+                                                {
+                                                    break;
+                                                }
+                                            case "body":
+                                                {
+                                                    break;
+                                                }
+                                            case "p":
+                                                {
+                                                    break;
+                                                }
+                                            case "div":
+                                                {
+                                                    break;
+                                                }
+                                            case "button":
+                                                {
+                                                    break;
+                                                }
+                                        }
                                         break;
                                     }
                                 case (int)InsertionModes.BeforeHtml:
@@ -96,7 +124,17 @@ namespace HoustonBrowser.Parsing
 
                                         break;
                                     }
+                                case (int)InsertionModes.AfterHead:
+                                    {
+
+                                        break;
+                                    }
                                 case (int)InsertionModes.InBody:
+                                    {
+
+                                        break;
+                                    }
+                                case (int)InsertionModes.AfterBody:
                                     {
 
                                         break;
@@ -106,12 +144,12 @@ namespace HoustonBrowser.Parsing
                         }
                     case (int)TokenType.NameOfTagClosing:
                         {
-
+                            //
                             break;
                         }
                     case (int)TokenType.Text:
                         {
-
+                            //
                             break;
                         }
                     case (int)TokenType.Null:

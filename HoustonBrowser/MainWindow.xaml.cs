@@ -7,15 +7,21 @@ using HoustonBrowser.Controls;
 using Avalonia.Media;
 using System.Collections.Generic;
 using Avalonia.Interactivity;
+using HoustonBrowser.Core;
 
 namespace HoustonBrowser
 {
-    public class MainWindow : Window
+    public class MainWindow : Window, IUI
     {
         private Avalonia.Controls.Button backButton;
         private Avalonia.Controls.Button forwardButton;
         private Avalonia.Controls.Button refreshButton;
         private MyPanel drawPanel;
+        private Core.Core core;
+
+        public event EventHandler<PointerPressedEventArgs> onMouseClick;
+        public event EventHandler<KeyEventArgs> onKeyDown;
+        public event EventHandler<object> onPageLoad;
 
         public MainWindow()
         {
@@ -24,7 +30,8 @@ namespace HoustonBrowser
             backButton=this.Find<Avalonia.Controls.Button>("btnBack");
             forwardButton=this.Find<Avalonia.Controls.Button>("btnForward");
             refreshButton=this.Find<Avalonia.Controls.Button>("btnRefresh");  
-            drawPanel=this.Find<MyPanel>("drawingCanvas"); 
+            drawPanel=this.Find<MyPanel>("drawingCanvas");
+            core = new Core.Core(this);
             
         }
         private void InitializeComponent()
