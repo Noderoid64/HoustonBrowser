@@ -1,6 +1,9 @@
 ﻿using System;
+using HoustonBrowser.DOM;
+using System.Collections.Generic;
+using HoustonBrowser.Parsing.Enums;
 
-namespace HoustonBrowser
+namespace HoustonBrowser.Parsing
 {
     public class Parser:IParser
     {
@@ -11,7 +14,7 @@ namespace HoustonBrowser
             
         }
 
-        string IParser.Parse()
+        public string Parse()
         {
             //HTMLDOM domTree = new HTMLDOM();
             /*Conditions conditions;
@@ -44,8 +47,57 @@ namespace HoustonBrowser
                 currentSymIndex++;
             }*/
             //return domTree;
-            int insertionMode;
+           
+            
             return "";
         }
+        public Document Parse(string value)
+        {
+            Stack<Node> stackOfOpenedElements = new Stack<Node>();
+            int insertMode = (int)InsertionModes.Initial;
+            int currentTemplateInsertMode = (int)InsertionModes.Initial;
+            List<int> StackOfTemplateInsertModesUsed = new List<int>();
+            Document doc = new Document();
+            HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
+            //1
+            bool last = false;
+            //2
+            //List<Node> stackOfOpenedElements = new List<Node>();
+            //stackOfOpenedElements.Add(new Node());
+            //3
+            //Node ancestor = new Node();
+            while (!last)
+            {
+                Token token = lexAnalyser.Tokenize();
+                switch (token.Type)
+                {
+                    case (int)TokenType.EOF:
+                        {
+                            break;
+                        }
+                    case (int)TokenType.NameOfTag:
+                        {
+                            break;
+                        }
+                    case (int)TokenType.NameOfTagClosing:
+                        {
+                            break;
+                        }
+                    case (int)TokenType.Text:
+                        {
+                            break;
+                        }
+                    case (int)TokenType.Null:
+                        {
+                            throw new Exception("Raw token got.");
+                            break;
+                        }
+
+                }
+            }
+
+            return doc;
+        }
+
     }
 }
