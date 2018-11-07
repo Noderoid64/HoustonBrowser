@@ -7,6 +7,8 @@ namespace HoustonBrowser.DOM.HTML
 {
     public class HTMLDocument: Document, IHTMLDocument
     {
+        public string Title {get; set;}
+        
         public HTMLDocument(): base() {}
         public void Open() {}
         public void Close() {}
@@ -14,7 +16,7 @@ namespace HoustonBrowser.DOM.HTML
         public void Writeln(string text) {}
         public Node[] GetElementByName(string elementName) 
         {
-            return ;
+            return null;
         }
     }
 }
