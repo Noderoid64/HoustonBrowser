@@ -20,6 +20,9 @@ namespace HoustonBrowser.Parsing.Enums
         RAWTEXTLessThanSign,
         RAWTEXTEndTagOpen,
         RAWTEXTEndTagName,
+
         //15+
+        DoctypeName,
+            Text
     }
 }

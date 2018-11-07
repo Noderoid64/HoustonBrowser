@@ -58,21 +58,21 @@ namespace HoustonBrowser.Parsing
             int currentTemplateInsertMode = (int)InsertionModes.Initial;
             List<int> StackOfTemplateInsertModesUsed = new List<int>();
             Document doc = new Document();
+            HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
             //1
             bool last = false;
             //2
             //List<Node> stackOfOpenedElements = new List<Node>();
             //stackOfOpenedElements.Add(new Node());
             //3
-            Node ancestor = new Node();
+            //Node ancestor = new Node();
             while (!last)
             {
-                if (!ancestor.Equals(stackOfOpenedElements.Peek()))
+                Token token = lexAnalyser.Tokenize();
+                switch (token.Type)
                 {
-                    last = true;
+                    //case TokenType.EOF:
                 }
-                
-
             }
 
             return doc;

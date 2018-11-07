@@ -5,10 +5,11 @@ using System.Text;
 namespace HoustonBrowser.Parsing.Enums
 {
     enum TokenType
-    {
-        Text,
-        TagStart,
-        TagClosing,
-        NameOfTag
+        {
+            Text,
+            NameOfTag,
+            NameOfTagClosing,
+            EOF,
+            Null
     }
 }
