@@ -204,7 +204,7 @@ namespace HoustonBrowser.Parsing
         private bool TokenCheck(string line)
         {
             string TokenCheck = line;
-            for (int i = 0; i < TokenCheck.Length; i++)
+            for(int i = 0;i < TokenCheck.Length;i++)
             {
                 if (TokenCheck[i] == ' ')
                 {

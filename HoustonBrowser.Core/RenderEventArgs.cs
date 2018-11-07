@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using HoustonBrowser.Controls;
 
 namespace HoustonBrowser.Core
 {
     public class RenderEventArgs: EventArgs
     {
         
-        public string Data { get; set; }
+        public List<BrowserControl> Page { get; set; }
         
-        public RenderEventArgs(string data)
+        public RenderEventArgs(List<BrowserControl> page)
         {
-            Data = data;
+            Page=page;
         }
     }
 }
