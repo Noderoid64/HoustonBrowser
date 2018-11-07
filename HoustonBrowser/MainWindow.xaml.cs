@@ -83,6 +83,8 @@ namespace HoustonBrowser
         {
             var arg = new PageLoadEventArgs(this.urlTextBox.Text);
             this.onPageLoad(sender, arg);
+            //Chain
+            core.PageLoading(this.urlTextBox.Text);
         }
 
         private void urlTextBox_OnKeyDown(object sender, KeyEventArgs e)
