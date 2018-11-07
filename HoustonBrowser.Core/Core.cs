@@ -54,20 +54,20 @@ namespace HoustonBrowser.Core
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
         {
             string s = httpClient.GetStatus() + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
-            onRender(this, new RenderEventArgs(s));
+            //onRender(this, new RenderEventArgs(s));
         }
 
         private void Ui_onKeyDown(object sender, KeyEventArgs e)
         {
 
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
-            onRender(this, new RenderEventArgs(s));
+            //onRender(this, new RenderEventArgs(s));
         }
 
         private void Button_onMouseClick(object sender, RoutedEventArgs e)
         {
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
-            onRender(this, new RenderEventArgs(s));
+            //onRender(this, new RenderEventArgs(s));
         }
     }
 }
