@@ -156,11 +156,11 @@ namespace HoustonBrowser.Parsing
                                 case '<':
                                     {
                                         currentState = (int)TokenStates.TagOpen;
-                                        if (""!=cache.Remove(' '))
-                                        {
+                                        //if ("" != cache.Remove(" "))
+                                        //{
                                             token = new Token((int)TokenType.Text, cache);
                                             return token;
-                                        }
+                                        //}
                                         cache = "";
                                         break;
 
