@@ -58,6 +58,7 @@ namespace HoustonBrowser.Parsing
             int currentTemplateInsertMode = (int)InsertionModes.Initial;
             List<int> StackOfTemplateInsertModesUsed = new List<int>();
             List<Node> listOfOpenTags = new List<Node>();
+            List<Token> tokens = new List<Token>();
             Document doc = new Document();
             HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
             //1
@@ -69,7 +70,9 @@ namespace HoustonBrowser.Parsing
             //Node ancestor = new Node();
             while (!last)
             {
+                lexAnalyser.InsertionState = insertMode;
                 Token token = lexAnalyser.Tokenize();
+                tokens.Add(token);
                 switch (token.Type)
                 {
                     case (int)TokenType.EOF:
@@ -97,6 +100,7 @@ namespace HoustonBrowser.Parsing
                                                 }
                                             case "body":
                                                 {
+                                                    insertMode = (int)InsertionModes.InBody;
                                                     break;
                                                 }
                                             case "p":
@@ -159,7 +163,7 @@ namespace HoustonBrowser.Parsing
 
                 }
             }
-
+            int x = tokens.Capacity;
             return doc;
         }
 

@@ -6,10 +6,10 @@ namespace HoustonBrowser.Parsing.Enums
 {
     public enum TokenType
     {
-            Text,
-            NameOfTag,
-            NameOfTagClosing,
-            EOF,
-            Null
+        Text,
+        NameOfTag,
+        NameOfTagClosing,
+        EOF,
+        Null
     }
 }

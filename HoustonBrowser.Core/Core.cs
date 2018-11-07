@@ -41,7 +41,7 @@ namespace HoustonBrowser.Core
             //button.Click+=Button_onMouseClick;
 
             parser = new Parser();
-            parser.Parse("<!DOCTYPE><HTML><HEAD></HEAD><BODY></BODY></HTML>");
+            parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nfunction myFunction() {\r\n    var x = document.getElementById(\"myDIV\");\r\n    if (x) {\r\n      x.style.display = \"none\";\r\n    }\r\n}\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>");
         }
 
         private void Ui_onPageLoad(object sender, object e)
