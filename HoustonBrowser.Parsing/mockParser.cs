@@ -1,5 +1,5 @@
 using System;
-using HoustonBrowser.DOM;
+using HoustonBrowser.DOM.Core;
 
 namespace HoustonBrowser.Parsing
 {

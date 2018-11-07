@@ -1,5 +1,5 @@
 ﻿using System;
-using HoustonBrowser.DOM;
+using HoustonBrowser.DOM.Core;
 using System.Collections.Generic;
 using HoustonBrowser.Parsing.Enums;
 
