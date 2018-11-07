@@ -37,7 +37,7 @@ namespace HoustonBrowser.DOM.Core
         readonly Document ownerDocument;
 
         public string NodeName { get => nodeName; }
-        public string NodeValue { get => nodeValue; }
+        public string NodeValue { get => nodeValue; set => nodeValue = value; }
         public TypeOfNode NodeType { get => nodeType; }
       //  public int NodeType { get => (int)nodeType; }
         public Node ParentNode { get => parentNode; }
