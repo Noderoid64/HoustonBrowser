@@ -165,8 +165,10 @@ namespace HoustonBrowser.Parsing
                                         {
                                             token = new Token((int)TokenType.Text, cache);
                                             cache = "";
+                                            currentSymbol++;
                                             return token;
                                         }
+                                        cache = "";
                                         break;
                                     }
                                 default:
