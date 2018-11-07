@@ -1,7 +1,7 @@
 using System;
-using HoustonBrowser.DOM.Interface;
+using HoustonBrowser.DOM.Core.Interface;
 
-namespace HoustonBrowser.DOM
+namespace HoustonBrowser.DOM.Core
 {
     public class Text : CharacterData, IText
     {

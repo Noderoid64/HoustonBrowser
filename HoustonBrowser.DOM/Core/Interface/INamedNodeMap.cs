@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace HoustonBrowser.DOM.Interface
+namespace HoustonBrowser.DOM.Core.Interface
 {
     public interface INamedNodeMap: IEnumerable
     {

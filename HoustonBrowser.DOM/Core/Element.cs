@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using HoustonBrowser.DOM.Interface;
+using HoustonBrowser.DOM.Core.Interface;
 
-namespace HoustonBrowser.DOM
+namespace HoustonBrowser.DOM.Core
 {
     public class Element: Node, IElement
     {

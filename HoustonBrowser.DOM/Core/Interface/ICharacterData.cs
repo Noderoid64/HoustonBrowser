@@ -1,6 +1,6 @@
 using System;
 
-namespace HoustonBrowser.DOM.Interface
+namespace HoustonBrowser.DOM.Core.Interface
 {
     public interface ICharacterData : INode
     {
