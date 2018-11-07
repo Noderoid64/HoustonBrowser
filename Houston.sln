@@ -25,7 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.DOM", "Houst
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.DOM.Test", "HoustonBrowser.DOM.Test\HoustonBrowser.DOM.Test.csproj", "{EDDB509A-889A-4155-9B72-9ADEE1BF3D31}"
 EndProject
+<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HoustonBrowser.DOM", "HoustonBrowser.DOM\HoustonBrowser.DOM.csproj", "{0D6D8FA7-3629-4139-ADA5-96998DDD7892}"
+=======
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HoustonBrowser.Render", "HoustonBrowser.Render\HoustonBrowser.Render.csproj", "{A2D75226-2310-41E2-B761-217562DD0DA5}"
+>>>>>>> rebase
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -183,7 +187,22 @@ Global
 		{EDDB509A-889A-4155-9B72-9ADEE1BF3D31}.Release|x64.Build.0 = Release|Any CPU
 		{EDDB509A-889A-4155-9B72-9ADEE1BF3D31}.Release|x86.ActiveCfg = Release|Any CPU
 		{EDDB509A-889A-4155-9B72-9ADEE1BF3D31}.Release|x86.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 >>>>>>> Added folder Core
+=======
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Debug|x64.Build.0 = Debug|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Debug|x86.Build.0 = Debug|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Release|x64.ActiveCfg = Release|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Release|x64.Build.0 = Release|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Release|x86.ActiveCfg = Release|Any CPU
+		{A2D75226-2310-41E2-B761-217562DD0DA5}.Release|x86.Build.0 = Release|Any CPU
+>>>>>>> rebase
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
