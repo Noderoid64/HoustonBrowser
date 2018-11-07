@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using HoustonBrowser.Controls;
 using HoustonBrowser.DOM;
 using HoustonBrowser.DOM.Core;
+<<<<<<< HEAD
 
+=======
+>>>>>>> process
 
 
 namespace HoustonBrowser.Render
@@ -52,8 +55,16 @@ namespace HoustonBrowser.Render
                     listControls.AddRange(list);
                 }
             }
+<<<<<<< HEAD
 
             return listControls;
+=======
+<<<<<<< HEAD
+=======
+
+            return listControls;
+>>>>>>> process
+>>>>>>> process
         }
     }
 }
