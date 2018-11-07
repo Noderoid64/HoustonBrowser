@@ -56,12 +56,13 @@ namespace HoustonBrowser.DOM.Core
             this.nodeType = nodeType;
             this.nodeName = nodeName;
             this.nodeValue = nodeValue;
+            childNodes = new List<Node>();
         }
 
         public Node(Node parentNode)
         {
             this.parentNode = parentNode;
-            childNodes = new List<Node>();
+           // childNodes = new List<Node>();
         }
 
         public Node InsertBefore(Node newChild, Node refChild)
