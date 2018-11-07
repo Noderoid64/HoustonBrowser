@@ -5,6 +5,7 @@ using HoustonBrowser.DOM;
 using HoustonBrowser.DOM.Core;
 
 
+
 namespace HoustonBrowser.Render
 {
     public class RenderTree
@@ -51,8 +52,6 @@ namespace HoustonBrowser.Render
                     listControls.AddRange(list);
                 }
             }
-
-            return listControls;
         }
     }
 }
