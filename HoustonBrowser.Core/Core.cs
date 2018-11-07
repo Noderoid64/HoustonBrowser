@@ -19,7 +19,6 @@ namespace HoustonBrowser.Core
         IBrowserControl control;
         IJS js;
         IUI ui;
-        Avalonia.Controls.Button button;
         IDocument dom;
 
         public event EventHandler<RenderEventArgs> onRender;
@@ -31,7 +30,6 @@ namespace HoustonBrowser.Core
             this.parser = new mockParser();
             this.control=new BrowserControl();
             this.js=new MockJS();
-            
             this.dom = new MockDocument();
 
             ui.onKeyDown += Ui_onKeyDown;
@@ -52,17 +50,20 @@ namespace HoustonBrowser.Core
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
         {
             string s = httpClient.GetStatus() + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
+
             onRender(this, new RenderEventArgs(s));
         }
 
         private void Ui_onKeyDown(object sender, KeyEventArgs e)
         {
+
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             onRender(this, new RenderEventArgs(s));
         }
 
         private void Button_onMouseClick(object sender, RoutedEventArgs e)
         {
+
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             onRender(this, new RenderEventArgs(s));
         }

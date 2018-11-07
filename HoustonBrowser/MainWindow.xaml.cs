@@ -17,11 +17,15 @@ namespace HoustonBrowser
         private Avalonia.Controls.Button forwardButton;
         private Avalonia.Controls.Button refreshButton;
         private MyPanel drawPanel;
+
+        private Avalonia.Controls.TextBox urlTextBox;
+        private Avalonia.Controls.Button searchButton;
         private Core.Core core;
 
         public event EventHandler<PointerPressedEventArgs> onMouseClick;
         public event EventHandler<KeyEventArgs> onKeyDown;
-        public event EventHandler<object> onPageLoad;
+        public event EventHandler<PageLoadEventArgs> onPageLoad;
+
 
         public MainWindow()
         {
@@ -30,8 +34,17 @@ namespace HoustonBrowser
             backButton=this.Find<Avalonia.Controls.Button>("btnBack");
             forwardButton=this.Find<Avalonia.Controls.Button>("btnForward");
             refreshButton=this.Find<Avalonia.Controls.Button>("btnRefresh");  
-            drawPanel=this.Find<MyPanel>("drawingCanvas");
-            core = new Core.Core(this);
+            drawPanel=this.Find<MyPanel>("drawingCanvas"); 
+            urlTextBox=this.Find<Avalonia.Controls.TextBox>("urlInputBox");
+            searchButton=this.Find<Avalonia.Controls.Button>("btnSearch"); 
+            
+            core=new Core.Core(this);
+            core.onRender+=Core_onRender;
+
+            searchButton.Click+=searchButton_OnClick;     
+            refreshButton.Click+=searchButton_OnClick;
+            urlTextBox.KeyDown+=urlTextBox_OnKeyDown; 
+
             
         }
         private void InitializeComponent()
@@ -57,6 +70,26 @@ namespace HoustonBrowser
             stackPanel.Children.Add(okButton);
             alertWindow.Content = stackPanel;
             alertWindow.ShowDialog();
+        }
+
+        private void searchButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            var arg = new PageLoadEventArgs(this.urlTextBox.Text);
+            this.onPageLoad(sender, arg);
+        }
+
+        private void urlTextBox_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key==Key.Enter)
+            {
+            var arg = new PageLoadEventArgs(this.urlTextBox.Text);
+            this.onPageLoad(sender, arg);
+            }
+        }
+
+        private void Core_onRender(object sender, RenderEventArgs data)
+        {
+            drawPanel.InvalidateVisual();
         }
 
     }
