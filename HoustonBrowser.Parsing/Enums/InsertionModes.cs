@@ -2,7 +2,7 @@ using System;
 
 namespace HoustonBrowser.Parsing.Enums
 {
-    enum InsertionModes
+    public enum InsertionModes
     {
         Initial,
         BeforeHtml,

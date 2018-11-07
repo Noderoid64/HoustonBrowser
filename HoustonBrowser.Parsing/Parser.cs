@@ -71,7 +71,28 @@ namespace HoustonBrowser.Parsing
                 Token token = lexAnalyser.Tokenize();
                 switch (token.Type)
                 {
-                    //case TokenType.EOF:
+                    case (int)TokenType.EOF:
+                        {
+                            break;
+                        }
+                    case (int)TokenType.NameOfTag:
+                        {
+                            break;
+                        }
+                    case (int)TokenType.NameOfTagClosing:
+                        {
+                            break;
+                        }
+                    case (int)TokenType.Text:
+                        {
+                            break;
+                        }
+                    case (int)TokenType.Null:
+                        {
+                            throw new Exception("Raw token got.");
+                            break;
+                        }
+
                 }
             }
 

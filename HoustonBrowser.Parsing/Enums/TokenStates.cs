@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HoustonBrowser.Parsing.Enums
 {
-    enum TokenStates
+    public enum TokenStates
     {
         Data,
         RCDATA,

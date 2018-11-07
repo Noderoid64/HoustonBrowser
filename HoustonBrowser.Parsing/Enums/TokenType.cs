@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HoustonBrowser.Parsing.Enums
 {
-    enum TokenType
+    public enum TokenType
         {
             Text,
             NameOfTag,
