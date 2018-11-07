@@ -21,6 +21,8 @@ namespace HoustonBrowser.Core
         IUI ui;
         IDocument dom;
 
+        public IJS Js { get => js;}
+
         public event EventHandler<RenderEventArgs> onRender;
 
         public Core(IUI ui)

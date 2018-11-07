@@ -8,6 +8,7 @@ using Avalonia.Media;
 using System.Collections.Generic;
 using Avalonia.Interactivity;
 using HoustonBrowser.Core;
+using HoustonBrowser.JS;
 
 namespace HoustonBrowser
 {
@@ -20,6 +21,7 @@ namespace HoustonBrowser
         private Avalonia.Controls.TextBox urlTextBox;
         private Avalonia.Controls.Button searchButton;
         private Core.Core core;
+        private IJS js;
 
         public event EventHandler<PointerPressedEventArgs> onMouseClick;
         public event EventHandler<KeyEventArgs> onKeyDown;
@@ -38,13 +40,19 @@ namespace HoustonBrowser
             
             core=new Core.Core(this);
             core.onRender+=Core_onRender;
+            js = core.Js;
 
             searchButton.Click+=searchButton_OnClick;     
             refreshButton.Click+=searchButton_OnClick;
-            urlTextBox.KeyDown+=urlTextBox_OnKeyDown; 
-
-            
+            urlTextBox.KeyDown+=urlTextBox_OnKeyDown;
+            js.onAlert += Js_onAlert;    
         }
+
+        private void Js_onAlert(object sender, string e)
+        {
+            ShowAlert(e);
+        }
+
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);            
