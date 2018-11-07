@@ -7,8 +7,6 @@ using Avalonia.Interactivity;
 using HoustonBrowser.Controls;
 using HoustonBrowser.JS;
 using HoustonBrowser.DOM;
-using HoustonBrowser.DOM.Core;
-using HoustonBrowser.DOM.Core.Interface;
 using HoustonBrowser.Parsing;
 
 namespace HoustonBrowser.Core
