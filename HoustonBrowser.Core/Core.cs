@@ -19,26 +19,22 @@ namespace HoustonBrowser.Core
         IBrowserControl control;
         IJS js;
         IUI ui;
-        Avalonia.Controls.Button button;
         IDocument dom;
 
         public event EventHandler<RenderEventArgs> onRender;
 
-        public Core(IUI ui, Avalonia.Controls.Button button)
+        public Core(IUI ui)
         {
             this.ui = ui;
             this.httpClient = new MockHttpClient();
             this.parser = new mockParser();
             this.control=new BrowserControl();
             this.js=new MockJS();
-            this.button=button;
             this.dom = new MockDocument();
 
             ui.onKeyDown += Ui_onKeyDown;
             ui.onMouseClick += Ui_onMouseClick;
             ui.onPageLoad += Ui_onPageLoad;
-
-            button.Click+=Button_onMouseClick;
 
         }
 
@@ -49,19 +45,19 @@ namespace HoustonBrowser.Core
 
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
         {
-            string s = httpClient.GET("") + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
+            string s = httpClient.GetHtml("") + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             onRender(this, new RenderEventArgs(s));
         }
 
         private void Ui_onKeyDown(object sender, KeyEventArgs e)
         {
-            string s = httpClient.GET("") + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
+            string s = httpClient.GetHtml("") + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             onRender(this, new RenderEventArgs(s));
         }
 
         private void Button_onMouseClick(object sender, RoutedEventArgs e)
         {
-            string s = httpClient.GET("") + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
+            string s = httpClient.GetHtml("") + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             onRender(this, new RenderEventArgs(s));
         }
     }
