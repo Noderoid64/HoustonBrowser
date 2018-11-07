@@ -8,8 +8,17 @@ using Avalonia.Media;
 
 namespace HoustonBrowser.Controls
 {
-    public class Panel: BrowserControl
+    public class MyPanel: Canvas
     {
        public List<BrowserControl> Controls {get;set;}
+
+       public override void Render(DrawingContext context)
+       {
+           base.Render(context);
+           foreach(BrowserControl bc in Controls)
+           {
+               bc.Render(context);
+           }
+       }
     }
 }

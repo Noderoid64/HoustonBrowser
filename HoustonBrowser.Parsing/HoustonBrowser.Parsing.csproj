@@ -4,4 +4,10 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+ 
+    <ProjectReference Include="..\HoustonBrowser.DOM\HoustonBrowser.DOM.csproj"/>
+    
+  </ItemGroup>
+  
 </Project>
