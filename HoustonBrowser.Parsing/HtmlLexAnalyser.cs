@@ -32,6 +32,7 @@ namespace HoustonBrowser.Parsing
         {
             document = document.Replace('\n', ' ');
             document = document.Replace('\r', ' ');
+            document = document.Replace("  ", " ");
             Token token;
             for (; currentSymbol < document.Length; currentSymbol++)
             {
@@ -49,7 +50,9 @@ namespace HoustonBrowser.Parsing
                                 default:
                                     {
                                         if ((int)InsertionModes.InBody == insertionState)
+                                        {
                                             currentState = (int)TokenStates.Text;
+                                        }
                                         break;
                                     }
                             }
@@ -73,6 +76,7 @@ namespace HoustonBrowser.Parsing
                                 default:
                                     {
                                         currentState = (int)TokenStates.TagName;
+                                        cache = "";
                                         cache += document[currentSymbol];
                                         break;
                                     }
@@ -81,21 +85,22 @@ namespace HoustonBrowser.Parsing
                         }
                     case (int)TokenStates.TagName:
                         {
+                            
                             switch (document[currentSymbol])
                             {
                                 case ' ':
                                     {
-                                        currentState = (int)TokenStates.Data;
-                                        if (isTagOpen)
-                                        {
-                                            token = new Token((int)TokenType.NameOfTag, cache);
-                                        }
-                                        else
-                                        {
-                                            token = new Token((int)TokenType.NameOfTagClosing, cache);
-                                        }
-                                        cache = "";
-                                        return token;
+                                            currentState = (int)TokenStates.Attributes;
+                                            if (isTagOpen)
+                                            {
+                                                token = new Token((int)TokenType.NameOfTag, cache);
+                                            }
+                                            else
+                                            {
+                                                token = new Token((int)TokenType.NameOfTagClosing, cache);
+                                            }
+                                            cache = "";
+                                            return token;
                                     }
                                 case '>':
                                     {
@@ -142,6 +147,7 @@ namespace HoustonBrowser.Parsing
                             {
                                 default:
                                     {
+                                        cache += document[currentSymbol];
                                         currentState = (int)TokenStates.TagName;
                                         break;
                                     }
@@ -158,15 +164,34 @@ namespace HoustonBrowser.Parsing
                                         if (TokenCheck(cache))
                                         {
                                             token = new Token((int)TokenType.Text, cache);
+                                            cache = "";
                                             return token;
                                         }
-                                        cache = "";
                                         break;
-
                                     }
                                 default:
                                     {
                                         cache += document[currentSymbol];
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+                    case (int)TokenStates.Attributes:
+                        {
+                            switch (document[currentSymbol])
+                            {
+                                case '>':
+                                    {
+                                        currentState = (int)TokenStates.Data;
+                                        if (currentSymbol + 1 < document.Length&&document[currentSymbol + 1] != '<')
+                                        {
+                                            cache += document[currentSymbol + 1];
+                                        }
+                                        break;
+                                    }
+                                default:
+                                    {
                                         break;
                                     }
                             }
@@ -181,20 +206,20 @@ namespace HoustonBrowser.Parsing
             string TokenCheck = line;
             for(int i = 0;i < TokenCheck.Length;i++)
             {
-                if(TokenCheck[i] == ' ')
+                if (TokenCheck[i] == ' ')
                 {
-                    TokenCheck = TokenCheck.Substring(i,1);
+                    TokenCheck = TokenCheck.Replace(" ", "");
                 }
             }
-            if(TokenCheck == "")
+            if (TokenCheck == "")
             {
                 return false;
-            }  
+            }
             else
             {
                 return true;
             }
-                
+
         }
-    }  
+    }
 }
