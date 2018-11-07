@@ -17,6 +17,7 @@ namespace HoustonBrowser
         private Avalonia.Controls.Button forwardButton;
         private Avalonia.Controls.Button refreshButton;
         private MyPanel drawPanel;
+
         private Avalonia.Controls.TextBox urlTextBox;
         private Avalonia.Controls.Button searchButton;
         private Core.Core core;
@@ -24,6 +25,7 @@ namespace HoustonBrowser
         public event EventHandler<PointerPressedEventArgs> onMouseClick;
         public event EventHandler<KeyEventArgs> onKeyDown;
         public event EventHandler<PageLoadEventArgs> onPageLoad;
+
 
         public MainWindow()
         {
