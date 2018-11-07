@@ -94,8 +94,9 @@ namespace HoustonBrowser
             }
         }
 
-        private void Core_onRender(object sender, RenderEventArgs data)
+        private void Core_onRender(object sender, RenderEventArgs e)
         {
+            drawPanel.Controls=e.Page;
             drawPanel.InvalidateVisual();
         }
 
