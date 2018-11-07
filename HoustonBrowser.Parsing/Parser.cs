@@ -57,6 +57,7 @@ namespace HoustonBrowser.Parsing
             int insertMode = (int)InsertionModes.Initial;
             int currentTemplateInsertMode = (int)InsertionModes.Initial;
             List<int> StackOfTemplateInsertModesUsed = new List<int>();
+            List<Node> stackOfOpenTags = new List<Node>();
             Document doc = new Document();
             HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
             //1
@@ -73,24 +74,49 @@ namespace HoustonBrowser.Parsing
                 {
                     case (int)TokenType.EOF:
                         {
+                            last = true;
                             break;
                         }
                     case (int)TokenType.NameOfTag:
                         {
+                            switch (insertMode)
+                            {
+                                case (int)InsertionModes.Initial:
+                                    {
+
+                                        break;
+                                    }
+                                case (int)InsertionModes.BeforeHtml:
+                                    {
+
+                                        break;
+                                    }
+                                case (int)InsertionModes.BeforeHead:
+                                    {
+
+                                        break;
+                                    }
+                                case (int)InsertionModes.InBody:
+                                    {
+
+                                        break;
+                                    }
+                            }
                             break;
                         }
                     case (int)TokenType.NameOfTagClosing:
                         {
+
                             break;
                         }
                     case (int)TokenType.Text:
                         {
+
                             break;
                         }
                     case (int)TokenType.Null:
                         {
                             throw new Exception("Raw token got.");
-                            break;
                         }
 
                 }

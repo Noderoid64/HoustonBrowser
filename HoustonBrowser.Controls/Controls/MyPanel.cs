@@ -15,10 +15,13 @@ namespace HoustonBrowser.Controls
        public override void Render(DrawingContext context)
        {
            base.Render(context);
-           foreach(BrowserControl bc in Controls)
-           {
-               bc.Render(context);
-           }
+            if (Controls == null)
+            {
+                foreach (BrowserControl bc in Controls)
+                {
+                    bc.Render(context);
+                }
+            }
        }
     }
 }
