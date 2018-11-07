@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HoustonBrowser.Controls;
 
 namespace HoustonBrowser.Render
@@ -11,7 +12,7 @@ namespace HoustonBrowser.Render
         }
         public List<BrowserControl> GetPage()
         {
-            return
+            return null;
         }
     }
 }
