@@ -5,5 +5,6 @@ namespace HoustonBrowser.Parsing.HTMLTags
 {
     class HTMLDivElement:Node
     {
+        
     }
 }

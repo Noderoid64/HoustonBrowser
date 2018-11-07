@@ -142,7 +142,6 @@ namespace HoustonBrowser.Parsing
                             {
                                 default:
                                     {
-                                        cache += document[currentSymbol];
                                         currentState = (int)TokenStates.TagName;
                                         break;
                                     }
@@ -156,11 +155,11 @@ namespace HoustonBrowser.Parsing
                                 case '<':
                                     {
                                         currentState = (int)TokenStates.TagOpen;
-                                        //if ("" != cache.Remove(" "))
-                                        //{
+                                        if (TokenCheck(cache))
+                                        {
                                             token = new Token((int)TokenType.Text, cache);
                                             return token;
-                                        //}
+                                        }
                                         cache = "";
                                         break;
 
@@ -177,6 +176,25 @@ namespace HoustonBrowser.Parsing
             }
             return token = new Token((int)TokenType.EOF, "");
         }
-
-    }
+        private bool TokenCheck(string line)
+        {
+            string TokenCheck = line;
+            for(int i = 0;i < TokenCheck.Length;i++)
+            {
+                if(TokenCheck[i] == ' ')
+                {
+                    TokenCheck = TokenCheck.Substring(i,1);
+                }
+            }
+            if(TokenCheck == "")
+            {
+                return false;
+            }  
+            else
+            {
+                return true;
+            }
+                
+        }
+    }  
 }
