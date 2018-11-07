@@ -4,20 +4,9 @@ using System.Runtime.CompilerServices;
 namespace HoustonBrowser.HttpModule{
     public interface IHttpClient
     {
-        /*
-        OPTIONS,
-        GET,
-        HEAD,
-        POST,
-        PUT,
-        PATCH,
-        DELETE,
-        TRACE,
-        CONNECT
-         */
-        string GET(string host);
-        // string POST(string host, string body);
-        // string PUT(string host, string body);
-        // string DELETE(string host, string body);
+        string GetStatus();
+        string GetHtml(string host);
+        string GetCss(string host);
+
     }
 }

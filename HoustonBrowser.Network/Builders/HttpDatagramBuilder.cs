@@ -6,6 +6,8 @@ namespace HoustonBrowser.HttpModule.Builders
     internal class HttpDatagramBuilder
     {
         private HttpDatagram datagram;
+
+        #region AddComponents
         public void AddStart(HttpMethods method, string url, HttpVersion version)
         {
             if (datagram == null)
@@ -36,18 +38,20 @@ namespace HoustonBrowser.HttpModule.Builders
         }
         public HttpDatagramBuilder AddHeader(HttpHeaderField field)
         {
-            if(datagram?.header == null)
-            datagram.header = new HttpHeader();
+            if (datagram?.header == null)
+                datagram.header = new HttpHeader();
             datagram?.header?.AddHeaderField(field);
             return this;
         }
         public void AddBody(HttpBody body)
         {
-
+            throw new NotImplementedException();
         }
+        #endregion
+
         public bool isReady()
         {
-            return false;
+            return true;
         }
         public HttpDatagram Build()
         {
