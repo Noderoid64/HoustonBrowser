@@ -90,7 +90,7 @@ namespace HoustonBrowser.Parsing
                                         {
                                             case "html":
                                                 {
-                                                    listOfOpenTags.Add(new HTMLTags.HTMLHtmlElement());
+                                                    //listOfOpenTags.Add(new HTMLTags.HTMLHtmlElement());
                                                     //doc.
                                                     break;
                                                 }
