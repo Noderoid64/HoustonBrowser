@@ -23,6 +23,7 @@ namespace HoustonBrowser.Parsing.Enums
 
         //15+
         DoctypeName,
-            Text
+        Text,
+        Attributes
     }
 }
