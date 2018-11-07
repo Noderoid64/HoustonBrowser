@@ -7,7 +7,8 @@ using Avalonia.Interactivity;
 using HoustonBrowser.Controls;
 using HoustonBrowser.JS;
 using HoustonBrowser.DOM;
-using HoustonBrowser.DOM.Interface;
+using HoustonBrowser.DOM.Core;
+using HoustonBrowser.DOM.Core.Interface;
 using HoustonBrowser.Parsing;
 
 namespace HoustonBrowser.Core
@@ -19,7 +20,7 @@ namespace HoustonBrowser.Core
         IBrowserControl control;
         IJS js;
         IUI ui;
-        IDocument dom;
+        MockDocument dom;
 
         public event EventHandler<RenderEventArgs> onRender;
 

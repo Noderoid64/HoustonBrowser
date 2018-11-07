@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using HoustonBrowser.Parsing.Enums;
-using HoustonBrowser.DOM;
+using HoustonBrowser.DOM.Core;
 using HoustonBrowser.Parsing.Interfaces;
 
 namespace HoustonBrowser.Parsing
