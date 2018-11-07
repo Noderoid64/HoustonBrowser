@@ -7,7 +7,9 @@ using Avalonia.Interactivity;
 using HoustonBrowser.Controls;
 using HoustonBrowser.JS;
 using HoustonBrowser.DOM;
+using HoustonBrowser.DOM.HTML;
 using HoustonBrowser.Parsing;
+using HoustonBrowser.Render;
 
 namespace HoustonBrowser.Core
 {
@@ -37,11 +39,12 @@ namespace HoustonBrowser.Core
             ui.onMouseClick += Ui_onMouseClick;
             ui.onPageLoad += Ui_onPageLoad;
 
-            //button.Click+=Button_onMouseClick;
+            // button.Click+=Button_onMouseClick;
 
             parser = new Parser();
-            parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nfunction myFunction() {\r\n    var x = document.getElementById(\"myDIV\");\r\n    if (x) {\r\n      x.style.display = \"none\";\r\n    }\r\n}\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>");
-
+            var doc = parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nfunction myFunction() {\r\n    var x = document.getElementById(\"myDIV\");\r\n    if (x) {\r\n      x.style.display = \"none\";\r\n    }\r\n}\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>");
+            var renderTree = new RenderTree(doc);
+            renderTree.GetPage();
         }
 
         private void Ui_onPageLoad(object sender, object e)
