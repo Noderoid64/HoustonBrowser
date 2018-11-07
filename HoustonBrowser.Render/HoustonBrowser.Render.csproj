@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HoustonBrowser.Controls\HoustonBrowser.Controls.csproj" />
-    <ProjectReference Include="..\HoustonBrowser.Core\HoustonBrowser.Core.csproj" />
     <ProjectReference Include="..\HoustonBrowser.DOM\HoustonBrowser.DOM.csproj" />
   </ItemGroup>
 
