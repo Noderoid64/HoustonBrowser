@@ -10,8 +10,10 @@ namespace HoustonBrowser.Controls
     public class Rectangle: BrowserControl
     {
         public Rectangle(){}
-        public Rectangle(bool isDefault)
+        public Rectangle(bool isDefault, double left, double top)
         {
+            this.Left=left;
+            this.Top=top;
             if(isDefault)
             {
                 SetDefaultStyles();

@@ -10,8 +10,10 @@ namespace HoustonBrowser.Controls
     public class TextBox: BrowserControl
     {
         public TextBox(){}
-        public TextBox(bool isDefault)
+        public TextBox(bool isDefault, double left, double top)
         {
+            this.Left=left;
+            this.Top=top;
             if(isDefault)
             {
                 SetDefaultStyles();
