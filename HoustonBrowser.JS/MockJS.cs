@@ -11,11 +11,21 @@ namespace HoustonBrowser.JS
             int index = rawJS.IndexOf("alert(");
             if (index != -1)
             {
-                index += 6;
-                int old = index;
-                while (rawJS[index] != ')') index++;
-                string cache = rawJS.Substring(old, index - old);
-                onAlert?.Invoke(this, cache);
+                try
+                {
+                    index += 6;
+                    while (rawJS[index] != '"') index++;
+                    int old = ++index;
+                    while (rawJS[index] != '"') index++;
+                    string cache = rawJS.Substring(old, index - old);
+                    while (rawJS[index] != ')') index++;
+                    onAlert?.Invoke(this, cache);
+                }
+                catch (Exception)
+                {
+                    return "";
+                }
+
             }
 
             return "JS Works";
