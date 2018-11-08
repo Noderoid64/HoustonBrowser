@@ -10,6 +10,14 @@ namespace HoustonBrowser.Controls
 {
     public class TabControl: BrowserControl
     {
+        public TabControl(){}
+        public TabControl(bool isDefault)
+        {
+            if(isDefault)
+            {
+                SetDefaultStyles();
+            }
+        }
        public List<Panel> TabPages{get;set;}
        public void SelectTab()
        {
