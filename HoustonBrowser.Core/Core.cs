@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HoustonBrowser.HttpModule;
 using HoustonBrowser;
 using Avalonia.Input;
@@ -45,9 +46,9 @@ namespace HoustonBrowser.Core
             // button.Click+=Button_onMouseClick;
 
 
-            var doc = parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nfunction myFunction() {\r\n    var x = document.getElementById(\"myDIV\");\r\n    if (x) {\r\n      x.style.display = \"none\";\r\n    }\r\n}\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>");
-            var renderTree = new RenderTree(doc);
-            var tmp = renderTree.GetPage();
+            //var doc = parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nfunction myFunction() {\r\n    var x = document.getElementById(\"myDIV\");\r\n    if (x) {\r\n      x.style.display = \"none\";\r\n    }\r\n}\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>");
+            //var renderTree = new RenderTree(doc);
+            //var tmp = renderTree.GetPage();
             
         }
 
@@ -56,14 +57,13 @@ namespace HoustonBrowser.Core
             js.Process(e);
         }
 
-        public void PageLoading(string url)
+        private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
-            parser.Parse(httpClient.GetHtml(url));
-        }
-        private void Ui_onPageLoad(object sender, object e)
-        {
-            var doc = parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nalert(\"test\")\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>");
-
+            //var doc = parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nalert(TEST)\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>");
+            RenderTree renderTree = new RenderTree(parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nfunction myFunction() {\r\n    var x = document.getElementById(\"myDIV\");\r\n    if (x) {\r\n      x.style.display = \"none\";\r\n    }\r\n}\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>"));
+            //RenderTree renderTree = new RenderTree(parser.Parse(httpClient.GetHtml(e.UrlString)));
+            RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.GetPage());
+            onRender(this,renderEventArgs);
         }
 
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
