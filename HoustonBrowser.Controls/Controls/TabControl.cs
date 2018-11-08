@@ -11,8 +11,10 @@ namespace HoustonBrowser.Controls
     public class TabControl: BrowserControl
     {
         public TabControl(){}
-        public TabControl(bool isDefault)
+        public TabControl(bool isDefault, double left, double top)
         {
+            this.Left=left;
+            this.Top=top;
             if(isDefault)
             {
                 SetDefaultStyles();
