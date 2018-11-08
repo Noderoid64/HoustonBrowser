@@ -27,7 +27,8 @@ namespace HoustonBrowser.Controls
         private void SetDefaultStyles()
         {
             this.BackgroundBrush = new SolidColorBrush(new Color(145, 204, 0, 153));
-            this.Width=this.Height=30;
+            this.Width = 200;
+            this.Height = 60;
             this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,this.Width,this.Height));
             this.TextTypeface=new Typeface("Arial", 10);
             this.ForegroundBrush=new SolidColorBrush(new Color(255,0,0,0));
