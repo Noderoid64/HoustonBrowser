@@ -9,12 +9,16 @@ namespace HoustonBrowser.Controls
 {
     public class Label: BrowserControl
     {
-        public override void Render(DrawingContext context)
+        public Label(){}
+        public Label(bool isDefault)
         {
-            if(this.IsDefault)
+            if(isDefault)
             {
                 SetDefaultStyles();
             }
+        }
+        public override void Render(DrawingContext context)
+        {
             base.Render(context);
         }       
 
