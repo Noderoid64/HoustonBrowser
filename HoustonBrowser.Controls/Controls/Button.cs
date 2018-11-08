@@ -41,6 +41,5 @@ namespace HoustonBrowser.Controls
             this.ForegroundBrush=new SolidColorBrush(new Color(255,0,0,0));
             this.AlignText=TextAlignment.Center;
         }
-
     }
 }

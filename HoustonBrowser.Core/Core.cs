@@ -59,7 +59,7 @@ namespace HoustonBrowser.Core
 
         public void PageLoading(string url)
         {
-            parser.Parse(httpClient.GetHtml(url));
+           // parser.Parse(httpClient.GetHtml(url));
         }
         private void Ui_onPageLoad(object sender, object e)
         {

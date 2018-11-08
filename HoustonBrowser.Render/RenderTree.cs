@@ -19,10 +19,12 @@ namespace HoustonBrowser.Render
 
         public List<BrowserControl> GetPage()
         {
-            return GetPage(document);
+            int left = 0;
+            int top = 0;
+            return GetPage(document, left, top);
         }
 
-        public List<BrowserControl> GetPage(Node node)
+        public List<BrowserControl> GetPage(Node node, int left, int top)
         {
             var listControls = new List<BrowserControl>();
 
@@ -31,16 +33,28 @@ namespace HoustonBrowser.Render
                 case ("button"):
                     var button = new Button();
                     button.Text = "button1";
+                    button.IsDefault = true;
+                    button.Top = 10;
+                    button.Left = 30;
+                    listControls.Add(button);
 
-                    listControls.Add(new Button());
                     break;
                 case ("div"):
-                    var div = new Rectangle();
-                    div.BorderBrush = new SolidColorBrush(new Color(255, 255, 0, 0));
-                    div.Top = 10;
-                    div.Left = 30;
-                    div.Text = node.NodeValue;
-                    listControls.Add(div);
+                    //var div = new Rectangle();
+                    //div.IsDefault = true;
+                    //div.Top = left;
+                    //div.Left = top;
+                    //div.Text = node.NodeValue;
+                    //listControls.Add(div);
+                    //left += 50;
+                    break;
+                case ("#text"):
+                    var label = new Label();
+                    label.IsDefault = true;
+                    label.Top = left;
+                    label.Left = top;
+                    label.Text = node.NodeValue;
+                    listControls.Add(label);
                     break;
                 case ("p"):
                     listControls.Add(new Label());
@@ -51,25 +65,12 @@ namespace HoustonBrowser.Render
             {
                 foreach (Node tmpNode in node.ChildNodes)
                 {
-                    var list = GetPage(tmpNode);
+                    var list = GetPage(tmpNode, left, top);
                     listControls.AddRange(list);
                 }
             }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
             return listControls;
-=======
-<<<<<<< HEAD
-=======
-
-            return listControls;
->>>>>>> process
->>>>>>> process
-=======
-
-            return listControls;
->>>>>>> fix
         }
     }
 }
