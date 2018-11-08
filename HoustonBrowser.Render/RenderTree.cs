@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Avalonia.Media;
 using HoustonBrowser.Controls;
 using HoustonBrowser.DOM;
 using HoustonBrowser.DOM.Core;
@@ -35,6 +36,9 @@ namespace HoustonBrowser.Render
                     break;
                 case ("div"):
                     var div = new Rectangle();
+                    div.BorderBrush = new SolidColorBrush(new Color(255, 255, 0, 0));
+                    div.Top = 10;
+                    div.Left = 30;
                     div.Text = node.NodeValue;
                     listControls.Add(div);
                     break;
