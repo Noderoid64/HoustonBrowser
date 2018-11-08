@@ -9,6 +9,16 @@ namespace HoustonBrowser.Controls
 {
     public class TextBox: BrowserControl
     {
+        public TextBox(){}
+        public TextBox(bool isDefault, double left, double top)
+        {
+            this.Left=left;
+            this.Top=top;
+            if(isDefault)
+            {
+                SetDefaultStyles();
+            }
+        }
          public void Clear()
         {
             
@@ -32,10 +42,6 @@ namespace HoustonBrowser.Controls
 
         public override void Render(DrawingContext context)
         {
-            if(this.IsDefault)
-            {
-                SetDefaultStyles();
-            }
             base.Render(context);
         }       
 

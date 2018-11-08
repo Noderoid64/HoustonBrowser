@@ -37,13 +37,14 @@ namespace HoustonBrowser.Controls
                 context.DrawGeometry(BackgroundBrush, StrokePen, Form);
 
                 if(!String.IsNullOrEmpty(Text))
-                {Point origin = new Point(Left, Top);
+                {
                 FormattedText controlText = new FormattedText();
                 controlText.Text = Text;
                 Size textConstraint = new Size(Width, Height);
                 controlText.Constraint = textConstraint;
                 controlText.Typeface = TextTypeface;
-                controlText.TextAlignment = AlignText;    
+                controlText.TextAlignment = AlignText;  
+                Point origin = new Point(Left, Top+Height/2-controlText.Measure().Height/2);  
 
                 context.DrawText(ForegroundBrush, origin, controlText);
                 }

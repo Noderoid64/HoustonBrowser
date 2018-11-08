@@ -9,14 +9,18 @@ namespace HoustonBrowser.Controls
 {
     public class Button: BrowserControl
     {
-        public override void Render(DrawingContext context)
+        public Button(){}
+        public Button(bool isDefault, double left, double top)
         {
-            if(this.IsDefault)
-
+            this.Left=left;
+            this.Top=top;
+            if(isDefault)
             {
                 SetDefaultStyles();
             }
-
+        }
+        public override void Render(DrawingContext context)
+        {
             if(this.IsPressed)
             {
                 IBrush borderBrush = new SolidColorBrush(new Color(145, 13, 13, 13));
