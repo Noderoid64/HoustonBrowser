@@ -52,6 +52,8 @@ namespace HoustonBrowser.Render
                     listControls.AddRange(list);
                 }
             }
+
+            return listControls;
         }
     }
 }
