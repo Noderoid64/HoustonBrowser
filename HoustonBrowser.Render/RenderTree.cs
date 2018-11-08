@@ -40,13 +40,13 @@ namespace HoustonBrowser.Render
 
                     break;
                 case ("div"):
-                    //var div = new Rectangle();
-                    //div.IsDefault = true;
-                    //div.Top = left;
-                    //div.Left = top;
-                    //div.Text = node.NodeValue;
-                    //listControls.Add(div);
-                    //left += 50;
+                    var div = new Rectangle();
+                    div.IsDefault = true;
+                    div.Top = left;
+                    div.Left = top;
+                    div.Text = node.NodeValue;
+                    listControls.Add(div);
+                    left += 50;
                     break;
                 case ("#text"):
                     var label = new Label();
