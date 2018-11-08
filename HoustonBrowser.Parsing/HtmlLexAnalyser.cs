@@ -30,66 +30,69 @@ namespace HoustonBrowser.Parsing
 
         public Token Tokenize()
         {
-            document = document.Replace('\n', ' ');
-            document = document.Replace('\r', ' ');
-            document = document.Replace("  ", " ");
-            Token token;
-            for (; currentSymbol < document.Length; currentSymbol++)
+            if (document != null)
             {
-                switch (currentState)
+                document = document.Replace('\n', ' ');
+                document = document.Replace('\r', ' ');
+                document = document.Replace('\t', ' ');
+                document = document.Replace("  ", " ");
+                Token token;
+                for (; currentSymbol < document.Length; currentSymbol++)
                 {
-                    case (int)TokenStates.Data:
-                        {
-                            switch (document[currentSymbol])
+                    switch (currentState)
+                    {
+                        case (int)TokenStates.Data:
                             {
-                                case '<':
-                                    {
-                                        currentState = (int)TokenStates.TagOpen;
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        if ((int)InsertionModes.InBody == insertionState)
+                                switch (document[currentSymbol])
+                                {
+                                    case '<':
                                         {
-                                            currentState = (int)TokenStates.Text;
+                                            currentState = (int)TokenStates.TagOpen;
+                                            break;
                                         }
-                                        break;
-                                    }
+                                    default:
+                                        {
+                                            if ((int)InsertionModes.InBody == insertionState)
+                                            {
+                                                currentState = (int)TokenStates.Text;
+                                            }
+                                            break;
+                                        }
+                                }
+                                break;
                             }
-                            break;
-                        }
-                    case (int)TokenStates.TagOpen:
-                        {
-                            isTagOpen = true;
-                            switch (document[currentSymbol])
+                        case (int)TokenStates.TagOpen:
                             {
-                                case '/':
-                                    {
-                                        currentState = (int)TokenStates.EndTagOpen;
-                                        break;
-                                    }
-                                case '!':
-                                    {
-                                        currentState = (int)TokenStates.DoctypeName;
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        currentState = (int)TokenStates.TagName;
-                                        cache = "";
-                                        cache += document[currentSymbol];
-                                        break;
-                                    }
+                                isTagOpen = true;
+                                switch (document[currentSymbol])
+                                {
+                                    case '/':
+                                        {
+                                            currentState = (int)TokenStates.EndTagOpen;
+                                            break;
+                                        }
+                                    case '!':
+                                        {
+                                            currentState = (int)TokenStates.DoctypeName;
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            currentState = (int)TokenStates.TagName;
+                                            cache = "";
+                                            cache += document[currentSymbol];
+                                            break;
+                                        }
+                                }
+                                break;
                             }
-                            break;
-                        }
-                    case (int)TokenStates.TagName:
-                        {
-                            
-                            switch (document[currentSymbol])
+                        case (int)TokenStates.TagName:
                             {
-                                case ' ':
-                                    {
+
+                                switch (document[currentSymbol])
+                                {
+                                    case ' ':
+                                        {
                                             currentState = (int)TokenStates.Attributes;
                                             if (isTagOpen)
                                             {
@@ -101,107 +104,112 @@ namespace HoustonBrowser.Parsing
                                             }
                                             cache = "";
                                             return token;
-                                    }
-                                case '>':
-                                    {
-                                        currentState = (int)TokenStates.Data;
-                                        if (isTagOpen)
-                                        {
-                                            token = new Token((int)TokenType.NameOfTag, cache);
                                         }
-                                        else
+                                    case '>':
                                         {
-                                            token = new Token((int)TokenType.NameOfTagClosing, cache);
-                                        }
-                                        cache = "";
-                                        return token;
-                                    }
-                                default:
-                                    {
-                                        cache += document[currentSymbol];
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case (int)TokenStates.DoctypeName:
-                        {
-                            switch (document[currentSymbol])
-                            {
-                                case '>':
-                                    {
-                                        currentState = (int)TokenStates.Data;
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case (int)TokenStates.EndTagOpen:
-                        {
-                            isTagOpen = false;
-                            switch (document[currentSymbol])
-                            {
-                                default:
-                                    {
-                                        cache += document[currentSymbol];
-                                        currentState = (int)TokenStates.TagName;
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case (int)TokenStates.Text:
-                        {
-                            switch (document[currentSymbol])
-                            {
-                                case '<':
-                                    {
-                                        currentState = (int)TokenStates.TagOpen;
-                                        if (TokenCheck(cache))
-                                        {
-                                            token = new Token((int)TokenType.Text, cache);
+                                            currentState = (int)TokenStates.Data;
+                                            if (isTagOpen)
+                                            {
+                                                token = new Token((int)TokenType.NameOfTag, cache);
+                                            }
+                                            else
+                                            {
+                                                token = new Token((int)TokenType.NameOfTagClosing, cache);
+                                            }
                                             cache = "";
-                                            currentSymbol++;
                                             return token;
                                         }
-                                        cache = "";
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        cache += document[currentSymbol];
-                                        break;
-                                    }
-                            }
-                            break;
-                        }
-                    case (int)TokenStates.Attributes:
-                        {
-                            switch (document[currentSymbol])
-                            {
-                                case '>':
-                                    {
-                                        currentState = (int)TokenStates.Data;
-                                        if (currentSymbol + 1 < document.Length&&document[currentSymbol + 1] != '<')
+                                    default:
                                         {
-                                            cache += document[currentSymbol + 1];
+                                            cache += document[currentSymbol];
+                                            break;
                                         }
-                                        break;
-                                    }
-                                default:
-                                    {
-                                        break;
-                                    }
+                                }
+                                break;
                             }
-                            break;
-                        }
+                        case (int)TokenStates.DoctypeName:
+                            {
+                                switch (document[currentSymbol])
+                                {
+                                    case '>':
+                                        {
+                                            currentState = (int)TokenStates.Data;
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case (int)TokenStates.EndTagOpen:
+                            {
+                                isTagOpen = false;
+                                switch (document[currentSymbol])
+                                {
+                                    default:
+                                        {
+                                            cache += document[currentSymbol];
+                                            currentState = (int)TokenStates.TagName;
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case (int)TokenStates.Text:
+                            {
+                                switch (document[currentSymbol])
+                                {
+                                    case '<':
+                                        {
+                                            currentState = (int)TokenStates.TagOpen;
+                                            if (TokenCheck(cache))
+                                            {
+                                                token = new Token((int)TokenType.Text, cache);
+                                                cache = "";
+                                                currentSymbol++;
+                                                return token;
+                                            }
+                                            cache = "";
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            cache += document[currentSymbol];
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                        case (int)TokenStates.Attributes:
+                            {
+                                switch (document[currentSymbol])
+                                {
+                                    case '>':
+                                        {
+                                            currentState = (int)TokenStates.Data;
+                                            if (currentSymbol + 1 < document.Length && document[currentSymbol + 1] != '<')
+                                            {
+                                                cache += document[currentSymbol + 1];
+                                            }
+                                            break;
+                                        }
+                                    default:
+                                        {
+                                            break;
+                                        }
+                                }
+                                break;
+                            }
+                    }
                 }
+                return token = new Token((int)TokenType.EOF, "");
             }
-            return token = new Token((int)TokenType.EOF, "");
+            return new Token((int)TokenType.EOF, "");
+
+
+
         }
         private bool TokenCheck(string line)
         {
