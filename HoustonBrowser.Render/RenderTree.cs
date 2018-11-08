@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using HoustonBrowser.Controls;
 using HoustonBrowser.DOM;
 using HoustonBrowser.DOM.Core;
-<<<<<<< HEAD
-
-=======
->>>>>>> process
 
 
 namespace HoustonBrowser.Render
@@ -56,6 +52,7 @@ namespace HoustonBrowser.Render
                 }
             }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             return listControls;
 =======
@@ -65,6 +62,10 @@ namespace HoustonBrowser.Render
             return listControls;
 >>>>>>> process
 >>>>>>> process
+=======
+
+            return listControls;
+>>>>>>> fix
         }
     }
 }
