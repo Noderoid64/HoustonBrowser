@@ -19,41 +19,35 @@ namespace HoustonBrowser.Render
 
         public List<BrowserControl> GetPage()
         {
-            int left = 0;
-            int top = 0;
+            double left = 0;
+            double top = 0;
             return GetPage(document, left, top);
         }
 
-        public List<BrowserControl> GetPage(Node node, int left, int top)
+        public List<BrowserControl> GetPage(Node node, double left, double top)
         {
             var listControls = new List<BrowserControl>();
 
             switch (node.NodeName)
             {
                 case ("button"):
-                    var button = new Button();
-                    button.Text = "button1";
-                    button.IsDefault = true;
-                    button.Top = 10;
-                    button.Left = 30;
+                    var button = new Button(true, left, top);
+                    button.Text = node.NodeValue;
+                    left += button.Width;
                     listControls.Add(button);
 
                     break;
                 case ("div"):
-                    var div = new Rectangle();
-                    div.IsDefault = true;
-                    div.Top = left;
-                    div.Left = top;
-                    div.Text = node.NodeValue;
+                    top += 30;
+                    var div = new Rectangle(true, left, top);
                     listControls.Add(div);
-                    left += 50;
+                    top += div.Height / 3.5;
+                    left = 0;
                     break;
                 case ("#text"):
-                    var label = new Label();
-                    label.IsDefault = true;
-                    label.Top = left;
-                    label.Left = top;
+                    var label = new Label(true, left, top);
                     label.Text = node.NodeValue;
+                    left += label.Width;
                     listControls.Add(label);
                     break;
                 case ("p"):
