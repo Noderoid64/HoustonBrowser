@@ -10,8 +10,10 @@ namespace HoustonBrowser.Controls
     public class Button: BrowserControl
     {
         public Button(){}
-        public Button(bool isDefault)
+        public Button(bool isDefault, double left, double top)
         {
+            this.Left=left;
+            this.Top=top;
             if(isDefault)
             {
                 SetDefaultStyles();
