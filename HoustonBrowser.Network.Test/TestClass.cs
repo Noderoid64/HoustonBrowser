@@ -28,6 +28,7 @@ namespace HoustonBrowser.HttpModule.Test
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             string real = client.GetHtml("http://www.netside.net/boba/webmasters.html");
 =======
             string real = client.GET("http://www.netside.net/boba/webmasters.html");
@@ -35,6 +36,9 @@ namespace HoustonBrowser.HttpModule.Test
 =======
             string real = client.GetHtml("http://www.netside.net/boba/webmasters.html");
 >>>>>>> [Fix] httpPageLoader
+=======
+            string real = client.GetHtml("127.0.0.1");
+>>>>>>> Packet size fix
 =======
             string real = client.GetHtml("127.0.0.1");
 >>>>>>> Packet size fix
