@@ -25,7 +25,7 @@ namespace HoustonBrowser.HttpModule
                 byte[] data = Encoding.GetEncoding("ISO-8859-1").GetBytes(message);
                 stream.Write(data, 0, data.Length);
 
-                data = new byte[1024]; // буфер для получаемых данных
+                data = new byte[4096]; // буфер для получаемых данных
                 StringBuilder builder = new StringBuilder();
                 int bytes = 0;
                 do
