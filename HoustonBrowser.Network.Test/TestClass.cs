@@ -16,7 +16,7 @@ namespace HoustonBrowser.HttpModule.Test
         public void TestVoid(){
             IHttpClient client = new HttpClient();
 
-            string real = client.GetHtml("http://www.netside.net/boba/webmasters.html");
+            string real = client.GetHtml("127.0.0.1");
 
             Assert.NotEmpty(real);
         }
