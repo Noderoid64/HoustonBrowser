@@ -23,8 +23,24 @@ namespace HoustonBrowser.Controls
             public IBrush ForegroundBrush {get;set;}
             public Typeface TextTypeface {get;set;}
             public TextAlignment AlignText {get;set;}
+            public TextWrapping WrapText {get;set;}
             public bool IsDefault {get;set;}
             public bool IsPressed {get;set;}
+
+            private FormattedText _formattedText;
+            
+            public FormattedText FormattedText
+            {
+                get
+            {
+                if (_formattedText == null)
+                {
+                    _formattedText = CreateFormattedText();
+                }
+
+                return _formattedText;
+            }
+            }
 
             public event EventHandler<KeyEventArgs> KeyDown;
             public event EventHandler<PointerPressedEventArgs> PointerPressed;
@@ -38,16 +54,21 @@ namespace HoustonBrowser.Controls
 
                 if(!String.IsNullOrEmpty(Text))
                 {
-                FormattedText controlText = new FormattedText();
-                controlText.Text = Text;
-                Size textConstraint = new Size(Width, Height);
-                controlText.Constraint = textConstraint;
-                controlText.Typeface = TextTypeface;
-                controlText.TextAlignment = AlignText;  
-                Point origin = new Point(Left, Top+Height/2-controlText.Measure().Height/2);  
-
-                context.DrawText(ForegroundBrush, origin, controlText);
+                    Point origin = new Point(Left, Top+Height/2-this.FormattedText.Measure().Height/2);  
+                    context.DrawText(ForegroundBrush, origin, this.FormattedText);
                 }
+            }
+
+            private FormattedText CreateFormattedText()
+            {
+                return new FormattedText
+            {
+                Constraint = new Size(Width, Height),
+                Typeface = TextTypeface,
+                Text = this.Text ?? string.Empty,
+                TextAlignment = AlignText,
+                Wrapping = WrapText
+            };
             }
 
             public virtual void OnKeyDown(object sender,KeyEventArgs e)
