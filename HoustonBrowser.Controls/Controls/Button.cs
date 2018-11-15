@@ -8,19 +8,14 @@ using Avalonia.Media;
 namespace HoustonBrowser.Controls
 {
     public class Button: BrowserControl
-    {
-        public Button(){}
-        public Button(bool isDefault)
-        {
-            if(isDefault)
-            {
-                SetDefaultStyles();
-            }
-        }
+    {   
+        public override IBrush BackgroundBrush {get;set;} = new SolidColorBrush(new Color(255,220,66,0));
         public override void Render(DrawingContext context)
         {
-            
-            this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,this.Width,this.Height));
+            if(this.Form==null)
+            {
+                this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,this.Width,this.Height));
+            }
             if(this.IsPressed)
             {
                 IBrush borderBrush = new SolidColorBrush(new Color(145, 13, 13, 13));
@@ -32,14 +27,5 @@ namespace HoustonBrowser.Controls
             base.Render(context);
         }       
 
-        private void SetDefaultStyles()
-        {
-            this.BackgroundBrush = new SolidColorBrush(new Color(145,220,66,0));
-            this.Width = 60;
-            this.Height=30;
-            this.TextTypeface=new Typeface("Arial", 10);
-            this.ForegroundBrush=new SolidColorBrush(new Color(255,0,0,0));
-            this.AlignText=TextAlignment.Center;
-        }
     }
 }

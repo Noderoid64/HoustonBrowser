@@ -9,14 +9,7 @@ namespace HoustonBrowser.Controls
 {
     public class TextBox: BrowserControl
     {
-        public TextBox(){}
-        public TextBox(bool isDefault)
-        {
-            if(isDefault)
-            {
-                SetDefaultStyles();
-            }
-        }
+        public override IBrush BackgroundBrush {get;set;} = new SolidColorBrush(new Color(0,203,218,41));
          public void Clear()
         {
             
@@ -39,19 +32,13 @@ namespace HoustonBrowser.Controls
         } 
 
         public override void Render(DrawingContext context)
-        {            
-            this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,this.Width,this.Height));
+        {     
+            if(this.Form==null)   
+            {    
+                this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,this.Width,this.Height));
+            }
             base.Render(context);
         }       
 
-        private void SetDefaultStyles()
-        {
-            this.BackgroundBrush = new SolidColorBrush(new Color(145, 203,218,41));
-            this.Width=this.Height=30;
-            this.TextTypeface=new Typeface("Arial", 10);
-            this.ForegroundBrush=new SolidColorBrush(new Color(255,0,0,0));
-            this.AlignText=TextAlignment.Center;
-
-        }
     }
 }
