@@ -10,14 +10,7 @@ namespace HoustonBrowser.Controls
 {
     public class TabControl: BrowserControl
     {
-        public TabControl(){}
-        public TabControl(bool isDefault)
-        {
-            if(isDefault)
-            {
-                SetDefaultStyles();
-            }
-        }
+       public override IBrush BackgroundBrush {get;set;} = new SolidColorBrush(new Color(0,10,220,224));
        public List<Panel> TabPages{get;set;}
        public void SelectTab()
        {
@@ -31,19 +24,12 @@ namespace HoustonBrowser.Controls
 
        public override void Render(DrawingContext context)
         {
-            this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,this.Width,this.Height));
+            if(this.Form==null)
+            {
+                this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,this.Width,this.Height));
+            }
             base.Render(context);
         }       
-
-        private void SetDefaultStyles()
-        {
-            this.BackgroundBrush = new SolidColorBrush(new Color(145,10,220,224));
-            this.Width=this.Height=30;
-            this.TextTypeface=new Typeface("Arial", 10);
-            this.ForegroundBrush=new SolidColorBrush(new Color(255,0,0,0));
-            this.AlignText=TextAlignment.Center;
-
-        }
        
     }
 }

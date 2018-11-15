@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Interactivity;
@@ -10,36 +11,102 @@ namespace HoustonBrowser.Controls
     {
             public string Name{get;set;}
             public Geometry Form {get; set;}
-            public IBrush BackgroundBrush {get;set;}
+            public virtual IBrush BackgroundBrush {get;set;} 
             public Pen StrokePen {get;set;}
             public IBrush BorderBrush {get;set;}
             public double BorderThickness {get;set;}
             public bool IsEnabled {get;set;}
             public double Left{get;set;}
             public double Top{get;set;}
-            public double Height {get;set;}
-            public double Width {get;set;}
+            public double Height 
+            {
+                get
+                {
+                    if(_height==0)
+                    {
+                        if(!String.IsNullOrEmpty(Text))
+                        {
+                            _height=FormattedText.Measure().Height;
+                        }
+                        else 
+                        {
+                            _height=30;
+                        }
+                    }
+                    return _height;
+                }
+                set
+                {
+                    _height=value;
+                }
+            }
+            public double Width 
+            {
+                get
+                {
+                    if(_width==0)
+                    {
+                        if(!String.IsNullOrEmpty(Text))
+                        {
+                            var textWidth = FormattedText.Measure().Width;
+                            if(textWidth>=920)
+                            {
+                                _width=920;
+                                WrapText=TextWrapping.Wrap;
+                            }
+                            else
+                            {
+                                _width = textWidth;
+                            }
+                        }
+                        else 
+                        {
+                            _width=60;
+                        }
+                    }
+                    return _width;
+                }
+                set
+                {
+                    _width=value;
+                }
+            }
             public string Text {get;set;}
-            public IBrush ForegroundBrush {get;set;}
-            public Typeface TextTypeface {get;set;}
-            public TextAlignment AlignText {get;set;}
-            public TextWrapping WrapText {get;set;}
+            public IBrush ForegroundBrush {get;set;} = new SolidColorBrush(new Color(255,0,0,0));
+            public Typeface TextTypeface {get;set;} = new Typeface("Arial", 10);
+            public TextAlignment AlignText {get;set;} = TextAlignment.Left;
+            public TextWrapping WrapText {get;set;} = TextWrapping.NoWrap;
             public bool IsDefault {get;set;}
             public bool IsPressed {get;set;}
 
             private FormattedText _formattedText;
+            private Size _constraint;
+            private double _width;
+            private double _height;
+
+            private Size Constraint 
+            {
+                get 
+                {
+                    if(_width!=0 && _height!=0 && WrapText==TextWrapping.Wrap)
+                    {
+                        _constraint=new Size(_width, _height);
+                    }
+                    else
+                    {
+                        _constraint=Size.Infinity;
+                    }
+                    return _constraint;
+                }
+            }
             
             public FormattedText FormattedText
             {
                 get
-            {
-                if (_formattedText == null)
                 {
                     _formattedText = CreateFormattedText();
+                    return _formattedText;
                 }
-
-                return _formattedText;
-            }
             }
 
             public event EventHandler<KeyEventArgs> KeyDown;
@@ -63,7 +130,7 @@ namespace HoustonBrowser.Controls
             {
                 return new FormattedText
             {
-                Constraint = new Size(Width, Height),
+                Constraint = Constraint,
                 Typeface = TextTypeface,
                 Text = this.Text ?? string.Empty,
                 TextAlignment = AlignText,
@@ -71,7 +138,7 @@ namespace HoustonBrowser.Controls
             };
             }
 
-            public virtual void OnKeyDown(object sender,KeyEventArgs e)
+             public virtual void OnKeyDown(object sender,KeyEventArgs e)
             {
                 KeyDown?.Invoke(sender, e);
             }
