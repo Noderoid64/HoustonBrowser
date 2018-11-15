@@ -72,7 +72,7 @@ namespace HoustonBrowser.Core
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
         {
             string s = httpClient.GetStatus() + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
-            onRender(this, new RenderEventArgs(s));
+            onRender(this, new RenderEventArgs(null));
 
         }
 
@@ -80,13 +80,13 @@ namespace HoustonBrowser.Core
         {
 
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
-            onRender(this, new RenderEventArgs(s));
+            onRender(this, new RenderEventArgs(null));
         }
 
         private void Button_onMouseClick(object sender, RoutedEventArgs e)
         {
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
-            onRender(this, new RenderEventArgs(s));
+            onRender(this, new RenderEventArgs(null));
 
         }
     }

@@ -14,9 +14,9 @@ namespace HoustonBrowser.HttpModule.Test
         //houstonbrowsertest.ddns.net
         [Fact]
         public void TestVoid(){
-            IHttpClient client = new HttpClient();
+            IHttpClient client = new HttpsClient();
 
-            string real = client.GetHtml("127.0.0.1");
+            string real = client.GetHtml("http://www.tim.org/");
 
             Assert.NotEmpty(real);
         }
