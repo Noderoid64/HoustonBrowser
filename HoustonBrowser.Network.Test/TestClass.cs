@@ -23,8 +23,9 @@ namespace HoustonBrowser.HttpModule.Test
 >>>>>>> [Fix] httpPageLoader
         [Fact]
         public void TestVoid(){
-            IHttpClient client = new HttpClient();
+            IHttpClient client = new HttpsClient();
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -42,6 +43,9 @@ namespace HoustonBrowser.HttpModule.Test
 =======
             string real = client.GetHtml("127.0.0.1");
 >>>>>>> Packet size fix
+=======
+            string real = client.GetHtml("http://www.tim.org/");
+>>>>>>> [update] add https
 
             Assert.NotEmpty(real);
         }
