@@ -34,7 +34,11 @@ namespace HoustonBrowser.Core
         {
             this.ui = ui;
 
+<<<<<<< HEAD
             this.httpClient = new MockNetworkClient();
+=======
+            this.httpClient = new MockINetworkClient();
+>>>>>>> 7a34a0e78efe99d80552a82023537609bf6bd8d8
             this.parser = new Parser();
 
             this.control=new BrowserControl();
@@ -71,22 +75,29 @@ namespace HoustonBrowser.Core
 
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
         {
-            string s = httpClient.GetStatus() + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
-            //onRender(this, new RenderEventArgs(s));
+            string s = httpClient.GetStatus() + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
+            onRender(this, new RenderEventArgs(null));
+
         }
 
         private void Ui_onKeyDown(object sender, KeyEventArgs e)
         {
 
-            string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
-            //onRender(this, new RenderEventArgs(s));
+            string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
+            onRender(this, new RenderEventArgs(null));
         }
 
         private void Button_onMouseClick(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
 
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             //onRender(this, new RenderEventArgs(s));
+=======
+            string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
+            onRender(this, new RenderEventArgs(null));
+
+>>>>>>> 7a34a0e78efe99d80552a82023537609bf6bd8d8
         }
     }
 }
