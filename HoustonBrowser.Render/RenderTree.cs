@@ -3,11 +3,25 @@ using System.Collections.Generic;
 using Avalonia.Media;
 using HoustonBrowser.Controls;
 using HoustonBrowser.DOM;
-using HoustonBrowser.DOM;
 
 
 namespace HoustonBrowser.Render
 {
+    public enum TypeOfNode
+    {
+        ELEMENT_NODE = 1,
+        ATTRIBUTE_NODE,
+        TEXT_NODE,
+        CDATA_SECTION_NODE,
+        ENTITY_REFERENCE_NODE,
+        ENTITY_NODE,
+        PROCESSING_INSTRUCTION_NODE,
+        COMMENT_NODE,
+        DOCUMENT_NODE,
+        DOCUMENT_TYPE_NODE,
+        DOCUMENT_FRAGMENT_NODE,
+        NOTATION_NODE
+    }
     public class RenderTree
     {
         private Document document;
@@ -28,33 +42,6 @@ namespace HoustonBrowser.Render
         {
             var listControls = new List<BrowserControl>();
 
-            switch (node.NodeName)
-            {
-                case ("button"):
-                    var button = new Button();
-                    button.Text = node.NodeValue;
-                    left += button.Width;
-                    listControls.Add(button);
-
-                    break;
-                case ("div"):
-                    top += 30;
-                    var div = new Rectangle();
-                    listControls.Add(div);
-                    top += div.Height / 3.5;
-                    left = 0;
-                    break;
-                case ("#text"):
-                    var label = new Label();
-                    label.Text = node.NodeValue;
-                    left += label.Width;
-                    listControls.Add(label);
-                    break;
-                case ("p"):
-                    listControls.Add(new Label());
-                    break;
-            }
-
             if (node.ChildNodes.Count != 0)
             {
                 foreach (Node tmpNode in node.ChildNodes)
@@ -62,6 +49,17 @@ namespace HoustonBrowser.Render
                     var list = GetPage(tmpNode, left, top);
                     listControls.AddRange(list);
                 }
+            }
+
+            switch (node.NodeType)
+            {
+                case ((int)TypeOfNode.ATTRIBUTE_NODE):
+                break;
+                case ((int)TypeOfNode.TEXT_NODE):
+                break;
+                case ((int)TypeOfNode.ELEMENT_NODE):
+                break;
+
             }
 
             return listControls;

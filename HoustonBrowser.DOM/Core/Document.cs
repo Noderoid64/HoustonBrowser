@@ -54,7 +54,7 @@ namespace HoustonBrowser.DOM
 
             foreach(var node in ChildNodes)
             {
-                if(node.NodeType == TypeOfNode.ELEMENT_NODE)
+                if(node.NodeType == (int)TypeOfNode.ELEMENT_NODE)
                     if(node.NodeName == name || name == "*")
                         list.Add(node);
             }

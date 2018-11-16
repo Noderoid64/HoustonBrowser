@@ -2,7 +2,6 @@
 using HoustonBrowser.DOM;
 using System.Collections.Generic;
 using HoustonBrowser.Parsing.Enums;
-using HoustonBrowser.DOM;
 
 namespace HoustonBrowser.Parsing
 {
@@ -62,7 +61,7 @@ namespace HoustonBrowser.Parsing
             List<int> StackOfTemplateInsertModesUsed = new List<int>();
             List<Node> listOfOpenTags = new List<Node>();
             List<Token> tokens = new List<Token>();
-            Document doc = new Document();
+            HTMLDocument doc = new HTMLDocument();
             HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
 
             bool last = false;
@@ -90,14 +89,11 @@ namespace HoustonBrowser.Parsing
                                             case "html":
                                                 {                                                    
                                                     doc = new HTMLDocument();                                                    
-                                                    var item = new Element("html");
-                                                    doc.AppendChild(item);
-                                                    nodes.Push(item);
                                                     break;
                                                 }
                                             case "head":
                                                 {
-                                                    var item = new Element("head");
+                                                    var item = new HTMLHeadElement();
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
@@ -134,28 +130,28 @@ namespace HoustonBrowser.Parsing
                                         {
                                             case "p":
                                                 {
-                                                    var item = new Element("p");
+                                                    var item = new HTMLParagraphElement();
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "script":
                                                 {
-                                                    var item = new Element("script");
+                                                    var item = new HTMLScriptElement();
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "div":
                                                 {
-                                                    var item = new Element("div");
+                                                    var item = new HTMLDivElement();
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "button":
                                                 {
-                                                    var item = new Element("button");
+                                                    var item = new HTMLButtonElement();
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
