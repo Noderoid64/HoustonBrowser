@@ -4,18 +4,17 @@ using HoustonBrowser.HttpModule.Senders;
 
 namespace HoustonBrowser.HttpModule.Test
 {
-    public class HttpSenderTest
+    public class HttpsSenderTest
     {
         [Theory]
-        [InlineData("http://www.netside.net", "206.156.132.2")]
-        [InlineData("msdn.microsoft.com", "104.111.245.160")]
+        [InlineData("habr.com", "178.248.237.68")]
         public void GetIpByHostname(string hostName, string expected)
         {
-             ISender sender = new HttpSender();
+             ISender sender = new HttpsSender();
 
              string real = sender.GetIp(hostName);
 
-             Assert.Equal(real, expected);
+              Assert.Equal(real, expected);
         }
     }
 }

@@ -7,18 +7,19 @@ using System.Net;
 using System.Net.Security;
 
 
-namespace HoustonBrowser.HttpModule
+namespace HoustonBrowser.HttpModule.Senders
 {
-    internal class HttpsSender
+    internal class HttpsSender : ISender
     {
         private const int port = 443;
         TcpClient client;
 
-        public string SendHttp(string host, string message)
+        public string Send(string host, string message)
         {
             try
             {
-                client = new TcpClient(getIpByHostname(host), port);
+                string hoster = GetIp(host);
+                client = new TcpClient(GetIp(host), port);
                 using (SslStream sslStream = new SslStream(client.GetStream()))
                 {
                     sslStream.AuthenticateAsClient(host);
@@ -55,7 +56,7 @@ namespace HoustonBrowser.HttpModule
             return null;
         }
 
-        public string getIpByHostname(string hostname)
+        public string GetIp(string hostname)
         {
             if (hostname.StartsWith("https://"))
                 hostname = hostname.Replace("https://", "");

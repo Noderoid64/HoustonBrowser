@@ -1,12 +1,7 @@
 namespace HoustonBrowser.HttpModule{
-    public class MockHttpClient : IHttpClient
+    public class MockNetworkClient : INetworkClient
     {
-        public string GetCss(string host)
-        {
-            return "Css";
-        }
-
-        public string GetHtml(string host)
+        public string Get(string host)
         {
             return "Html";
         }
