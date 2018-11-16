@@ -49,9 +49,9 @@ namespace HoustonBrowser.Controls
                         if(!String.IsNullOrEmpty(Text))
                         {
                             var textWidth = FormattedText.Measure().Width;
-                            if(textWidth>=920)
+                            if(textWidth>=920-Left)
                             {
-                                _width=920;
+                                _width=920-Left;
                                 WrapText=TextWrapping.Wrap;
                             }
                             else
