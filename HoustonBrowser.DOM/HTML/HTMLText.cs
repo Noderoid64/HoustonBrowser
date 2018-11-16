@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using HoustonBrowser.DOM.Core;
+using HoustonBrowser.DOM;
 
-namespace HoustonBrowser.DOM.HTML
+namespace HoustonBrowser.DOM
 {
     class HTMLText: Text
     {

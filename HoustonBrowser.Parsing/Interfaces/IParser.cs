@@ -1,4 +1,4 @@
-using HoustonBrowser.DOM.Core;
+using HoustonBrowser.DOM;
 using System;
 
 namespace HoustonBrowser.Parsing

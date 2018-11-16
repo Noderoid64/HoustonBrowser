@@ -8,7 +8,7 @@ using Avalonia.Interactivity;
 using HoustonBrowser.Controls;
 using HoustonBrowser.JS;
 using HoustonBrowser.DOM;
-using HoustonBrowser.DOM.HTML;
+using HoustonBrowser.DOM;
 using HoustonBrowser.Parsing;
 using HoustonBrowser.Render;
 

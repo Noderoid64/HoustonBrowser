@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HoustonBrowser.DOM.Core.Interface
+namespace HoustonBrowser.DOM.Interface
 {
     public interface IDocument : INode
     {

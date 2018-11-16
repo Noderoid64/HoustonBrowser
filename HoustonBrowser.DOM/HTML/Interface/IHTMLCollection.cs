@@ -1,6 +1,6 @@
-using HoustonBrowser.DOM.Core;
+using HoustonBrowser.DOM;
 
-namespace HoustonBrowser.DOM.HTML
+namespace HoustonBrowser.DOM
 {
     interface IHTMLCollection
     {

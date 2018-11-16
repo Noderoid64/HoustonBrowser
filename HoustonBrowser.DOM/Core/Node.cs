@@ -1,9 +1,9 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using HoustonBrowser.DOM.Core.Interface;
+using HoustonBrowser.DOM.Interface;
 
-namespace HoustonBrowser.DOM.Core
+namespace HoustonBrowser.DOM
 {
     public class Node : INode
     {

@@ -1,7 +1,7 @@
 using System;
-using HoustonBrowser.DOM.Core.Interface;
+using HoustonBrowser.DOM.Interface;
 
-namespace HoustonBrowser.DOM.Core
+namespace HoustonBrowser.DOM
 {
     public class CDATASection : Text
     {

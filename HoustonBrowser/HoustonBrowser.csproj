@@ -18,5 +18,8 @@
   <ItemGroup>
     <ProjectReference Include="..\HoustonBrowser.Core\HoustonBrowser.Core.csproj" />
     <ProjectReference Include="..\HoustonBrowser.JS\HoustonBrowser.JS.csproj" />
+    <ProjectReference Include="..\HoustonBrowser.Network\HoustonBrowser.Network.csproj" />
+    <ProjectReference Include="..\HoustonBrowser.Parsing\HoustonBrowser.Parsing.csproj" />
+    <ProjectReference Include="..\HoustonBrowser.Render\HoustonBrowser.Render.csproj" />
   </ItemGroup>
 </Project>

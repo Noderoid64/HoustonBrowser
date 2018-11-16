@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using HoustonBrowser.DOM.Core;
-using HoustonBrowser.DOM.Core.Interface;
+using HoustonBrowser.DOM;
+using HoustonBrowser.DOM.Interface;
 
 namespace HoustonBrowser.DOM
 {
