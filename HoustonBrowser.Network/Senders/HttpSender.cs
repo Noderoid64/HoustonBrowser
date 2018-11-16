@@ -6,19 +6,19 @@ using System.Net.Sockets;
 using System.Net;
 
 
-namespace HoustonBrowser.HttpModule
+namespace HoustonBrowser.HttpModule.Senders
 {
-    internal class HttpSender
+    internal class HttpSender : ISender
     {
         private const int port = 80;
         TcpClient client;
 
-        public string SendHttp(string host, string message)
+        public string Send(string host, string message)
         {
             try
             {
 
-                client = new TcpClient(getIpByHostname(host), port);
+                client = new TcpClient(GetIp(host), port);
 
                 NetworkStream stream = client.GetStream();
 
@@ -51,7 +51,7 @@ namespace HoustonBrowser.HttpModule
             return null;
         }
 
-        public string getIpByHostname(string hostname)
+        public string GetIp(string hostname)
         {
             if(hostname.StartsWith("http://"))
             hostname = hostname.Replace("http://","");

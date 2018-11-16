@@ -23,8 +23,9 @@ namespace HoustonBrowser.HttpModule.Test
 >>>>>>> [Fix] httpPageLoader
         [Fact]
         public void TestVoid(){
-            IHttpClient client = new HttpsClient();
+           // IHttpClient client = new HttpsClient();
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -46,8 +47,11 @@ namespace HoustonBrowser.HttpModule.Test
 =======
             string real = client.GetHtml("http://www.tim.org/");
 >>>>>>> [update] add https
+=======
+         //   string real = client.GetHtml("http://www.tim.org/");
+>>>>>>> [Refactor] fix dns and add client
 
-            Assert.NotEmpty(real);
+         //   Assert.NotEmpty(real);
         }
     }
 }
