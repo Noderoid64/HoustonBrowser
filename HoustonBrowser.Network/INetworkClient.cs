@@ -1,6 +1,6 @@
-//Делают сборку дружественной (перемещенно в AssemblyInfo)
-//using System.Runtime.CompilerServices;
-//[assembly: InternalsVisibleTo("HoustonBrowser.Network.Test")]
+
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("HoustonBrowser.Network.Test")]
 
 namespace HoustonBrowser.HttpModule{
     public interface INetworkClient

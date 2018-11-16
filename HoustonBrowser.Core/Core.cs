@@ -34,7 +34,7 @@ namespace HoustonBrowser.Core
         {
             this.ui = ui;
 
-            this.httpClient = new MockINetworkClient();
+            this.httpClient = new MockNetworkClient();
             this.parser = new Parser();
 
             this.control=new BrowserControl();
@@ -71,50 +71,22 @@ namespace HoustonBrowser.Core
 
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
         {
-<<<<<<< HEAD
             string s = httpClient.GetStatus() + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             //onRender(this, new RenderEventArgs(s));
-=======
-            string s = httpClient.GetStatus() + "\n" +parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
-<<<<<<< HEAD
-            onRender(this, new RenderEventArgs(s));
->>>>>>> [Fix] httpPageLoader
-=======
-            onRender(this, new RenderEventArgs(null));
-
->>>>>>> [update] add https
         }
 
         private void Ui_onKeyDown(object sender, KeyEventArgs e)
         {
-<<<<<<< HEAD
 
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             //onRender(this, new RenderEventArgs(s));
-=======
-            string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
-<<<<<<< HEAD
-            onRender(this, new RenderEventArgs(s));
->>>>>>> [Fix] httpPageLoader
-=======
-            onRender(this, new RenderEventArgs(null));
->>>>>>> [update] add https
         }
 
         private void Button_onMouseClick(object sender, RoutedEventArgs e)
         {
-<<<<<<< HEAD
+
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render()+"\n"+dom.DomWork();
             //onRender(this, new RenderEventArgs(s));
-=======
-            string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
-<<<<<<< HEAD
-            onRender(this, new RenderEventArgs(s));
->>>>>>> [Fix] httpPageLoader
-=======
-            onRender(this, new RenderEventArgs(null));
-
->>>>>>> [update] add https
         }
     }
 }

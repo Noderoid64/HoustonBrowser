@@ -34,10 +34,7 @@ namespace HoustonBrowser.HttpModule.Model
         #region IParseble
         public override string GetString()
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> [Fix] httpPageLoader
+
             string request = "";
             request += Method.ToString() + " ";
             request += (Url==null? "/" : Url) + " ";
@@ -45,12 +42,6 @@ namespace HoustonBrowser.HttpModule.Model
             request += header?.GetString();
             request += body?.GetString();
             return request;
-<<<<<<< HEAD
-=======
-            return Method.ToString() + " " + Url + " " + Version.GetString() + "\r\n" + header?.GetString() + body?.GetString();
->>>>>>> [Update] realize IParseble
-=======
->>>>>>> [Fix] httpPageLoader
         }
         public override void FromString(string value)
         {
