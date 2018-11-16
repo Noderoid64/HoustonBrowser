@@ -9,7 +9,9 @@ namespace HoustonBrowser.Parsing.Enums
         Text,
         NameOfTag,
         NameOfTagClosing,
+        AttributeName,
+        AttributeValue,
         EOF,
-        Null
+        Null,
     }
 }

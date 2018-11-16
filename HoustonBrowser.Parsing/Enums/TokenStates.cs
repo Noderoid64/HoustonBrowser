@@ -14,16 +14,10 @@ namespace HoustonBrowser.Parsing.Enums
         TagOpen,
         EndTagOpen,
         TagName,
-        RCDATALessThanSign,
-        RCDATAEndTagOpen,
-        RCDATAEndTagName,
-        RAWTEXTLessThanSign,
-        RAWTEXTEndTagOpen,
-        RAWTEXTEndTagName,
-
-        //15+
         DoctypeName,
         Text,
-        Attributes
+        Attributes,
+        AttributeName,
+        AttributeValue
     }
 }
