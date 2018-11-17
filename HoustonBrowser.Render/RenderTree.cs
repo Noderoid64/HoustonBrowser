@@ -31,7 +31,7 @@ namespace HoustonBrowser.Render
             switch (node.NodeName)
             {
                 case ("button"):
-                    var button = new Button(true, left, top);
+                    var button = new Button(){Left=left, Top=top};
                     button.Text = node.NodeValue;
                     left += button.Width;
                     listControls.Add(button);
@@ -39,13 +39,13 @@ namespace HoustonBrowser.Render
                     break;
                 case ("div"):
                     top += 30;
-                    var div = new Rectangle(true, left, top);
+                    var div = new Rectangle(){Left=left, Top=top};
                     listControls.Add(div);
                     top += div.Height / 3.5;
                     left = 0;
                     break;
                 case ("#text"):
-                    var label = new Label(true, left, top);
+                    var label = new Label(){Left=left, Top=top};
                     label.Text = node.NodeValue;
                     left += label.Width;
                     listControls.Add(label);
