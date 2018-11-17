@@ -12,9 +12,9 @@ namespace HoustonBrowser.Parsing
             return " Parser is alive! ";
         }
 
-        public Document Parse(string value)
+        public HTMLDocument Parse(string value)
         {
-            return new Document();
+            return new HTMLDocument();
         }
     }
 }

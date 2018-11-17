@@ -54,7 +54,7 @@ namespace HoustonBrowser.Parsing
             
             return "";
         }
-        public Document Parse(string value)
+        public HTMLDocument Parse(string value)
         {
             List<Node> stackOfOpenedElements = new List<Node>();
             int insertMode = (int)InsertionModes.Initial;
