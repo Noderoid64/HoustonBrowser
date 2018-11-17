@@ -17,6 +17,12 @@ namespace HoustonBrowser.Controls
             {
                 this.Form=new RectangleGeometry(new Rect(this.Left,this.Top,this.Width,this.Height));
             }
+
+            if(this.IsPressed)
+            {
+                ForegroundBrush = new SolidColorBrush(new Color(255, 51, 0, 102));
+            }
+
             Pen underlinePen=new Pen(this.ForegroundBrush);
 
             var lines = FormattedText.GetLines().ToList();
