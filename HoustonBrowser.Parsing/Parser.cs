@@ -9,6 +9,7 @@ namespace HoustonBrowser.Parsing
     public class Parser:IParser
     {
         private string HTMLDoc;
+        private string attributeName;
 
         public Parser()
         {
@@ -58,7 +59,7 @@ namespace HoustonBrowser.Parsing
         {
             List<Node> stackOfOpenedElements = new List<Node>();
             int insertMode = (int)InsertionModes.Initial;
-            int currentTemplateInsertMode = (int)InsertionModes.Initial;
+            //int currentTemplateInsertMode = (int)InsertionModes.Initial;
             List<int> StackOfTemplateInsertModesUsed = new List<int>();
             List<Node> listOfOpenTags = new List<Node>();
             List<Token> tokens = new List<Token>();
@@ -108,6 +109,10 @@ namespace HoustonBrowser.Parsing
                                                     var item = new Element("body");
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
+                                                    break;
+                                                }
+                                            default:
+                                                {
                                                     break;
                                                 }
                                         }
@@ -160,6 +165,10 @@ namespace HoustonBrowser.Parsing
                                                     nodes.Push(item);
                                                     break;
                                                 }
+                                            default:
+                                                {
+                                                    break;
+                                                }
                                         }
                                         break;
                                     }
@@ -174,6 +183,27 @@ namespace HoustonBrowser.Parsing
                     case (int)TokenType.NameOfTagClosing:
                         {
                             nodes.Pop();
+                            break;
+                        }
+                    case (int)TokenType.AttributeName:
+                        {
+                            attributeName = token.Value;
+                            break;
+                        }
+                    case (int)TokenType.AttributeValue:
+                        {
+                            switch(attributeName.ToLower())
+                            {
+                                case "src":
+                                {
+                                    nodes.Peek().Attributes.SetNamedItem(new Attr("src",token.Value));
+                                    break;
+                                }
+                                default:
+                                {
+                                    break;
+                                }
+                            }
                             break;
                         }
                     case (int)TokenType.Text:
@@ -199,6 +229,7 @@ namespace HoustonBrowser.Parsing
                         {
                             throw new Exception("Raw token got.");
                         }
+
                 }
             }
             int x = tokens.Capacity;

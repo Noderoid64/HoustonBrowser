@@ -28,7 +28,7 @@ namespace HoustonBrowser.Render
         {
             var listControls = new List<BrowserControl>();
 
-            switch (node.NodeName)
+            /* switch (node.NodeName)
             {
                 case ("button"):
                     var button = new Button(){Left=left, Top=top};
@@ -62,7 +62,7 @@ namespace HoustonBrowser.Render
                     var list = GetPage(tmpNode, left, top);
                     listControls.AddRange(list);
                 }
-            }
+            }*/
 
             return listControls;
         }
