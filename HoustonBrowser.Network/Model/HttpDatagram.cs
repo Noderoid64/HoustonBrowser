@@ -17,6 +17,7 @@ namespace HoustonBrowser.HttpModule.Model
             Version = version;
             header = new HttpHeader();
             body = new HttpBody(null);
+
         }
 
         public abstract bool isValidStart();

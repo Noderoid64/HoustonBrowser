@@ -8,6 +8,8 @@ namespace HoustonBrowser.HttpModule.Builders
         {
             if(Url.StartsWith("http://"))
             Url = Url.Replace("http://","");
+            if(Url.StartsWith("https://"))
+            Url = Url.Replace("https://","");
             if(Url.Contains('/'))
             return Url.Substring(0,Url.IndexOf('/'));
             else
@@ -17,6 +19,8 @@ namespace HoustonBrowser.HttpModule.Builders
         {
             if(Url.StartsWith("http://"))
             Url = Url.Replace("http://","");
+            if(Url.StartsWith("https://"))
+            Url = Url.Replace("https://","");
             if(Url.Contains('/'))
             return Url.Substring(Url.IndexOf('/'));
             else

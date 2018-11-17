@@ -1,5 +1,6 @@
 using System;
 using HoustonBrowser.HttpModule.Model;
+using HoustonBrowser.HttpModule;
 
 namespace HoustonBrowser.HttpModule.Builders
 {

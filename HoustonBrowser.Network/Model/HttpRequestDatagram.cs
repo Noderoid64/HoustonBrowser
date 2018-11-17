@@ -34,6 +34,7 @@ namespace HoustonBrowser.HttpModule.Model
         #region IParseble
         public override string GetString()
         {
+
             string request = "";
             request += Method.ToString() + " ";
             request += (Url==null? "/" : Url) + " ";

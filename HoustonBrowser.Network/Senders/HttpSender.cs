@@ -6,26 +6,26 @@ using System.Net.Sockets;
 using System.Net;
 
 
-namespace HoustonBrowser.HttpModule
+namespace HoustonBrowser.HttpModule.Senders
 {
-    internal class HttpSender
+    internal class HttpSender : ISender
     {
         private const int port = 80;
         TcpClient client;
 
-        public string SendHttp(string host, string message)
+        public string Send(string host, string message)
         {
             try
             {
 
-                client = new TcpClient(getIpByHostname(host), port);
+                client = new TcpClient(GetIp(host), port);
 
                 NetworkStream stream = client.GetStream();
 
                 byte[] data = Encoding.GetEncoding("ISO-8859-1").GetBytes(message);
                 stream.Write(data, 0, data.Length);
 
-                data = new byte[1024]; // буфер для получаемых данных
+                data = new byte[4096]; // буфер для получаемых данных
                 StringBuilder builder = new StringBuilder();
                 int bytes = 0;
                 do
@@ -51,7 +51,7 @@ namespace HoustonBrowser.HttpModule
             return null;
         }
 
-        public string getIpByHostname(string hostname)
+        public string GetIp(string hostname)
         {
             if(hostname.StartsWith("http://"))
             hostname = hostname.Replace("http://","");
