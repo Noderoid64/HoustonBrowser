@@ -9,7 +9,7 @@ namespace HoustonBrowser.Parsing
     public class Parser:IParser
     {
         private string HTMLDoc;
-        Token attribute;
+        private string attributeName;
 
         public Parser()
         {
@@ -187,12 +187,23 @@ namespace HoustonBrowser.Parsing
                         }
                     case (int)TokenType.AttributeName:
                         {
-                            att
+                            attributeName = token.Value;
                             break;
                         }
                     case (int)TokenType.AttributeValue:
                         {
-
+                            switch(attributeName.ToLower())
+                            {
+                                case "src":
+                                {
+                                    nodes.Peek().Attributes.SetNamedItem(new Attr("src",token.Value));
+                                    break;
+                                }
+                                default:
+                                {
+                                    break;
+                                }
+                            }
                             break;
                         }
                     case (int)TokenType.Text:
