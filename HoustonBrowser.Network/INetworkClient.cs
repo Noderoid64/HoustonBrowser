@@ -1,12 +1,12 @@
+
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("HoustonBrowser.Network.Test")]
 
 namespace HoustonBrowser.HttpModule{
-    public interface IHttpClient
+    public interface INetworkClient
     {
         string GetStatus();
-        string GetHtml(string host);
-        string GetCss(string host);
+        string Get(string host);
 
     }
 }
