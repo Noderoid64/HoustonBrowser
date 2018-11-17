@@ -6,7 +6,7 @@ using HoustonBrowser.DOM;
 
 namespace HoustonBrowser.Render
 {
-    public class RenderTree
+    public class RenderTree : IRenderTree
     {
         public enum TypeOfNode
         {
@@ -62,6 +62,11 @@ namespace HoustonBrowser.Render
             }
 
             return listControls;
+        }
+
+        private BrowserControl GetControlElement(Node node)
+        {
+            return new BrowserControl();
         }
     }
 }

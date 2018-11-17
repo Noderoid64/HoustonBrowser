@@ -89,7 +89,8 @@ namespace HoustonBrowser.Parsing
                                         {
                                             case "html":
                                                 {                                                    
-                                                    doc = new HTMLDocument();                                                    
+                                                    doc = new HTMLDocument();
+                                                    nodes.Push(doc);
                                                     break;
                                                 }
                                             case "head":
