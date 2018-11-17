@@ -101,7 +101,7 @@ namespace HoustonBrowser.Parsing
                                             case "body":
                                                 {
                                                     insertMode = (int)InsertionModes.InBody;
-                                                    var item = new Element("body");
+                                                    var item = new HTMLBodyElement();
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
