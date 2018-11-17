@@ -23,9 +23,10 @@ namespace HoustonBrowser.Controls
             int start = 0;
             for(int i=0; i<lines.Count; i++)
             {
-                var bounds = this.FormattedText.HitTestTextRange(start, lines[i].Length).ToList();
-                context.DrawLine(underlinePen, bounds[0].BottomLeft+new Point(Left,Top), bounds[0].BottomRight+new Point(Left, Top));
-                start=lines[i].Length;
+                var bounds1 = this.FormattedText.HitTestTextPosition(start);
+                var bounds2 = this.FormattedText.HitTestTextPosition(start+lines[i].Length-1);
+                context.DrawLine(underlinePen, bounds1.BottomLeft+new Point(Left,Top+Height/2), bounds2.BottomRight+new Point(Left, Top+Height/2));
+                start+=lines[i].Length;
             }
 
             base.Render(context);
