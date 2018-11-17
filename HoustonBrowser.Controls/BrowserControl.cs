@@ -121,7 +121,7 @@ namespace HoustonBrowser.Controls
 
                 if(!String.IsNullOrEmpty(Text))
                 {
-                    Point origin = new Point(Left, Top+Height/2-this.FormattedText.Measure().Height/2);  
+                    Point origin = new Point(Left, Top+Height/2);  
                     context.DrawText(ForegroundBrush, origin, this.FormattedText);
                 }
             }
