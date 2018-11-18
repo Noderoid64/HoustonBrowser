@@ -19,11 +19,11 @@ namespace HoustonBrowser.Parsing
 
         public string Parse()
         {
-            //HTMLDOM domTree = new HTMLDOM();
+            //HTMLDOM domTree=new HTMLDOM();
             /*Conditions conditions;
-            int currentCondition = 0,currentSymIndex = 0;
-            bool endOfDocument = false;
-            string currentTag = "";
+            int currentCondition=0,currentSymIndex=0;
+            bool endOfDocument=false;
+            string currentTag="";
             while(!endOfDocument)
             {
                 switch(currentCondition)
@@ -32,15 +32,15 @@ namespace HoustonBrowser.Parsing
                     {
                         if(HTMLDoc[currentSymIndex]=='<')
                         {
-                            if(currentSymIndex + 1 < HTMLDoc.Length)
+                            if(currentSymIndex + 1 <HTMLDoc.Length)
                             {
                                 if(HTMLDoc[currentSymIndex + 1]=='/')
                                 {
-                                    currentCondition = (int)Conditions.CloseTagStart;
+                                    currentCondition=(int)Conditions.CloseTagStart;
                                 }
                                 else
                                 {
-                                    currentCondition = (int)Conditions.OpenTagStart;
+                                    currentCondition=(int)Conditions.OpenTagStart;
                                 }
                             }
                         }
@@ -56,6 +56,7 @@ namespace HoustonBrowser.Parsing
         }
         public HTMLDocument Parse(string value)
         {
+<<<<<<< HEAD
             List<Node> stackOfOpenedElements = new List<Node>();
             int insertMode = (int)InsertionModes.Initial;
             //int currentTemplateInsertMode = (int)InsertionModes.Initial;
@@ -64,19 +65,29 @@ namespace HoustonBrowser.Parsing
             List<Token> tokens = new List<Token>();
             HTMLDocument doc = new HTMLDocument();
             HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
+=======
+            List<Node> stackOfOpenedElements=new List<Node>();
+            int insertMode=(int)InsertionModes.Initial;
+            //int currentTemplateInsertMode=(int)InsertionModes.Initial;
+            List<int> StackOfTemplateInsertModesUsed=new List<int>();
+            List<Node> listOfOpenTags=new List<Node>();
+            List<Token> tokens=new List<Token>();
+            Document doc=new Document();
+            HtmlLexAnalyser lexAnalyser=new HtmlLexAnalyser(value);
+>>>>>>> Fixed bug
 
-            bool last = false;
-            Stack<Node> nodes = new Stack<Node>();
+            bool last=false;
+            Stack<Node> nodes=new Stack<Node>();
             while (!last)
             {
-                lexAnalyser.InsertionState = insertMode;
-                Token token = lexAnalyser.Tokenize();
+                lexAnalyser.InsertionState=insertMode;
+                Token token=lexAnalyser.Tokenize();
                 tokens.Add(token);
                 switch (token.Type)
                 {
                     case (int)TokenType.EOF:
                         {
-                            last = true;
+                            last=true;
                             break;
                         }
                     case (int)TokenType.NameOfTag:
@@ -89,21 +100,37 @@ namespace HoustonBrowser.Parsing
                                         {
                                             case "html":
                                                 {                                                    
+<<<<<<< HEAD
                                                     doc = new HTMLDocument();
                                                     nodes.Push(doc);
+=======
+                                                    doc=new HTMLDocument();                                                    
+                                                    var item=new Element("html");
+                                                    doc.AppendChild(item);
+                                                    nodes.Push(item);
+>>>>>>> Fixed bug
                                                     break;
                                                 }
                                             case "head":
                                                 {
+<<<<<<< HEAD
                                                     var item = new HTMLHeadElement();
+=======
+                                                    var item=new Element("head");
+>>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "body":
                                                 {
+<<<<<<< HEAD
                                                     insertMode = (int)InsertionModes.InBody;
                                                     var item = new HTMLBodyElement();
+=======
+                                                    insertMode=(int)InsertionModes.InBody;
+                                                    var item=new Element("body");
+>>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
@@ -136,28 +163,44 @@ namespace HoustonBrowser.Parsing
                                         {
                                             case "p":
                                                 {
+<<<<<<< HEAD
                                                     var item = new HTMLParagraphElement();
+=======
+                                                    var item=new Element("p");
+>>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "script":
                                                 {
+<<<<<<< HEAD
                                                     var item = new HTMLScriptElement();
+=======
+                                                    var item=new Element("script");
+>>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "div":
                                                 {
+<<<<<<< HEAD
                                                     var item = new HTMLDivElement();
+=======
+                                                    var item=new Element("div");
+>>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "button":
                                                 {
+<<<<<<< HEAD
                                                     var item = new HTMLButtonElement();
+=======
+                                                    var item=new Element("button");
+>>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
@@ -179,15 +222,16 @@ namespace HoustonBrowser.Parsing
                         }
                     case (int)TokenType.NameOfTagClosing:
                         {
-                            if (nodes.Count != 0)
+                            if (nodes.Count != 0 && tokens.Contains(new Token(2, "head")))
                             {
                                 nodes.Pop();
                             }    
+
                             break;
                         }
                     case (int)TokenType.AttributeName:
                         {
-                            attributeName = token.Value;
+                            attributeName=token.Value;
                             break;
                         }
                     case (int)TokenType.AttributeValue:
@@ -215,11 +259,11 @@ namespace HoustonBrowser.Parsing
                                     break;
 
                                 case "button":
-                                    nodes.Peek().NodeValue = token.Value;
+                                    nodes.Peek().NodeValue=token.Value;
                                     break;
 
                                 default:
-                                    var item = new Text(token.Value);
+                                    var item=new Text(token.Value);
                                     nodes.Peek().AppendChild(item);
                                     break;
                             }                            
@@ -232,7 +276,7 @@ namespace HoustonBrowser.Parsing
 
                 }
             }
-            int x = tokens.Capacity;
+            int x=tokens.Capacity;
             return doc;
         }
 
