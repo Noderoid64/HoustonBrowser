@@ -31,7 +31,11 @@ namespace HoustonBrowser.Core
         {
             this.ui = ui;
 
+<<<<<<< HEAD
             this.httpClient = new MockNetworkClient();
+=======
+            this.httpClient = new NetworkClient();
+>>>>>>> Lex Analyser correctly working
             this.parser = new Parser();
 
             this.control=new BrowserControl();
@@ -60,9 +64,16 @@ namespace HoustonBrowser.Core
         {
             //var doc = parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nalert(TEST)\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>");
             //RenderTree renderTree = new RenderTree(parser.Parse("<html>\r\n<head>\r\nHoustonBrowser\r\n</head>\r\n<body>\r\n<script>\r\nfunction myFunction() {\r\n    var x = document.getElementById(\"myDIV\");\r\n    if (x) {\r\n      x.style.display = \"none\";\r\n    }\r\n}\r\n</script>\r\n\r\n<button onclick=\"myFunction()\">Click Me</button>\r\n\r\n<div id=\"myDIV\">\r\n  This is my DIV element.\r\n</div>\r\n</body>\r\n</html>"));
+<<<<<<< HEAD
             renderTree = new RenderTree(parser.Parse(httpClient.Get(e.UrlString)));
+=======
+
+            /*RenderTree renderTree = new RenderTree(parser.Parse(httpClient.Get(e.UrlString)));
+>>>>>>> Lex Analyser correctly working
             RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.GetPage());
-            onRender(this,renderEventArgs);
+            onRender(this,renderEventArgs);*/
+            parser.Parse("<html><head></head><body><div id=\"myDIV\">New text.</div>hello world<div src=\"hjo.cs\">new div</div><UNKNOWN></UNKNOWN></body></html> ");
+
         }
 
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
@@ -83,7 +94,10 @@ namespace HoustonBrowser.Core
         {
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
             onRender(this, new RenderEventArgs(null));
+<<<<<<< HEAD
 
+=======
+>>>>>>> Lex Analyser correctly working
         }
     }
 }
