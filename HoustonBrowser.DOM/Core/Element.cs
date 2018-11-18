@@ -11,19 +11,19 @@ namespace HoustonBrowser.DOM.Core
         public Element(string tagName) :
                     base(TypeOfNode.ELEMENT_NODE, tagName, null)
         { 
-            attributes = new NamedNodeMap();
+            attributes=new NamedNodeMap();
         }
 
         public string GetAttribute(string name)
         {
-            var attr = (Attr)attributes.GetNamedItem(name);
+            var attr=(Attr)attributes.GetNamedItem(name);
             return attr.Value;
         }
 
         public void SetAttribute(string name, string value)
         {
-            Attr attr = new Attr(name);
-            attr.Value = value;
+            Attr attr=new Attr(name);
+            attr.Value=value;
 
             attributes.SetNamedItem((Node)attr);
         }
@@ -50,7 +50,7 @@ namespace HoustonBrowser.DOM.Core
 
         public List<Node> GetElementsByTagName(string name)
         {
-            var list = new List<Node>();
+            var list=new List<Node>();
 
             foreach(var node in ChildNodes)
             {
