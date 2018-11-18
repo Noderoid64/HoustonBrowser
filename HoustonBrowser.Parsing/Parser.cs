@@ -182,7 +182,10 @@ namespace HoustonBrowser.Parsing
                         }
                     case (int)TokenType.NameOfTagClosing:
                         {
-                            nodes.Pop();
+                            if (nodes.Count != 0)
+                            {
+                                nodes.Pop();
+                            }    
                             break;
                         }
                     case (int)TokenType.AttributeName:

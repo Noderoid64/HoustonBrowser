@@ -197,6 +197,7 @@ namespace HoustonBrowser.Parsing
                                         }
                                     case '=':
                                         {
+                                            currentSymbol++;
                                             currentState = (int)TokenStates.AttributeValue;
                                             cache = "";
                                             break;
