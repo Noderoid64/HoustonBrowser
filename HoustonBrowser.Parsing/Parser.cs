@@ -19,40 +19,7 @@ namespace HoustonBrowser.Parsing
         public event EventHandler<string> onNonHtmlEvent;
 
         public string Parse()
-        {
-            //HTMLDOM domTree=new HTMLDOM();
-            /*Conditions conditions;
-            int currentCondition=0,currentSymIndex=0;
-            bool endOfDocument=false;
-            string currentTag="";
-            while(!endOfDocument)
-            {
-                switch(currentCondition)
-                {
-                    case (int)Conditions.Data://Определение состояния
-                    {
-                        if(HTMLDoc[currentSymIndex]=='<')
-                        {
-                            if(currentSymIndex + 1 <HTMLDoc.Length)
-                            {
-                                if(HTMLDoc[currentSymIndex + 1]=='/')
-                                {
-                                    currentCondition=(int)Conditions.CloseTagStart;
-                                }
-                                else
-                                {
-                                    currentCondition=(int)Conditions.OpenTagStart;
-                                }
-                            }
-                        }
-                        break;
-                    }
-                }
-                currentSymIndex++;
-            }*/
-            //return domTree;
-           
-            
+        {   
             return "";
         }
         public Document Parse(string value)
@@ -165,58 +132,11 @@ namespace HoustonBrowser.Parsing
                                                     nodes.Push(item);
                                                     break;
                                                 }
-                                            case "h1":
-                                                {
-                                                    var item = new Element("h1");
-                                                    nodes.Peek().AppendChild(item);
-                                                    nodes.Push(item);
-                                                    break;
-                                                }
-                                            case "h2":
-                                                {
-                                                    var item = new Element("h2");
-                                                    nodes.Peek().AppendChild(item);
-                                                    nodes.Push(item);
-                                                    break;
-                                                }
-                                            case "h3":
-                                                {
-                                                    var item = new Element("h3");
-                                                    nodes.Peek().AppendChild(item);
-                                                    nodes.Push(item);
-                                                    break;
-                                                }
                                             case "a":
                                                 {
-                                                    var item = new Element("h3");
+                                                    var item=new Element("a");
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
-                                                    break;
-                                                }
-                                            case "i":
-                                                {
-                                                    var item = new Element("i");
-                                                    nodes.Peek().AppendChild(item);
-                                                    nodes.Push(item);
-                                                    break;
-                                                }
-                                            case "strong":
-                                                {
-                                                    var item = new Element("strong");
-                                                    nodes.Peek().AppendChild(item);
-                                                    nodes.Push(item);
-                                                    break;
-                                                }
-                                            case "hr":
-                                                {
-                                                    var item = new Element("hr");
-                                                    nodes.Peek().AppendChild(item);
-                                                    break;
-                                                }
-                                            case "img":
-                                                {
-                                                    var item = new Element("img");
-                                                    nodes.Peek().AppendChild(item);
                                                     break;
                                                 }
                                             default:
