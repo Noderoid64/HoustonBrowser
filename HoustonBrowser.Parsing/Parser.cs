@@ -56,25 +56,14 @@ namespace HoustonBrowser.Parsing
         }
         public HTMLDocument Parse(string value)
         {
-<<<<<<< HEAD
-            List<Node> stackOfOpenedElements = new List<Node>();
-            int insertMode = (int)InsertionModes.Initial;
-            //int currentTemplateInsertMode = (int)InsertionModes.Initial;
-            List<int> StackOfTemplateInsertModesUsed = new List<int>();
-            List<Node> listOfOpenTags = new List<Node>();
-            List<Token> tokens = new List<Token>();
-            HTMLDocument doc = new HTMLDocument();
-            HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
-=======
             List<Node> stackOfOpenedElements=new List<Node>();
             int insertMode=(int)InsertionModes.Initial;
             //int currentTemplateInsertMode=(int)InsertionModes.Initial;
             List<int> StackOfTemplateInsertModesUsed=new List<int>();
             List<Node> listOfOpenTags=new List<Node>();
             List<Token> tokens=new List<Token>();
-            Document doc=new Document();
+            HTMLDocument doc = new HTMLDocument();
             HtmlLexAnalyser lexAnalyser=new HtmlLexAnalyser(value);
->>>>>>> Fixed bug
 
             bool last=false;
             Stack<Node> nodes=new Stack<Node>();
@@ -100,37 +89,20 @@ namespace HoustonBrowser.Parsing
                                         {
                                             case "html":
                                                 {                                                    
-<<<<<<< HEAD
-                                                    doc = new HTMLDocument();
                                                     nodes.Push(doc);
-=======
-                                                    doc=new HTMLDocument();                                                    
-                                                    var item=new Element("html");
-                                                    doc.AppendChild(item);
-                                                    nodes.Push(item);
->>>>>>> Fixed bug
                                                     break;
                                                 }
                                             case "head":
                                                 {
-<<<<<<< HEAD
                                                     var item = new HTMLHeadElement();
-=======
-                                                    var item=new Element("head");
->>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "body":
                                                 {
-<<<<<<< HEAD
                                                     insertMode = (int)InsertionModes.InBody;
                                                     var item = new HTMLBodyElement();
-=======
-                                                    insertMode=(int)InsertionModes.InBody;
-                                                    var item=new Element("body");
->>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
@@ -163,44 +135,28 @@ namespace HoustonBrowser.Parsing
                                         {
                                             case "p":
                                                 {
-<<<<<<< HEAD
                                                     var item = new HTMLParagraphElement();
-=======
-                                                    var item=new Element("p");
->>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "script":
                                                 {
-<<<<<<< HEAD
                                                     var item = new HTMLScriptElement();
-=======
-                                                    var item=new Element("script");
->>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "div":
                                                 {
-<<<<<<< HEAD
                                                     var item = new HTMLDivElement();
-=======
-                                                    var item=new Element("div");
->>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
                                                 }
                                             case "button":
                                                 {
-<<<<<<< HEAD
                                                     var item = new HTMLButtonElement();
-=======
-                                                    var item=new Element("button");
->>>>>>> Fixed bug
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
                                                     break;

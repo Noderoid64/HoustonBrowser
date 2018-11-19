@@ -5,7 +5,7 @@ using HoustonBrowser.DOM.Interface;
 
 namespace HoustonBrowser.DOM.Interface
 {
-    interface IHTMLDocument: IDocument
+    interface IHTMLDocument: IHTMLElement, IDocument
     {
         void Open();
         void Close();

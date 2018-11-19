@@ -26,6 +26,35 @@ namespace HoustonBrowser.Render
 
         private HTMLDocument document;
 
+        public static double Width { get; set; } = 920;
+        public double Height { get; set; } = 100;
+
+        private delegate BrowserControl GetControl(
+            out double controlsWidth,
+            out double controlsHeight,
+            Node node,
+            double left,
+            double top
+            );
+
+        private static Dictionary<Type, GetControl> ControlsDictionary
+            = new Dictionary<Type, GetControl>
+            {
+                [typeof(HTMLBodyElement)] = GetBodyControl,
+                // [typeof(HTMLButtonElement)] = GetButtonControl,
+                // [typeof(HTMLDivElement)] = GetDivControl,
+                // [typeof(HTMLFormElement)] = GetFormControl,
+                // [typeof(HTMLH1Element)] = GetHeadingControl,
+                // [typeof(HTMLH2Element)] = GetHeadingControl,
+                // [typeof(HTMLH3Element)] = GetHeadingControl,
+                // [typeof(HTMLH4Element)] = GetHeadingControl,
+                // [typeof(HTMLH5Element)] = GetHeadingControl,
+                // [typeof(HTMLH6Element)] = GetHeadingControl,
+                [typeof(HTMLParagraphElement)] = GetParagraphControl,
+            };
+
+
+
         public RenderTree(HTMLDocument document)
         {
             this.document = document;
@@ -33,40 +62,125 @@ namespace HoustonBrowser.Render
 
         public List<BrowserControl> GetPage()
         {
-            double left = 0;
-            double top = 0;
-            return GetPage(document, left, top);
+            double left;
+            double top;
+            return GetControls(out left, out top, document, 0, 0);
         }
 
-        public List<BrowserControl> GetPage(Node node, double left, double top)
+        public static List<BrowserControl> GetControls(
+            out double controlsWidth,
+            out double controlsHeight,
+            Node node,
+            double left,
+            double top
+            )
         {
+            controlsWidth = 0;
+            controlsHeight = 0;
+            double controlHeight = 0;
+            double controlWidth = 0;
+
+            GetControl GetControl;
+            var newListControls = new List<BrowserControl>();
             var listControls = new List<BrowserControl>();
 
             if (node.ChildNodes.Count != 0)
             {
                 foreach (Node tmpNode in node.ChildNodes)
                 {
-                    var list = GetPage(tmpNode, left, top);
-                    listControls.AddRange(list);
+                    listControls.AddRange(GetControls(out controlHeight, out controlWidth, tmpNode, controlHeight, Width - left));
+
+                    controlsHeight += controlHeight;
+
+                    if (controlWidth > controlsHeight)
+                        controlsWidth = controlWidth;
                 }
-            }*/
+            }
 
             switch (node.NodeType)
             {
-                case ((int)TypeOfNode.ATTRIBUTE_NODE):
-                    break;
-                case ((int)TypeOfNode.TEXT_NODE):
-                    break;
                 case ((int)TypeOfNode.ELEMENT_NODE):
+
+                    if (ControlsDictionary.TryGetValue(node.GetType(), out GetControl))
+                    {
+                        newListControls.Add(GetControl(out controlHeight, out controlWidth, node, controlHeight, Width - left));
+                    }
+                    break;
+
+                case (9):
+                    newListControls.Add(GetTextControl(out controlHeight, node, Width - left));
                     break;
             }
 
-            return listControls;
+            newListControls.AddRange(listControls);
+
+            return newListControls;
         }
 
-        private BrowserControl GetControlElement(Node node)
+
+        private static BrowserControl GetTextControl(out double height, Node node, double width)
         {
-            return new BrowserControl();
+            var label = new Label();
+            label.Width = width;
+            label.Text = node.NodeValue;
+            height = label.Height;
+
+            return label;
         }
+
+
+        #region GetElementControl
+
+        private static BrowserControl GetBodyControl(
+            out double controlsWidth,
+            out double controlsHeight,
+            Node node,
+            double left,
+            double top
+            )
+        {
+            controlsWidth = 0;
+            controlsHeight = 0;
+            return new Rectangle();
+        }
+
+        // private static BrowserControl GetButtonControl(out double height, Node node, double width)
+        // {
+        //     return new BrowserControl();
+        // }
+
+        // private static BrowserControl GetDivControl(out double height, Node node, double width)
+        // {
+        //     return new BrowserControl();
+        // }
+
+        // private static BrowserControl GetFormControl(out double height, Node node, double width)
+        // {
+        //     return new BrowserControl();
+        // }
+
+        // private static BrowserControl GetHeadingControl(out double height, Node node, double width)
+        // {
+        //     return new BrowserControl();
+        // }
+
+        private static BrowserControl GetParagraphControl(
+            out double controlsWidth,
+            out double controlsHeight,
+            Node node,
+            double left,
+            double top
+            )
+        {
+            var label = new Label();
+            label.Width = Width - left;
+            label.Text = node.NodeValue;
+            controlsWidth = label.Width;
+            controlsHeight = label.Height;
+
+            return label;
+        }
+
+        #endregion
     }
 }

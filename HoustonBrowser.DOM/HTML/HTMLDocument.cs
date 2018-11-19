@@ -5,7 +5,7 @@ using HoustonBrowser.DOM.Interface;
 
 namespace HoustonBrowser.DOM
 {
-    public class HTMLDocument: Document, IHTMLDocument
+    public class HTMLDocument: Document
     {
         public string Title {get; set;}
         

@@ -5,9 +5,9 @@ using HoustonBrowser.DOM.Interface;
 
 namespace HoustonBrowser.DOM
 {
-    public class HTMLHeadingElement : Element
+    public class HTMLH2Element : Element
     {
         public string Alighn { get; set; }
-        public HTMLHeadingElement(string tagName): base(tagName) {}   
+        public HTMLH2Element(): base("h2") {}   
     }
 }
