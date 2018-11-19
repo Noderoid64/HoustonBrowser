@@ -24,14 +24,13 @@ namespace HoustonBrowser.Parsing
         }
         public Document Parse(string value)
         {
-            List<Node> stackOfOpenedElements=new List<Node>();
-            int insertMode=(int)InsertionModes.Initial;
-            //int currentTemplateInsertMode=(int)InsertionModes.Initial;
-            List<int> StackOfTemplateInsertModesUsed=new List<int>();
-            List<Node> listOfOpenTags=new List<Node>();
-            List<Token> tokens=new List<Token>();
-            Document doc=new Document();
-            HtmlLexAnalyser lexAnalyser=new HtmlLexAnalyser(value);
+            List<Node> stackOfOpenedElements = new List<Node>();
+            int insertMode = (int)InsertionModes.Initial;
+            List<int> StackOfTemplateInsertModesUsed = new List<int>();
+            List<Node> listOfOpenTags = new List<Node>();
+            List<Token> tokens = new List<Token>();
+            Document doc = new Document();
+            HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
 
             bool last=false;
             Stack<Node> nodes=new Stack<Node>();
@@ -210,7 +209,6 @@ namespace HoustonBrowser.Parsing
 
                 }
             }
-            int x=tokens.Capacity;
             return doc;
         }
 
