@@ -87,7 +87,6 @@ namespace HoustonBrowser.Core
         {
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
             onRender(this, new RenderEventArgs(null));
-
         }
     }
 }
