@@ -32,21 +32,21 @@ namespace HoustonBrowser
         {
             InitializeComponent();
 
-            backButton=this.Find<Avalonia.Controls.Button>("btnBack");
-            forwardButton=this.Find<Avalonia.Controls.Button>("btnForward");
-            refreshButton=this.Find<Avalonia.Controls.Button>("btnRefresh");  
-            drawPanel=this.Find<MyPanel>("drawingCanvas"); 
-            urlTextBox=this.Find<Avalonia.Controls.TextBox>("urlInputBox");
-            searchButton=this.Find<Avalonia.Controls.Button>("btnSearch"); 
+            backButton = this.Find<Avalonia.Controls.Button>("btnBack");
+            forwardButton = this.Find<Avalonia.Controls.Button>("btnForward");
+            refreshButton = this.Find<Avalonia.Controls.Button>("btnRefresh");  
+            drawPanel = this.Find<MyPanel>("drawingCanvas"); 
+            urlTextBox = this.Find<Avalonia.Controls.TextBox>("urlInputBox");
+            searchButton = this.Find<Avalonia.Controls.Button>("btnSearch"); 
             
-            core=new Core.Core(this);
-            core.onRender+=Core_onRender;
-            js = core.Js;
+            core = new Core.Core(this);
+            core.onRender+= Core_onRender;
+            js  =  core.Js;
 
-            searchButton.Click+=searchButton_OnClick;     
-            refreshButton.Click+=searchButton_OnClick;
-            urlTextBox.KeyDown+=urlTextBox_OnKeyDown;
-            js.onAlert += Js_onAlert;    
+            searchButton.Click+= searchButton_OnClick;     
+            refreshButton.Click+= searchButton_OnClick;
+            urlTextBox.KeyDown+= urlTextBox_OnKeyDown;
+            js.onAlert +=  Js_onAlert;    
         }
 
         private void Js_onAlert(object sender, string e)
@@ -61,42 +61,42 @@ namespace HoustonBrowser
 
         public void ShowAlert(string text)
         {
-            Window alertWindow = new Window();
-            alertWindow.Position=this.Position;
-            alertWindow.Width = 150;
-            alertWindow.Height=100;
-            StackPanel stackPanel = new StackPanel();
-            stackPanel.Orientation = Orientation.Vertical;
-            TextBlock alertText = new TextBlock();
-            alertText.Margin = new Thickness(10, 10, 0, 10);
-            alertText.Text = text;
+            Window alertWindow  =  new Window();
+            alertWindow.Position = this.Position;
+            alertWindow.Width  =  150;
+            alertWindow.Height = 100;
+            StackPanel stackPanel  =  new StackPanel();
+            stackPanel.Orientation  =  Orientation.Vertical;
+            TextBlock alertText  =  new TextBlock();
+            alertText.Margin  =  new Thickness(10, 10, 0, 10);
+            alertText.Text  =  text;
             stackPanel.Children.Add(alertText);
-            Avalonia.Controls.Button okButton = new Avalonia.Controls.Button();
-            okButton.Width = 30;
-            okButton.Content ="Ok";
+            Avalonia.Controls.Button okButton  =  new Avalonia.Controls.Button();
+            okButton.Width  =  30;
+            okButton.Content  = "Ok";
             stackPanel.Children.Add(okButton);
-            alertWindow.Content = stackPanel;
+            alertWindow.Content  =  stackPanel;
             alertWindow.ShowDialog();
         }
 
         private void searchButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var arg = new PageLoadEventArgs(this.urlTextBox.Text);
+            var arg  =  new PageLoadEventArgs(this.urlTextBox.Text);
             this.onPageLoad(sender, arg);
         }
 
         private void urlTextBox_OnKeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key==Key.Enter)
+            if(e.Key == Key.Enter)
             {
-            var arg = new PageLoadEventArgs(this.urlTextBox.Text);
+            var arg  =  new PageLoadEventArgs(this.urlTextBox.Text);
             this.onPageLoad(sender, arg);
             }
         }
 
         private void Core_onRender(object sender, RenderEventArgs e)
         {
-            drawPanel.Controls=e.Page;
+            drawPanel.Controls = e.Page;
             drawPanel.InvalidateVisual();
         }
 
