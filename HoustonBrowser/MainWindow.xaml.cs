@@ -40,13 +40,13 @@ namespace HoustonBrowser
             searchButton = this.Find<Avalonia.Controls.Button>("btnSearch"); 
             
             core = new Core.Core(this);
-            core.onRender+ = Core_onRender;
+            core.onRender+= Core_onRender;
             js  =  core.Js;
 
-            searchButton.Click+ = searchButton_OnClick;     
-            refreshButton.Click+ = searchButton_OnClick;
-            urlTextBox.KeyDown+ = urlTextBox_OnKeyDown;
-            js.onAlert + =  Js_onAlert;    
+            searchButton.Click+= searchButton_OnClick;     
+            refreshButton.Click+= searchButton_OnClick;
+            urlTextBox.KeyDown+= urlTextBox_OnKeyDown;
+            js.onAlert +=  Js_onAlert;    
         }
 
         private void Js_onAlert(object sender, string e)

@@ -32,10 +32,14 @@ namespace HoustonBrowser.Parsing
         {
             if (document != null)
             {
-                document=document.Replace('\n', ' ');
-                document=document.Replace('\r', ' ');
-                document=document.Replace('\t', ' ');
-                document=document.Replace("  ", " ");
+                document = document.Replace('\n', ' ');
+                document = document.Replace('\r', ' ');
+                document = document.Replace('\t', ' ');
+                document = document.Replace("  ", " ");
+                while (document.IndexOf("<!--") != -1)
+                {
+                    document = document.Remove(document.IndexOf("<!--"), document.IndexOf("-->") - document.IndexOf("<!--"));
+                }
                 Token token;
                 for (; currentSymbol <document.Length; currentSymbol++)
                 {
