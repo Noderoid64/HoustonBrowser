@@ -100,10 +100,11 @@ namespace HoustonBrowser.Render
         {
             return new Rectangle()
             {
+                Height = renderNode.Height - 10,
                 Width = renderNode.Width - 20,
                 Left = renderNode.Left + 10,
                 Top = renderNode.Top + 10,
-                BackgroundBrush = new SolidColorBrush(new Color(255, 200, 0, 0))
+                BackgroundBrush = new SolidColorBrush(new Color(255, 100, 100, 0))
             };
         }
 
@@ -135,14 +136,77 @@ namespace HoustonBrowser.Render
             Node node
             )
         {
+
             return new Rectangle()
             {
-                Width = renderNode.Width - 20,
+                Width = renderNode.Width - 40,
                 Left = renderNode.Left + 10,
                 Top = renderNode.Top + 10,
                 BackgroundBrush = new SolidColorBrush(new Color(255, 0, 0, 200))
             };
         }
-    
+
+
+        // set size of contrals
+
+        private delegate void GetSizeControl(
+            double inWidth,
+            double inHeight,
+            NodeOfRenderTree renderNode);
+
+        private static Dictionary<Type, GetSizeControl> SizeControlsDictionary
+            = new Dictionary<Type, GetSizeControl>
+            {
+                [typeof(HTMLBodyElement)] = GetSizeBodyControl,
+                [typeof(HTMLDivElement)] = GetSizeDivControl,
+                [typeof(HTMLParagraphElement)] = GetSizeParagraphControl,
+            };
+
+        public static void GetSize(
+            double inWidth,
+            double inHeight,
+            NodeOfRenderTree renderNode)
+        {
+            GetSizeControl control;
+            if (SizeControlsDictionary.TryGetValue(renderNode.NodeOfDom.GetType(), out control))
+            {
+                control(inWidth, inHeight, renderNode);
+            }
+        }
+
+        public static void GetSizeParagraphControl(
+            double inWidth,
+            double inHeight,
+            NodeOfRenderTree renderNode)
+        {
+            double marStart = 10;
+            double marEnd = 10;
+
+            renderNode.HeightControl = marStart + marEnd + inHeight;
+        }
+
+        public static void GetSizeBodyControl(
+            double inWidth,
+            double inHeight,
+            NodeOfRenderTree renderNode)
+        {
+            if (renderNode.HeightControl < inHeight)
+            {
+                double marStart = 10;
+                double marEnd = 10;
+
+                renderNode.HeightControl = marStart + marEnd + inHeight;
+            }
+        }
+
+        public static void GetSizeDivControl
+            (
+            double inWidth,
+            double inHeight,
+            NodeOfRenderTree renderNode
+            )
+        {
+
+        }
     }
 }
