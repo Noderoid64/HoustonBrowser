@@ -17,7 +17,7 @@ namespace HoustonBrowser.HttpModule.Model.Test
             Assert.Equal(real, expected);
         }
         [Theory]
-        [InlineData("GET /home HTTP/1.1\r\nfirst\r\nsecond\r\n\r\nbody", HttpMethods.GET)]
+        [InlineData("GET /home HTTP/1.1\r\nfirstHeaderField: true\r\nsecondHeader: false\r\n\r\nbody", HttpMethods.GET)]
         internal void FromString_getRequestMethod_HttpMethod(string datagram, HttpMethods expected)
         {
             //Given
@@ -29,7 +29,7 @@ namespace HoustonBrowser.HttpModule.Model.Test
         }
 
         [Theory]
-        [InlineData("GET /home HTTP/1.1\r\nfirst\r\nsecond\r\n\r\nbody", "/home")]
+        [InlineData("GET /home HTTP/1.1\r\nfirstHeaderField: true\r\nsecondHeader: false\r\n\r\nbody", "/home")]
         internal void FromString_getRequestUrl_stringUrl(string datagram, string expected)
         {
             //Given
@@ -41,7 +41,7 @@ namespace HoustonBrowser.HttpModule.Model.Test
         }
 
         [Theory]
-        [InlineData("GET /home HTTP/1.1\r\nfirst\r\nsecond\r\n\r\nbody", "HTTP/1.1")]
+        [InlineData("GET /home HTTP/1.1\r\nfirstHeaderField: true\r\nsecondHeader: false\r\n\r\nbody", "HTTP/1.1")]
         internal void FromString_getRequestHttpVersion_string(string datagram, string expected)
         {
             //Given
