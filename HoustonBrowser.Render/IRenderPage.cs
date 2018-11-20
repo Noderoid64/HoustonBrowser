@@ -5,7 +5,7 @@ using HoustonBrowser.DOM;
 
 namespace HoustonBrowser.Render
 {
-    public interface IRenderTree
+    public interface IRenderPage
     {
         List<BrowserControl> GetPage();
         

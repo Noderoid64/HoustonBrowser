@@ -11,7 +11,7 @@ namespace HoustonBrowser.DOM
 
         public Element CreateElement(string tagName) 
         {
-            return new Element(tagName);
+            return new Element(tagName) { };
         }
                                           
         public DocumentFragment CreateDocumentFragment()
@@ -60,11 +60,6 @@ namespace HoustonBrowser.DOM
             }
 
             return list;
-        }
-
-        public string DomWork()
-        {
-            return "DOM Works";
         }
     }
 }

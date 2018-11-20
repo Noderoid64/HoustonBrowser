@@ -20,7 +20,7 @@ namespace HoustonBrowser.Core
         IBrowserControl control;
         IJS js;
         IUI ui;
-        IRenderTree renderTree;
+        RenderPage renderTree;
 
         public IJS Js { get => js; }
 
@@ -40,6 +40,7 @@ namespace HoustonBrowser.Core
             ui.onMouseClick += Ui_onMouseClick;
             ui.onPageLoad += Ui_onPageLoad;
             parser.onNonHtmlEvent += Parser_onNonHtmlEvent;
+
         }
 
         private void Parser_onNonHtmlEvent(object sender, string e)
@@ -49,10 +50,10 @@ namespace HoustonBrowser.Core
 
         private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
-            renderTree = new RenderTree(parser.Parse(httpClient.Get(e.UrlString)));
-            var tmp = renderTree.GetPage();
-            RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.GetPage());
-           
+            renderTree = new RenderPage(parser.Parse(httpClient.Get(e.UrlString)));
+            var tmp = renderTree.ListOfControls;
+            RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
+
             onRender(this, renderEventArgs);
         }
 

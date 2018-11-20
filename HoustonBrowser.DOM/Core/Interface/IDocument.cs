@@ -18,6 +18,5 @@ namespace HoustonBrowser.DOM.Interface
                                                   
         List<Node> GetElementsByTagName(string tagname);
 
-        string DomWork();
     }
 }
