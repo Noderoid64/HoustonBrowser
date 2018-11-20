@@ -10,7 +10,7 @@ namespace HoustonBrowser.HttpModule.Model
 {
     internal class HttpHeader : IParseable
     {
-        private List<HttpHeaderField> fields;
+        public List<HttpHeaderField> fields { get; private set; }
         public HttpHeader()
         {
             fields = new List<HttpHeaderField>();
@@ -41,7 +41,7 @@ namespace HoustonBrowser.HttpModule.Model
             string[] localString = value.Split(new string[] { "\r\n" }, StringSplitOptions.None);
             foreach (var item in localString)
             {
-                switch (item)
+                switch (item.Split(':')[0])
                 {
                     case HeaderFieldHost.FieldName:
                         {
@@ -62,9 +62,16 @@ namespace HoustonBrowser.HttpModule.Model
 
                         }
                         break;
+                    case HeaderFieldContentType.FieldName:
+                        {
+                            HeaderFieldContentType field = new HeaderFieldContentType(item);
+                            fields.Add(field);
+                        }
+                        break;
                     default:
                         {
-
+                            HttpHeaderField field = new HttpHeaderField(item);
+                            fields.Add(field);
                         }
                         break;
                 }

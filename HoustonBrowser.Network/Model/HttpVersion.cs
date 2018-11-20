@@ -10,7 +10,10 @@ namespace HoustonBrowser.HttpModule.Model
     {
         public uint Major { get; private set; }
         public uint Minor { get; private set; }
+        public HttpVersion()
+        {
 
+        }
         public HttpVersion(uint major, uint minor)
         {
             this.Major = major;
@@ -25,7 +28,7 @@ namespace HoustonBrowser.HttpModule.Model
         public void FromString(string value)
         {
             value = value.Substring(5);
-            string [] localString = value.Split('/');
+            string[] localString = value.Split('.');
             Major = uint.Parse(localString[0]);
             Minor = uint.Parse(localString[1]);
         }
