@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.IO;
+
+using System;
 using System.Collections.Generic;
 using HoustonBrowser.HttpModule;
 using HoustonBrowser;
@@ -50,8 +52,21 @@ namespace HoustonBrowser.Core
 
         private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
-            renderTree = new RenderPage(parser.Parse(httpClient.Get(e.UrlString)));
-            var tmp = renderTree.ListOfControls;
+            string str = string.Empty;
+            string ln = string.Empty;
+            FileStream stream = new FileStream("file.txt", FileMode.Open);
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                ln = reader.ReadLine();
+                do
+                {
+                    str += ln + "\r\n";
+                    ln = reader.ReadLine();
+                }
+                while (ln != null);
+            }
+
+            renderTree = new RenderPage(parser.Parse(str));
             RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
 
             onRender(this, renderEventArgs);

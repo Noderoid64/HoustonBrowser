@@ -63,8 +63,8 @@ namespace HoustonBrowser.Render
 
         public void Relayout()
         {
-            //if (!IsFixedSize)
-            //{
+            if (!IsFixedSize)
+            {
                 double localLeft = LeftControl;
                 double localTop = TopControl;
                 double localWidth = 0;
@@ -94,7 +94,7 @@ namespace HoustonBrowser.Render
                 }
 
                 Height = localTop - TopControl + localHeight;
-            //}
+            }
         }
 
         protected List<BrowserControl> GetListOfControls(NodeOfRenderTree nodeOfRenderTree)

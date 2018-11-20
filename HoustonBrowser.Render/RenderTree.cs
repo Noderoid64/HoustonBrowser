@@ -24,7 +24,7 @@ namespace HoustonBrowser.Render
         private List<BrowserControl> GetListOfControls()
         {
             var tmpList = new List<BrowserControl>();
-
+            tmpList.Add(ControlOfThisNode);
             foreach (NodeOfRenderTree node in Childs)
             {
                 tmpList.AddRange(GetListOfControls(node));

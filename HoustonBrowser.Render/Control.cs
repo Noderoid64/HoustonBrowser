@@ -84,11 +84,12 @@ namespace HoustonBrowser.Render
         {
             renderNode.IsFixedSize = true;
             var label = new Label();
-            label.Width = renderNode.Width - 10;
-            label.Left = renderNode.Left + 10;
-            label.Top = renderNode.Top + 10;
+            label.Width = renderNode.Width;
+            label.Left = renderNode.Left;
+            label.Top = renderNode.Top;
+            label.WrapText = TextWrapping.Wrap;
             label.Text = node.NodeValue;
-
+            
             return label;
         }
 
@@ -99,10 +100,10 @@ namespace HoustonBrowser.Render
         {
             return new Rectangle()
             {
-                Width = renderNode.Width - 10,
+                Width = renderNode.Width - 20,
                 Left = renderNode.Left + 10,
                 Top = renderNode.Top + 10,
-                BackgroundBrush = new SolidColorBrush(new Color(100,100,0,0))
+                BackgroundBrush = new SolidColorBrush(new Color(255, 200, 0, 0))
             };
         }
 
@@ -136,10 +137,10 @@ namespace HoustonBrowser.Render
         {
             return new Rectangle()
             {
-                Width = renderNode.Width - 10,
+                Width = renderNode.Width - 20,
                 Left = renderNode.Left + 10,
                 Top = renderNode.Top + 10,
-                BackgroundBrush = new SolidColorBrush(new Color(100, 50, 0, 70))
+                BackgroundBrush = new SolidColorBrush(new Color(255, 0, 0, 200))
             };
         }
     
