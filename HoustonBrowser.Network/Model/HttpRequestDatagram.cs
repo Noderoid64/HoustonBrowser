@@ -55,9 +55,14 @@ namespace HoustonBrowser.HttpModule.Model
 
             string[] startParam = startString.Split(' ');
 
-            Method.FromString(startParam[0]);
+            if(startParam.Length != 3)
+            throw new Exception("Invalid number of start param");
+
+            Method = Method.FromString(startParam[0]);
             Url = startParam[1];
-            Version.FromString(startParam[2].Substring(0,startParam.Length -2));
+            if(Version == null)
+            Version = new HttpVersion();
+            Version.FromString(startParam[2].Substring(0,startParam[2].Length -2));
 
             header.FromString(headerString);
             body.FromString(bodyString);

@@ -14,6 +14,10 @@ namespace HoustonBrowser.HttpModule.Model
             this.ReasonPhrase = reasonPhrase;
             this.Version = version;
         }
+        public HttpResponseDatagram(string value) : base(null)
+        {
+            FromString(value);
+        }
 
         public ushort StatusCode { get; set; }
         public string ReasonPhrase { get; set; }
@@ -33,10 +37,27 @@ namespace HoustonBrowser.HttpModule.Model
             string bodyString = value.Substring(bodyIndex + 4);
 
             string[] startParam = startString.Split(' ');
+            // startParam[0] - HTTP version
+            // startparam[1] - status code
+            // startparam[2] = phrase (useless)
 
-            Version.FromString(startParam[0]);
+            if (startParam.Length < 2)
+                throw new Exception("Invalid number of start param");
+
             StatusCode = ushort.Parse(startParam[1]);
-            ReasonPhrase = (startParam[2].Substring(0, startParam.Length - 2));
+
+            if (startParam.Length > 2)
+                ReasonPhrase = (startString.Substring(startString.IndexOf(startParam[2]))).Substring(0, startParam[2].Length - 2);
+            /*сложные манипуляции со строками
+            HTTP/1.1 OK Ok\r\n
+            находим строку после ответа OK => Ok\r\n
+            удаляем последние два символа переноса и возврата каретки
+             */
+
+            if (Version == null)
+                Version = new HttpVersion();
+            Version.FromString(startParam[0]);
+
             header.FromString(headerString);
             body.FromString(bodyString);
         }

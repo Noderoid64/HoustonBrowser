@@ -16,14 +16,40 @@ namespace HoustonBrowser.HttpModule.Model.Test
             string real = datagram.GetString();
             Assert.Equal(real, expected);
         }
-        [Fact]
-        internal void FromString()
+        [Theory]
+        [InlineData("GET /home HTTP/1.1\r\nfirst\r\nsecond\r\n\r\nbody", HttpMethods.GET)]
+        internal void FromString_getRequestMethod_HttpMethod(string datagram, HttpMethods expected)
         {
+            //Given
             HttpRequestDatagram hrd = new HttpRequestDatagram(HttpMethods.CONNECT, null, null);
-            
-            hrd.FromString("start\r\nfirst\r\nsecond\r\n\r\nbody");
+            //When
+            hrd.FromString(datagram);
+            //Then
+            Assert.Equal(hrd.Method, expected);
+        }
 
-            Assert.True(false);
+        [Theory]
+        [InlineData("GET /home HTTP/1.1\r\nfirst\r\nsecond\r\n\r\nbody", "/home")]
+        internal void FromString_getRequestUrl_stringUrl(string datagram, string expected)
+        {
+            //Given
+            HttpRequestDatagram hrd = new HttpRequestDatagram(HttpMethods.CONNECT, null, null);
+            //When
+            hrd.FromString(datagram);
+            //Then
+            Assert.Equal(hrd.Url, expected);
+        }
+
+        [Theory]
+        [InlineData("GET /home HTTP/1.1\r\nfirst\r\nsecond\r\n\r\nbody", "HTTP/1.1")]
+        internal void FromString_getRequestHttpVersion_string(string datagram, string expected)
+        {
+            //Given
+            HttpRequestDatagram hrd = new HttpRequestDatagram(HttpMethods.CONNECT, null, null);
+            //When
+            hrd.FromString(datagram);
+            //Then
+            Assert.Equal(hrd.Version.GetString(), expected);
         }
     }
 }

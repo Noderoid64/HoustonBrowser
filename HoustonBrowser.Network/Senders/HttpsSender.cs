@@ -32,7 +32,7 @@ namespace HoustonBrowser.HttpModule.Senders
                     do
                     {
                         bytes = sslStream.Read(data, 0, data.Length);
-                        builder.Append(Encoding.GetEncoding("ISO-8859-1").GetString(data, 0, bytes));
+                        builder.Append(Encoding.UTF8.GetString(data, 0, bytes));
                     }
                     while (bytes == 0);
 
