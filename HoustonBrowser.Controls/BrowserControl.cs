@@ -76,9 +76,28 @@ namespace HoustonBrowser.Controls
             public Typeface TextTypeface {get;set;} = new Typeface("Arial", 10);
             public TextAlignment AlignText {get;set;} = TextAlignment.Left;
             public TextWrapping WrapText {get;set;} = TextWrapping.NoWrap;
-            public bool IsDefault {get;set;}
-            public bool IsPressed {get;set;}
+            public bool IsPressed 
+            {
+                get
+                {
+                    return _isPressed;
+                }
+                set
+                {
+                    _isPressed=value;
+                    if(_isPressed)
+                    {
+                        OnPointerPressed(this, new PointerPressedEventArgs());
+                    }
+                    else
+                    {
+                        OnPointerReleased(this, new PointerReleasedEventArgs());
+                    }
 
+                }
+            }
+
+            private bool _isPressed;
             private FormattedText _formattedText;
             private Size _constraint;
             private double _width;
@@ -113,7 +132,9 @@ namespace HoustonBrowser.Controls
             public event EventHandler<PointerPressedEventArgs> PointerPressed;
             public event EventHandler<PointerReleasedEventArgs> PointerReleased;
 
-            public BrowserControl(){}
+            public BrowserControl()
+            {
+            }
 
             public virtual void Render(DrawingContext context)
             {
@@ -138,20 +159,18 @@ namespace HoustonBrowser.Controls
             };
             }
 
-             public virtual void OnKeyDown(object sender,KeyEventArgs e)
+            protected virtual void OnKeyDown(object sender, KeyEventArgs e)
             {
                 KeyDown?.Invoke(sender, e);
             }
 
-            public virtual void OnPointerPressed(object sender, PointerPressedEventArgs e)
+            protected virtual void OnPointerPressed(object sender, PointerPressedEventArgs e)
             {
-                IsPressed=true;
                 PointerPressed?.Invoke(sender, e);
             }
 
-            public void OnPointerReleased(object sender, PointerReleasedEventArgs e)
+            protected void OnPointerReleased(object sender, PointerReleasedEventArgs e)
             {
-                IsPressed=false;
                 PointerReleased?.Invoke(sender, e);
             }
 

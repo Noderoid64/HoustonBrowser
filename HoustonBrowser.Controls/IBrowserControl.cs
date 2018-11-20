@@ -32,10 +32,6 @@ namespace HoustonBrowser.Controls
         event EventHandler<PointerReleasedEventArgs> PointerReleased;
 
         void Render(DrawingContext context);
-        void OnKeyDown(object sender, KeyEventArgs e);
-        void OnPointerPressed(object sender, PointerPressedEventArgs e);
-        void OnPointerReleased(object sender, PointerReleasedEventArgs e);
-
         //mock
         string Render();
     }
