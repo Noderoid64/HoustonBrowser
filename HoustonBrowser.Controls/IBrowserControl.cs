@@ -23,7 +23,8 @@ namespace HoustonBrowser.Controls
         IBrush ForegroundBrush {get;set;}
         Typeface TextTypeface {get;set;}
         TextAlignment AlignText {get;set;}
-        bool IsDefault {get;set;}
+        TextWrapping WrapText {get;set;}
+        FormattedText FormattedText {get;}
         bool IsPressed {get;set;}
 
         event EventHandler<KeyEventArgs> KeyDown;
