@@ -9,7 +9,7 @@ namespace HoustonBrowser.HttpModule.Model.Headers
 
         public HeaderFieldContentType(string value)
         {
-            value = removeSpaces(value);
+            value = value.RemoveSpaces();
             if (value.StartsWith(FieldName))
             {
                 name = value.Substring(0, FieldName.Length);
@@ -23,17 +23,10 @@ namespace HoustonBrowser.HttpModule.Model.Headers
             {
                 if (values[i].EndsWith(';'))
                     values[i] = values[i].Remove(values[i].Length - 1, 1);
-                values[i] = removeSpaces(values[i]);
+                values[i] = values[i].RemoveSpaces();
                 base.value += values[i];
             }
         }
-        private string removeSpaces(string value)
-        {
-            while (value.StartsWith(" "))
-                value = value.Remove(0, 1);
-            while (value.EndsWith(" "))
-                value = value.Remove(value.Length - 1, 1);
-            return value;
-        }
+        
     }
 }
