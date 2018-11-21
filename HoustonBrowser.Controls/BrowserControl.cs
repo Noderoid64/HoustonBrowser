@@ -26,7 +26,8 @@ namespace HoustonBrowser.Controls
                     {
                         if(!String.IsNullOrEmpty(Text))
                         {
-                            _height=FormattedText.Measure().Height;
+                            var tmp = Math.Ceiling(FormattedText.Measure().Width/Width);
+                            _height=FormattedText.Measure().Height*tmp;
                         }
                         else 
                         {
@@ -73,12 +74,31 @@ namespace HoustonBrowser.Controls
             }
             public string Text {get;set;}
             public virtual IBrush ForegroundBrush {get;set;} = new SolidColorBrush(new Color(255,0,0,0));
-            public Typeface TextTypeface {get;set;} = new Typeface("Arial", 14);
+            public Typeface TextTypeface {get;set;} = new Typeface("Arial", 18);
             public TextAlignment AlignText {get;set;} = TextAlignment.Left;
             public TextWrapping WrapText {get;set;} = TextWrapping.NoWrap;
-            public bool IsDefault {get;set;}
-            public bool IsPressed {get;set;}
+            public bool IsPressed 
+            {
+                get
+                {
+                    return _isPressed;
+                }
+                set
+                {
+                    _isPressed=value;
+                    if(_isPressed)
+                    {
+                        OnPointerPressed(this, new PointerPressedEventArgs());
+                    }
+                    else
+                    {
+                        OnPointerReleased(this, new PointerReleasedEventArgs());
+                    }
 
+                }
+            }
+
+            private bool _isPressed;
             private FormattedText _formattedText;
             private Size _constraint;
             private double _width;
@@ -113,7 +133,9 @@ namespace HoustonBrowser.Controls
             public event EventHandler<PointerPressedEventArgs> PointerPressed;
             public event EventHandler<PointerReleasedEventArgs> PointerReleased;
 
-            public BrowserControl(){}
+            public BrowserControl()
+            {
+            }
 
             public virtual void Render(DrawingContext context)
             {
@@ -121,7 +143,7 @@ namespace HoustonBrowser.Controls
 
                 if(!String.IsNullOrEmpty(Text))
                 {
-                    Point origin = new Point(Left, Top ); 
+                    Point origin = new Point(Left, Top);  
                     context.DrawText(ForegroundBrush, origin, this.FormattedText);
                 }
             }
@@ -138,20 +160,18 @@ namespace HoustonBrowser.Controls
             };
             }
 
-             public virtual void OnKeyDown(object sender,KeyEventArgs e)
+            protected virtual void OnKeyDown(object sender, KeyEventArgs e)
             {
                 KeyDown?.Invoke(sender, e);
             }
 
-            public virtual void OnPointerPressed(object sender, PointerPressedEventArgs e)
+            protected virtual void OnPointerPressed(object sender, PointerPressedEventArgs e)
             {
-                IsPressed=true;
                 PointerPressed?.Invoke(sender, e);
             }
 
-            public void OnPointerReleased(object sender, PointerReleasedEventArgs e)
+            protected void OnPointerReleased(object sender, PointerReleasedEventArgs e)
             {
-                IsPressed=false;
                 PointerReleased?.Invoke(sender, e);
             }
 
