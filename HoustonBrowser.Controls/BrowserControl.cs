@@ -26,7 +26,8 @@ namespace HoustonBrowser.Controls
                     {
                         if(!String.IsNullOrEmpty(Text))
                         {
-                            _height=FormattedText.Measure().Height;
+                            var tmp = Math.Ceiling(FormattedText.Measure().Width/Width);
+                            _height=FormattedText.Measure().Height*tmp;
                         }
                         else 
                         {
@@ -73,7 +74,7 @@ namespace HoustonBrowser.Controls
             }
             public string Text {get;set;}
             public virtual IBrush ForegroundBrush {get;set;} = new SolidColorBrush(new Color(255,0,0,0));
-            public Typeface TextTypeface {get;set;} = new Typeface("Arial", 10);
+            public Typeface TextTypeface {get;set;} = new Typeface("Arial", 18);
             public TextAlignment AlignText {get;set;} = TextAlignment.Left;
             public TextWrapping WrapText {get;set;} = TextWrapping.NoWrap;
             public bool IsPressed 
@@ -142,7 +143,7 @@ namespace HoustonBrowser.Controls
 
                 if(!String.IsNullOrEmpty(Text))
                 {
-                    Point origin = new Point(Left, Top+Height/2);  
+                    Point origin = new Point(Left, Top);  
                     context.DrawText(ForegroundBrush, origin, this.FormattedText);
                 }
             }
