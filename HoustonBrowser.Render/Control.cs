@@ -83,14 +83,18 @@ namespace HoustonBrowser.Render
             )
         {
             renderNode.IsFixedSize = true;
-            var label = new Label();
-            label.Width = renderNode.Width;
-            label.Left = renderNode.Left;
-            label.Top = renderNode.Top;
-            label.WrapText = TextWrapping.Wrap;
-            label.Text = node.NodeValue;
-            
-            return label;
+            var control = new Label()
+            {
+                Left = renderNode.Left,
+                Top = renderNode.Top,
+                Width = renderNode.Width,
+                WrapText = TextWrapping.Wrap,
+                Text = node.NodeValue,
+                BackgroundBrush=new SolidColorBrush(new Color(255, 250, 0, 0))
+            };
+            renderNode.Height = control.Height;
+
+            return control;
         }
 
         public static BrowserControl GetBodyControl(
@@ -100,7 +104,7 @@ namespace HoustonBrowser.Render
         {
             return new Rectangle()
             {
-                Height = renderNode.Height - 10,
+                Height = renderNode.Height - 20,
                 Width = renderNode.Width - 20,
                 Left = renderNode.Left + 10,
                 Top = renderNode.Top + 10,
@@ -136,12 +140,11 @@ namespace HoustonBrowser.Render
             Node node
             )
         {
-
             return new Rectangle()
             {
-                Width = renderNode.Width - 40,
-                Left = renderNode.Left + 10,
-                Top = renderNode.Top + 10,
+                Width = renderNode.Width,
+                Left = renderNode.Left,
+                Top = renderNode.Top,
                 BackgroundBrush = new SolidColorBrush(new Color(255, 0, 0, 200))
             };
         }
@@ -179,8 +182,8 @@ namespace HoustonBrowser.Render
             double inHeight,
             NodeOfRenderTree renderNode)
         {
-            double marStart = 10;
-            double marEnd = 10;
+            double marStart = 15;
+            double marEnd = 15;
 
             renderNode.HeightControl = marStart + marEnd + inHeight;
         }

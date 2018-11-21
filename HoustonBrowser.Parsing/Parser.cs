@@ -33,6 +33,7 @@ namespace HoustonBrowser.Parsing
 
             bool last=false;
             Stack<Node> nodes=new Stack<Node>();
+
             while (!last)
             {
                 lexAnalyser.InsertionState=insertMode;
@@ -55,7 +56,7 @@ namespace HoustonBrowser.Parsing
                                         {
                                             case "html":
                                                 {                                                                                                      
-                                                    var item=new HTMLElement("html");
+                                                    var item=new HTMLHtmlElement();
                                                     doc.AppendChild(item);
                                                     nodes.Push(item);
                                                     break;
@@ -153,7 +154,7 @@ namespace HoustonBrowser.Parsing
                         }
                     case (int)TokenType.NameOfTagClosing:
                         {
-                            if (nodes.Count != 0 && tokens.Contains(new Token(2, "head")))
+                            if (nodes.Count != 0)
                             {
                                 nodes.Pop();
                             }    

@@ -64,42 +64,6 @@ namespace HoustonBrowser.Render
             ControlOfThisNode = Control.Get(this, node);
         }
 
-        public void Relayout()
-        {
-            if (!IsFixedSize && Childs.Count != 0)
-            {
-                double localLeft = LeftControl;
-                double localTop = TopControl;
-                double localWidth = 0;
-                double localHeight = 0;
-
-                foreach (NodeOfRenderTree node in Childs)
-                {
-                    node.Relayout();
-
-                    if ((localWidth + node.Width) <= WidthControl)
-                    {
-                        localLeft += node.Width;
-                        localHeight = node.Height;
-                    }
-                    else
-                    {
-                        localWidth = 0;
-                        localLeft = LeftControl;
-                        localTop += localHeight;
-                    }
-
-                    node.Left = localLeft;
-                    node.Top = localTop;
-                }
-
-
-                Height = localTop - TopControl + localHeight;
-
-                Control.GetSize(WidthControl, Height, this);
-            }
-        }
-
         protected List<BrowserControl> GetListOfControls(NodeOfRenderTree nodeOfRenderTree)
         {
             var tmpList = new List<BrowserControl>();
