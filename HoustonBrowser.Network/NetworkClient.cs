@@ -18,16 +18,11 @@ namespace HoustonBrowser.HttpModule
                 sender = new HttpSender();
 
 
-            HttpDatagram datagram = new HttpRequestDatagram(HttpMethods.GET, UrlBuilder.GetRequestUri(host), HttpVersion.Get11());
-            datagram.header.AddHeaderField(new HttpHeaderField("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"));
-            datagram.header.AddHeaderField(new HttpHeaderField("Host: " + UrlBuilder.GetHost(host)));
-            //datagram.header.AddHeaderField(new HttpHeaderField("Accept-Encoding: gzip, deflate"));
-            datagram.header.AddHeaderField(new HttpHeaderField("Accept-Language: en-US,en;q=0.9,ru;q=0.8")); //Content-Type: text/html; charset=utf-8
-
-
+            HttpRequestDatagram datagram = HttpDatagramBuilder.GetRequestDatagram(host); // Получаем базовую модель датаграммы (без алгоритмов сжатия)
 
             string response = sender.Send(UrlBuilder.GetHost(host), datagram.GetString());
             HttpResponseDatagram dat = new HttpResponseDatagram(response);
+
             string coding = "ISO-8859-1";
             Encoding encoderIn = Encoding.GetEncoding(coding);
             if (dat.header.fields.Find(x => x.name == HeaderFieldContentType.FieldName) is HeaderFieldContentType a)
