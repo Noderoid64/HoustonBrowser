@@ -47,6 +47,7 @@ namespace HoustonBrowser
             refreshButton.Click+= searchButton_OnClick;
             urlTextBox.KeyDown+= urlTextBox_OnKeyDown;
             js.onAlert +=  Js_onAlert;    
+
         }
 
         private void Js_onAlert(object sender, string e)
@@ -97,7 +98,23 @@ namespace HoustonBrowser
         private void Core_onRender(object sender, RenderEventArgs e)
         {
             drawPanel.Controls = e.Page;
+            if(drawPanel.Controls!=null)
+            {
+                foreach(var cntrl in drawPanel.Controls)
+                {
+                    if(cntrl is LinkLabel)
+                    {
+                        cntrl.PointerPressed+=drawPanelLink_OnPointerPressed;
+                    }
+                }
+            }
             drawPanel.InvalidateVisual();
+        }
+
+        private void drawPanelLink_OnPointerPressed(object sender, PointerPressedEventArgs e)
+        {
+            var arg  =  new PageLoadEventArgs(((LinkLabel)sender).URL);
+            this.onPageLoad(sender, arg);
         }
 
     }

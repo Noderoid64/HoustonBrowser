@@ -11,6 +11,8 @@ namespace HoustonBrowser.Controls
     public class LinkLabel: Label
     {
         public override IBrush ForegroundBrush {get;set;} = new SolidColorBrush(new Color(255,0,0,102));
+
+        public string URL {get;set;}
         public override void Render(DrawingContext context)
         {
             if(this.Form==null)
