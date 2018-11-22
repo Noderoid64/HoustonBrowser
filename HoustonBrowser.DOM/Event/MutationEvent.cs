@@ -1,4 +1,4 @@
-using HoustonBrowser.DOM.Core;
+using HoustonBrowser.DOM;
 namespace HoustonBrowser.DOM
 {
     enum AttrChangeType

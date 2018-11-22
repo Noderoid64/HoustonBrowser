@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using HoustonBrowser.DOM.Core;
-using HoustonBrowser.DOM.HTML.Interface;
+using HoustonBrowser.DOM;
+using HoustonBrowser.DOM.Interface;
 
-namespace HoustonBrowser.DOM.HTML
+namespace HoustonBrowser.DOM
 {
-    public class HTMLDocument: Document, IHTMLDocument
+    public class HTMLDocument: Document
     {
         public string Title {get; set;}
         

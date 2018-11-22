@@ -1,5 +1,5 @@
 using System;
-using HoustonBrowser.DOM.Core;
+using HoustonBrowser.DOM;
 
 namespace HoustonBrowser.Parsing
 {
@@ -12,9 +12,9 @@ namespace HoustonBrowser.Parsing
             return " Parser is alive! ";
         }
 
-        public Document Parse(string value)
+        public HTMLDocument Parse(string value)
         {
-            return new Document();
+            return new HTMLDocument();
         }
     }
 }

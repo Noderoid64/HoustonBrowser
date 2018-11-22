@@ -1,6 +1,6 @@
 using System;
 
-namespace HoustonBrowser.DOM.Core
+namespace HoustonBrowser.DOM
 {
     public class Attr : Node
     {

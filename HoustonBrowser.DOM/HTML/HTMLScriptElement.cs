@@ -1,5 +1,5 @@
 using System;
-namespace HoustonBrowser.DOM.HTML
+namespace HoustonBrowser.DOM
 {
     public class HTMLScriptElement : HTMLElement
     {

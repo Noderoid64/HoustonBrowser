@@ -1,9 +1,9 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
-using HoustonBrowser.DOM.Core.Interface;
+using HoustonBrowser.DOM.Interface;
 
-namespace HoustonBrowser.DOM.Core
+namespace HoustonBrowser.DOM
 {
     public class Node : INode
     {
@@ -38,8 +38,7 @@ namespace HoustonBrowser.DOM.Core
 
         public string NodeName { get => nodeName; }
         public string NodeValue { get => nodeValue; set => nodeValue = value; }
-        public TypeOfNode NodeType { get => nodeType; }
-      //  public int NodeType { get => (int)nodeType; }
+        public int NodeType { get => (int)nodeType; }
         public Node ParentNode { get => parentNode; }
         public List<Node> ChildNodes { get => childNodes; }
         public Node FirstChild { get => firstChild; }

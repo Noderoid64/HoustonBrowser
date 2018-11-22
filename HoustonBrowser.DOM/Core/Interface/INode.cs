@@ -1,6 +1,6 @@
 using System;
 
-namespace HoustonBrowser.DOM.Core.Interface
+namespace HoustonBrowser.DOM.Interface
 {
     public interface INode
     {

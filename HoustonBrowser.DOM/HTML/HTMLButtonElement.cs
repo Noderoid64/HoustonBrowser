@@ -1,9 +1,17 @@
 using System;
-namespace HoustonBrowser.DOM.HTML
+namespace HoustonBrowser.DOM
 {
-    public class HTMLButtonElement: HTMLElement
+    public class HTMLButtonElement : HTMLElement
     {
-        public HTMLButtonElement(): base("button") {}
+
+        readonly HTMLFormElement form;
+        string accessKey;
+        bool disabled;
+        string name;
+        int tabIndex;
+        readonly string type;
+        string value;
+        public HTMLButtonElement() : base("button") { }
 
     }
 }

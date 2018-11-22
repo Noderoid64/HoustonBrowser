@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using HoustonBrowser.DOM.Core;
-using HoustonBrowser.DOM.Core.Interface;
+using HoustonBrowser.DOM;
+using HoustonBrowser.DOM.Interface;
 
-namespace HoustonBrowser.DOM.HTML.Interface
+namespace HoustonBrowser.DOM.Interface
 {
-    interface IHTMLDocument: IDocument
+    interface IHTMLDocument: IHTMLElement, IDocument
     {
         void Open();
         void Close();
