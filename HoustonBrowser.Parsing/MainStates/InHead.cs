@@ -13,7 +13,7 @@ namespace HoustonBrowser.Parsing
 
         private Dictionary<string, TagProcessing> openTagsDict;
         private Dictionary<string, TagProcessing> closeTagsDict;
-        private Dictionary<string, TagProcessing> nameAttributeDict;
+        //private Dictionary<string, TagProcessing> nameAttributeDict;
 
         public InHead()
         {
