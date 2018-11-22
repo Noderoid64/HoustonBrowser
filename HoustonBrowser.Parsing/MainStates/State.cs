@@ -10,7 +10,7 @@ namespace HoustonBrowser.Parsing
     {
         
         protected delegate void TagProcessing();
-        
+
 
         public State() {}
         protected void AddingStructureTag(string name)//For all processing tags except html,meta,script,link,img,hr

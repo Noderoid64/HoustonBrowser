@@ -36,7 +36,7 @@ namespace HoustonBrowser.Parsing
             StatesData.SetData(nodes, doc);//Adding data
             while (!StatesData.IsLast)
             {
-                lexAnalyser.InsertionState=insertMode;
+                lexAnalyser.InsertionState=StatesData.currentState;
                 Token token=lexAnalyser.Tokenize();
                 tokens.Add(token);
                 token.Standartize();

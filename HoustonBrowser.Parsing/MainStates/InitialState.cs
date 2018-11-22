@@ -21,8 +21,8 @@ namespace HoustonBrowser.Parsing
             openTagsDict.Add("body",BODYOpenProcessing);
             //CloseTags
             closeTagsDict.Add("html",HTMLCloseProcessing);
-            closeTagsDict.Add("head",HEADCloseProcessing);
-            closeTagsDict.Add("body",BODYCloseProcessing);
+            
+            
         }
         public new void ProcessToken(Token token)
         {
@@ -58,12 +58,13 @@ namespace HoustonBrowser.Parsing
         {
             AddingStructureTag("head");
             openTagsDict.Remove("head");
-
+            StatesData.currentState = (int)InsertionModes.InHead;
         }
         private void BODYOpenProcessing()
         {
             AddingStructureTag("body");
             openTagsDict.Remove("body");
+            StatesData.currentState = (int)InsertionModes.InBody;
         }
         private void HTMLCloseProcessing()
         {
@@ -77,27 +78,6 @@ namespace HoustonBrowser.Parsing
             }
             StatesData.FinishParsing();
         }
-        private void HEADCloseProcessing()
-        {
-            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == "head")
-            {
-                StatesData.openedTags.Pop();
-            }
-            else
-            {
-                Console.WriteLine("Error with closing tag head");
-            }
-        }
-        private void BODYCloseProcessing()
-        {
-            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == "body")
-            {
-                StatesData.openedTags.Pop();
-            }
-            else
-            {
-                Console.WriteLine("Error with closing tag body");
-            }
-        }
+        
     }
 }

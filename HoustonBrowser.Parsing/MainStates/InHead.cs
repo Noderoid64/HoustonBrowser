@@ -11,6 +11,8 @@ namespace HoustonBrowser.Parsing
         string attributeName;
         string lastNonCloseTagOpened;
 
+        public event EventHandler<string> onNonHtmlEvent;
+
         private Dictionary<string, TagProcessing> openTagsDict;
         private Dictionary<string, TagProcessing> closeTagsDict;
         //private Dictionary<string, TagProcessing> nameAttributeDict;
@@ -22,10 +24,15 @@ namespace HoustonBrowser.Parsing
             lastNonCloseTagOpened = "";
             attributeName = "";
             //Opening tags
-            openTagsDict.Add("title",TITLECloseProcessing);
+            openTagsDict.Add("title",TITLEOpenProcessing);
+            openTagsDict.Add("script",SCRIPTOpenProcessing);
+
             openTagsDict.Add("link", LINKOpenProcessing);
             //Closing tags
             closeTagsDict.Add("title", TITLECloseProcessing);
+            closeTagsDict.Add("script",SCRIPTCloseProcessing);
+            closeTagsDict.Add("head", HEADCloseProcessing);
+
             //Attributes names
 
             //Attributes values
@@ -38,7 +45,7 @@ namespace HoustonBrowser.Parsing
                         {
                             if (lastNonCloseTagOpened != "")
                             {
-                                if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == lastNonCloseTagOpened)
+                                if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeName == lastNonCloseTagOpened)
                                 {
                                     StatesData.openedTags.Pop();
                                     lastNonCloseTagOpened = "";
@@ -70,7 +77,28 @@ namespace HoustonBrowser.Parsing
                             StatesData.openedTags.Peek().Attributes.SetNamedItem(new Attr(attributeName, token.Value));
                             break;
                         }
-                }
+                case (int)TokenType.Text:
+                    {
+                        if (StatesData.openedTags.Count != 0)
+                        {
+                            if (StatesData.openedTags.Peek().NodeName == "script")
+                            {
+                                onNonHtmlEvent?.Invoke(this, token.Value);
+                            }
+                            else
+                            {
+                                var item = new HTMLText(token.Value);
+                                StatesData.openedTags.Peek().AppendChild(item);
+                            }
+                        }
+                        break;
+                    }
+                case (int)TokenType.EOF:
+                    {
+                        StatesData.FinishParsing();
+                        break;
+                    }
+            }
             
         }
         private void TITLEOpenProcessing()
@@ -80,7 +108,7 @@ namespace HoustonBrowser.Parsing
         }
         private void TITLECloseProcessing()
         {
-            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == "title")
+            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeName == "title")
             {
                 StatesData.openedTags.Pop();
             }
@@ -89,11 +117,21 @@ namespace HoustonBrowser.Parsing
                 Console.WriteLine("Error with closing tag title");
             }
         }
+        private void HEADCloseProcessing()
+        {
+            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeName == "head")
+            {
+                StatesData.openedTags.Pop();
+                StatesData.currentState = (int)InsertionModes.Initial;
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag head");
+            }
+        }
         private void LINKOpenProcessing()
         {
-            var item = new Element("link");
-            StatesData.openedTags.Peek().AppendChild(item);
-            StatesData.openedTags.Push(item);
+            AddingStructureTag("link");
             lastNonCloseTagOpened = "link";
         }
     }
