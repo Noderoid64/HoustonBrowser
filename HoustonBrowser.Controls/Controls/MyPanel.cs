@@ -23,5 +23,39 @@ namespace HoustonBrowser.Controls
                 }
             }
        }
+
+       protected override void OnPointerPressed(PointerPressedEventArgs e)
+       {
+           if(Controls!=null)
+           {
+                foreach(var cntrl in Controls)
+                {
+                    Point location = e.GetPosition(this);
+                    if (location.X>=cntrl.Left && location.X<=cntrl.Width+cntrl.Left && location.Y>=cntrl.Top && location.Y<=cntrl.Top+cntrl.Height)
+                    { 
+                        cntrl.IsPressed=true;
+                    }
+                }
+           }
+            base.OnPointerPressed(e);
+            this.InvalidateVisual();
+       }
+
+       protected override void OnPointerReleased(PointerReleasedEventArgs e)
+       {
+           if(Controls!=null)
+           {
+                foreach(var cntrl in Controls)
+                {
+                    Point location = e.GetPosition(this);
+                    if (location.X>=cntrl.Left && location.X<=cntrl.Width+cntrl.Left && location.Y>=cntrl.Top && location.Y<=cntrl.Top+cntrl.Height)
+                    { 
+                        cntrl.IsPressed=false;
+                    }
+                }
+           }
+           base.OnPointerReleased(e);
+            this.InvalidateVisual();
+        }
     }
 }
