@@ -95,8 +95,10 @@ namespace HoustonBrowser.Controls
                         OnPointerReleased(this, new PointerReleasedEventArgs());
                     }
 
+
                 }
             }
+
 
             private bool _isPressed;
             private FormattedText _formattedText;
@@ -108,7 +110,15 @@ namespace HoustonBrowser.Controls
             {
                 get 
                 {
-                    if(_width!=0 && _height!=0 && WrapText==TextWrapping.Wrap)
+                    if(_width!=0 && _height == 0 && WrapText == TextWrapping.Wrap)
+                    {
+                        _constraint = new Size(_width, 0);
+                    }
+                    else if (_width == 0 && _height != 0 && WrapText == TextWrapping.Wrap)
+                    {
+                        _constraint = new Size(0, _height);
+                    }
+                    else if(_width!=0 && _height!=0 && WrapText==TextWrapping.Wrap)
                     {
                         _constraint=new Size(_width, _height);
                     }

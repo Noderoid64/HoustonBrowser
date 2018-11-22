@@ -35,8 +35,10 @@ namespace HoustonBrowser.Core
             this.httpClient = new NetworkClient();
             this.parser = new Parser();
 
-            this.control = new BrowserControl();
-            this.js = new MockJS();
+            this.control=new BrowserControl();
+            this.js=new JSModule();
+            
+
 
             ui.onKeyDown += Ui_onKeyDown;
             ui.onMouseClick += Ui_onMouseClick;
