@@ -113,7 +113,9 @@ namespace HoustonBrowser
 
         private void drawPanelLink_OnPointerPressed(object sender, PointerPressedEventArgs e)
         {
-            var arg  =  new PageLoadEventArgs(((LinkLabel)sender).URL);
+            var linkUrl=((LinkLabel)sender).URL;
+            var arg  =  new PageLoadEventArgs(linkUrl);
+            urlTextBox.Text=linkUrl;
             this.onPageLoad(sender, arg);
         }
 
