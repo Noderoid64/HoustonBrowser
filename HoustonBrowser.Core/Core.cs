@@ -38,7 +38,7 @@ namespace HoustonBrowser.Core
             this.parser = new Parser();
 
             this.control=new BrowserControl();
-            this.js=new MockJS();
+            this.js=new JSModule();
             this.dom = new MockDocument();
 
             ui.onKeyDown += Ui_onKeyDown;
