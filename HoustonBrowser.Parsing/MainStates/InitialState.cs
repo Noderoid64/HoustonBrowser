@@ -41,6 +41,10 @@ namespace HoustonBrowser.Parsing
                     Console.WriteLine("Detected object of not tag type before html/head/body");
                 }
             }
+            else if (token.Type == (int)TokenType.EOF)
+            {
+                StatesData.FinishParsing();
+            }
             else
             {
                 Console.WriteLine("Some structure problems in your html page html/head/body");

@@ -117,6 +117,23 @@ namespace HoustonBrowser.Parsing
                 Console.WriteLine("Error with closing tag title");
             }
         }
+        private void SCRIPTOpenProcessing()
+        {
+            var item = new HTMLScriptElement();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
+        }
+        private void SCRIPTCloseProcessing()
+        {
+            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeName == "script")
+            {
+                StatesData.openedTags.Pop();
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag script");
+            }
+        }
         private void HEADCloseProcessing()
         {
             if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeName == "head")

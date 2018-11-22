@@ -204,13 +204,47 @@ namespace HoustonBrowser.Parsing
         }
         private void DIVCloseProcessing()
         {
-            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().GetType().IsEquivalentTo(new HTMLDivElement().GetType()))
+            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeName == "div")
             {
                 StatesData.openedTags.Pop();
             }
             else
             {
                 Console.WriteLine("Error with closing tag div");
+            }
+        }
+        private void SCRIPTOpenProcessing()
+        {
+            var item = new HTMLScriptElement();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
+        }
+        private void SCRIPTCloseProcessing()
+        {
+            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeName == "script")
+            {
+                StatesData.openedTags.Pop();
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag script");
+            }
+        }
+        private void BUTTONOpenProcessing()
+        {
+            var item = new HTMLButtonElement();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
+        }
+        private void BUTTONCloseProcessing()
+        {
+            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeName == "button")
+            {
+                StatesData.openedTags.Pop();
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag button");
             }
         }
         private void IOpenProcessing()

@@ -25,7 +25,6 @@ namespace HoustonBrowser.Parsing
         public Document Parse(string value)
         {
             List<Node> stackOfOpenedElements = new List<Node>();
-            int insertMode = (int)InsertionModes.Initial;
             List<int> StackOfTemplateInsertModesUsed = new List<int>();
             List<Node> listOfOpenTags = new List<Node>();
             List<Token> tokens = new List<Token>();
@@ -212,6 +211,7 @@ namespace HoustonBrowser.Parsing
 
                 }*/
             }
+            doc.ToString();
             return doc;
         }
 
