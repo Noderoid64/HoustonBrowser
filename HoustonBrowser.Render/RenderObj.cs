@@ -165,7 +165,7 @@ namespace HoustonBrowser.Render
                         obj.Top = localTop;
 
                         localLeft += obj.Width;
-                        localHeight = obj.Height;
+                        localHeight += obj.Height;
                     }
                     else
                     {
@@ -173,11 +173,13 @@ namespace HoustonBrowser.Render
                         obj.Top = localTop;
                         localTop += obj.Height;
                         obj.Left = localLeft;    
-                        localHeight = obj.Height;
+                        localHeight += obj.Height;
                     }
 
                     obj.ReLocation();
                 }
+
+                ControlRenderObj.Height = localHeight + style.DistanceBetweenBlock.Height;
             }
         }
 

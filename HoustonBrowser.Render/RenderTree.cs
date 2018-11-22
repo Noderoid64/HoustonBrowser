@@ -33,10 +33,5 @@ namespace HoustonBrowser.Render
 
             return tmpList;
         }
-
-        public void Relayout1()
-        {
-
-        }
     }
 }
