@@ -37,7 +37,9 @@ namespace HoustonBrowser.Parsing
         }
         private void HEADOpenProcessing(Node currentNode)
         {
-
+            //var item = new HtmlHeadElement();
+            //openedTags.Peek().AppendChild(item);
+            //openedTags.Push(item);
         }
         private void BODYOpenProcessing(Node currentNode)
         {
