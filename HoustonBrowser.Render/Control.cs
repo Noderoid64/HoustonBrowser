@@ -25,7 +25,8 @@ namespace HoustonBrowser.Render
         }
 
         private delegate BrowserControl GetControl(
-            NodeOfRenderTree renderNode,
+            ref Style style,
+            RenderObj renderNode,
             Node node
         );
 
@@ -61,60 +62,52 @@ namespace HoustonBrowser.Render
         }
 
         public static BrowserControl Get(
-            NodeOfRenderTree renderNode,
+            ref Style style,
+            RenderObj renderNode,
             Node node
         )
         {
             GetControl control;
             if (ControlsDictionary.TryGetValue(node.GetType(), out control))
             {
-                return control(renderNode, node);
+                return control(ref style, renderNode, node);
             }
-            else
-            {
-                Console.WriteLine("ZadError");
-                return null;
-            }
+            Console.WriteLine("Zad");
+            style = new Style(0,0,0,0);
+            return null;
         }
 
         public static BrowserControl GetTextControl(
-            NodeOfRenderTree renderNode,
+            ref Style style,
+            RenderObj renderNode,
             Node node
             )
         {
             renderNode.IsFixedSize = true;
             var control = new Label()
             {
-                Left = renderNode.Left,
-                Top = renderNode.Top,
                 Width = renderNode.Width,
                 WrapText = TextWrapping.Wrap,
                 Text = node.NodeValue,
                 BackgroundBrush=new SolidColorBrush(new Color(255, 250, 0, 0))
             };
-            renderNode.Height = control.Height;
+
+            style = new Style(0, 0, 0, 0);
 
             return control;
         }
 
         public static BrowserControl GetBodyControl(
-            NodeOfRenderTree renderNode,
+            ref Style style,
+            RenderObj renderNode,
             Node node
             )
         {
-            var control =  new Rectangle()
+            var control =  new Controls.Rectangle()
             {
-                Height = renderNode.Height - 20,
-                Width = renderNode.Width - 20,
-                Left = renderNode.Left + 10,
-                Top = renderNode.Top + 10,
                 BackgroundBrush = new SolidColorBrush(new Color(255, 100, 100, 0))
             };
-
-            renderNode.WidthBlock = control.Width;
-            renderNode.HeightBlock = control.Height;
-            renderNode.LeftBlock = control.Left;
-            renderNode.TopBlock = control.Top;
+            style = new Style(10, 10, 10, 10);
 
             return control;
         }
@@ -125,10 +118,12 @@ namespace HoustonBrowser.Render
         // }
 
         public static BrowserControl GetDivControl(
-            NodeOfRenderTree renderNode,
+            ref Style style,
+            RenderObj renderNode,
             Node node
         )
         {
+            style = new Style(10, 10, 10, 10);
             return new BrowserControl();
         }
 
@@ -143,87 +138,20 @@ namespace HoustonBrowser.Render
         // }
 
         public static BrowserControl GetParagraphControl(
-            NodeOfRenderTree renderNode,
+            ref Style style,
+            RenderObj renderNode,
             Node node
             )
         {
-            var control = new Rectangle()
+            var control = new Controls.Rectangle()
             {
-                Width = renderNode.Width,
-                Left = renderNode.Left,
-                Top = renderNode.Top,
+                Height = 10,
                 BackgroundBrush = new SolidColorBrush(new Color(255, 0, 0, 200))
             };
 
-            renderNode.WidthBlock = control.Width;
-            renderNode.HeightBlock = control.Height;
-            renderNode.LeftBlock = control.Left;
-            renderNode.TopBlock = control.Top + 15;
+            style = new Style(15, 15, 0, 0);
 
             return control;
-        }
-
-
-        // set size of contrals
-
-        private delegate void GetSizeControl(
-            double inWidth,
-            double inHeight,
-            NodeOfRenderTree renderNode);
-
-        private static Dictionary<Type, GetSizeControl> SizeControlsDictionary
-            = new Dictionary<Type, GetSizeControl>
-            {
-                [typeof(HTMLBodyElement)] = GetSizeBodyControl,
-                [typeof(HTMLDivElement)] = GetSizeDivControl,
-                [typeof(HTMLParagraphElement)] = GetSizeParagraphControl,
-            };
-
-        public static void GetSize(
-            double inWidth,
-            double inHeight,
-            NodeOfRenderTree renderNode)
-        {
-            GetSizeControl control;
-            if (SizeControlsDictionary.TryGetValue(renderNode.NodeOfDom.GetType(), out control))
-            {
-                control(inWidth, inHeight, renderNode);
-            }
-        }
-
-        public static void GetSizeParagraphControl(
-            double inWidth,
-            double inHeight,
-            NodeOfRenderTree renderNode)
-        {
-            double marStart = 15;
-            double marEnd = 15;
-
-            renderNode.HeightControl = marStart + marEnd + inHeight;
-        }
-
-        public static void GetSizeBodyControl(
-            double inWidth,
-            double inHeight,
-            NodeOfRenderTree renderNode)
-        {
-            if (renderNode.HeightControl < inHeight)
-            {
-                double marStart = 10;
-                double marEnd = 10;
-
-                renderNode.HeightControl = marStart + marEnd + inHeight;
-            }
-        }
-
-        public static void GetSizeDivControl
-            (
-            double inWidth,
-            double inHeight,
-            NodeOfRenderTree renderNode
-            )
-        {
-
         }
     }
 }

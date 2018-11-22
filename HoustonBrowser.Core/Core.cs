@@ -70,6 +70,10 @@ namespace HoustonBrowser.Core
             RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
 
             onRender(this, renderEventArgs);
+
+            //RenderTree renderTree = new RenderTree(parser.Parse(httpClient.Get(e.UrlString)));
+            //RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
+            //onRender(this, renderEventArgs);
         }
 
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)

@@ -17,19 +17,27 @@ namespace HoustonBrowser.Render
         public RenderPage(HTMLDocument document)
         {
             this.document = document;
-            renderTree = new RenderTree();
-            renderTree.Width = Width;
-            renderTree.Height = Height;
-            renderTree.Left = 0;
-            renderTree.Top = 0;
-            BuildRenderTree(document.FirstChild, renderTree);
-            renderTree.Relayout(0, 0);
+
+            foreach (Node node in document.FirstChild.ChildNodes)
+            {
+                if (node.GetType() == typeof(HTMLBodyElement))
+                {
+                    renderTree = new RenderTree(node);
+                    renderTree.Width = Width;
+                    renderTree.Height = Height;
+                    renderTree.Left = 0;
+                    renderTree.Top = 0;
+
+                    BuildRenderTree(node, renderTree);
+                    renderTree.Relayout();
+                }
+            }
         }
 
 
-        public void BuildRenderTree(Node node, NodeOfRenderTree nodeOfRenderTree)
+        public void BuildRenderTree(Node node, RenderObj RenderObj)
         {
-            NodeOfRenderTree newNodeOfRenderTree;
+            RenderObj newRenderObj;
 
             if (node.ChildNodes.Count != 0)
             {
@@ -37,25 +45,17 @@ namespace HoustonBrowser.Render
                 {
                     if (Control.IsNodeRender(childNode))
                     {
-                        if (nodeOfRenderTree.ControlOfThisNode == null)
-                        {
-                            nodeOfRenderTree.AddControl(childNode);
-                            BuildRenderTree(childNode, nodeOfRenderTree);
-                        }
-                        else
-                        {
-                            newNodeOfRenderTree = new NodeOfRenderTree(
-                            nodeOfRenderTree,
-                            renderTree,
-                            childNode
-                            );
-                            nodeOfRenderTree.Childs.Add(newNodeOfRenderTree);
+                        newRenderObj = new RenderObj(
+                        RenderObj,
+                        renderTree,
+                        childNode
+                        );
+                        RenderObj.Childs.Add(newRenderObj);
 
-                            BuildRenderTree(childNode, newNodeOfRenderTree);
-                        }
+                        BuildRenderTree(childNode, newRenderObj);
                     }
                     else
-                        BuildRenderTree(childNode, nodeOfRenderTree);
+                        BuildRenderTree(childNode, RenderObj);
                 }
             }
         }
