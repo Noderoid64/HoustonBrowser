@@ -64,6 +64,7 @@ namespace HoustonBrowser.Parsing
                                                 }
                                             case "head":
                                                 {
+                                                    //insertMode=(int)InsertionModes.InHead;
                                                     var item=new Element("head");
                                                     nodes.Peek().AppendChild(item);
                                                     nodes.Push(item);
@@ -84,9 +85,9 @@ namespace HoustonBrowser.Parsing
                                         }
                                         break;
                                     }
-                                case (int)InsertionModes.BeforeHtml:
+                                case (int)InsertionModes.InHead:
                                     {
-
+                                        
                                         break;
                                     }
                                 case (int)InsertionModes.BeforeHead:
@@ -155,7 +156,7 @@ namespace HoustonBrowser.Parsing
                         }
                     case (int)TokenType.NameOfTagClosing:
                         {
-                            if (nodes.Count != 0 && tokens.Contains(new Token(2, "head")))
+                            if (nodes.Count != 0)
                             {
                                 nodes.Pop();
                             }    
