@@ -4,14 +4,13 @@ using System.Text;
 
 namespace HoustonBrowser.Parsing.Enums
 {
-    public enum TokenType
+    internal enum TokenType
     {
         Text,
         NameOfTag,
         NameOfTagClosing,
         AttributeName,
         AttributeValue,
-        EOF,
-        Null,
+        EOF
     }
 }

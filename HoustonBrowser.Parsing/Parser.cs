@@ -31,15 +31,17 @@ namespace HoustonBrowser.Parsing
             List<Token> tokens = new List<Token>();
             Document doc = new Document();
             HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
-
-            bool last=false;
             Stack<Node> nodes=new Stack<Node>();
-            while (!last)
+            State state = new State();//main parse class
+            StatesData.SetData(nodes, doc);//Adding data
+            while (!StatesData.IsLast)
             {
                 lexAnalyser.InsertionState=insertMode;
                 Token token=lexAnalyser.Tokenize();
                 tokens.Add(token);
-                switch (token.Type)
+                token.Standartize();
+                state.ProcessToken(token);
+                /*switch (token.Type)
                 {
                     case (int)TokenType.EOF:
                         {
@@ -208,7 +210,7 @@ namespace HoustonBrowser.Parsing
                             throw new Exception("Raw token got.");
                         }
 
-                }
+                }*/
             }
             return doc;
         }

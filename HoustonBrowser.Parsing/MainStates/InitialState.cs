@@ -6,56 +6,98 @@ using HoustonBrowser.DOM.HTML;
 
 namespace HoustonBrowser.Parsing
 {
-    public class InitialState//:State
+    public class InitialState:State,IState
     {
-        Stack<Node> openedTags;
-        delegate void TagProcessing(Node currentNode);
-        private Dictionary<Token,TagProcessing> processedTags;
-        public InitialState(Stack<Node> openTags)
+
+        private Dictionary<string,TagProcessing> openTagsDict;
+        private Dictionary<string,TagProcessing> closeTagsDict;
+        public InitialState()
         {
-            openedTags = openTags;
-            processedTags.Add(new Token((int)TokenType.NameOfTag,"html"),HTMLOpenProcessing);
+            openTagsDict = new Dictionary<string,TagProcessing>();
+            closeTagsDict = new Dictionary<string, TagProcessing>();
+            //OpenTags
+            openTagsDict.Add("html",HTMLOpenProcessing);
+            openTagsDict.Add("head",HEADOpenProcessing);
+            openTagsDict.Add("body",BODYOpenProcessing);
+            //CloseTags
+            closeTagsDict.Add("html",HTMLCloseProcessing);
+            closeTagsDict.Add("head",HEADCloseProcessing);
+            closeTagsDict.Add("body",BODYCloseProcessing);
         }
-        public void ProcessToken(Token token,Node currentNode)
+        public new void ProcessToken(Token token)
         {
-            if(processedTags.ContainsKey(token))
+            if (openTagsDict.ContainsKey(token.Value))
             {
-                processedTags.GetValueOrDefault(token).Invoke(currentNode);
+                if (token.Type == (int)TokenType.NameOfTag)
+                {
+                    openTagsDict.GetValueOrDefault(token.Value).Invoke();
+                }
+                else if (token.Type == (int)TokenType.NameOfTagClosing)
+                {
+                    closeTagsDict.GetValueOrDefault(token.Value).Invoke();
+                }
+                else
+                {
+                    Console.WriteLine("Detected object of not tag type before html/head/body");
+                }
             }
             else
             {
                 Console.WriteLine("Some structure problems in your html page html/head/body");
             }
         }
-        private void HTMLOpenProcessing(Node currentNode)
+        private void HTMLOpenProcessing()
         {
-            currentNode = new HTMLDocument();                                                    
+            StatesData.root = new HTMLDocument();                                                    
             var item = new Element("html");
-            currentNode.AppendChild(item);
-            openedTags.Push(item);
-            processedTags.Remove(new Token((int)TokenType.NameOfTag,"html"));
+            StatesData.root.AppendChild(item);
+            StatesData.openedTags.Push(item);
+            openTagsDict.Remove("html");
         }
-        private void HEADOpenProcessing(Node currentNode)
+        private void HEADOpenProcessing()
         {
-            //var item = new HtmlHeadElement();
-            //openedTags.Peek().AppendChild(item);
-            //openedTags.Push(item);
-        }
-        private void BODYOpenProcessing(Node currentNode)
-        {
+            AddingStructureTag("head");
+            openTagsDict.Remove("head");
 
         }
-        private void HTMLCloseProcessing(Node currentNode)
+        private void BODYOpenProcessing()
         {
-
+            AddingStructureTag("body");
+            openTagsDict.Remove("body");
         }
-        private void HEADCloseProcessing(Node currentNode)
+        private void HTMLCloseProcessing()
         {
-
+            if(StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == "html")
+            {
+                StatesData.openedTags.Pop();
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag html");
+            }
+            StatesData.FinishParsing();
         }
-        private void BODYCloseProcessing(Node currentNode)
+        private void HEADCloseProcessing()
         {
-
+            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == "head")
+            {
+                StatesData.openedTags.Pop();
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag head");
+            }
+        }
+        private void BODYCloseProcessing()
+        {
+            if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == "body")
+            {
+                StatesData.openedTags.Pop();
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag body");
+            }
         }
     }
 }

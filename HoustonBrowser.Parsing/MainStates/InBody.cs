@@ -6,8 +6,9 @@ using HoustonBrowser.DOM.HTML;
 
 namespace HoustonBrowser.Parsing
 {
-    public class InBody
+    public class InBody:State,IState
     {
-        
+        private Dictionary<string, TagProcessing> openTagsDict;
+        private Dictionary<string, TagProcessing> closeTagsDict;
     }
 }
