@@ -23,7 +23,9 @@ namespace HoustonBrowser.Render
             renderTree.Left = 0;
             renderTree.Top = 0;
             BuildRenderTree(document.FirstChild, renderTree);
+            renderTree.Relayout(0, 0);
         }
+
 
         public void BuildRenderTree(Node node, NodeOfRenderTree nodeOfRenderTree)
         {

@@ -102,7 +102,7 @@ namespace HoustonBrowser.Render
             Node node
             )
         {
-            return new Rectangle()
+            var control =  new Rectangle()
             {
                 Height = renderNode.Height - 20,
                 Width = renderNode.Width - 20,
@@ -110,6 +110,13 @@ namespace HoustonBrowser.Render
                 Top = renderNode.Top + 10,
                 BackgroundBrush = new SolidColorBrush(new Color(255, 100, 100, 0))
             };
+
+            renderNode.WidthBlock = control.Width;
+            renderNode.HeightBlock = control.Height;
+            renderNode.LeftBlock = control.Left;
+            renderNode.TopBlock = control.Top;
+
+            return control;
         }
 
         // public static BrowserControl GetButtonControl(ref double height, Node node, double width)
@@ -140,13 +147,20 @@ namespace HoustonBrowser.Render
             Node node
             )
         {
-            return new Rectangle()
+            var control = new Rectangle()
             {
                 Width = renderNode.Width,
                 Left = renderNode.Left,
                 Top = renderNode.Top,
                 BackgroundBrush = new SolidColorBrush(new Color(255, 0, 0, 200))
             };
+
+            renderNode.WidthBlock = control.Width;
+            renderNode.HeightBlock = control.Height;
+            renderNode.LeftBlock = control.Left;
+            renderNode.TopBlock = control.Top + 15;
+
+            return control;
         }
 
 

@@ -37,6 +37,11 @@ namespace HoustonBrowser.Render
             set => ControlOfThisNode.Height = value;
         }
 
+        public double LeftBlock { get; set; }
+        public double TopBlock { get; set; }
+        public double WidthBlock { get; set; }
+        public double HeightBlock { get; set; }
+
         public List<NodeOfRenderTree> Childs { get; set; }
              = new List<NodeOfRenderTree>();
         public NodeOfRenderTree PreviousNode { get => previousNode; }
@@ -81,6 +86,42 @@ namespace HoustonBrowser.Render
         {
             ControlOfThisNode = Control.Get(this, node);
             nodeOfDom = node;
+        }
+
+        public void Relayout(double localWidth, double localHeigth)
+        {
+            if (!IsFixedSize && Childs.Count != 0)
+            {
+                double localLeft = LeftBlock;
+                double localTop = TopBlock;
+
+                foreach (NodeOfRenderTree node in Childs)
+                {
+                    node.Relayout();
+
+                    if ((localWidth + node.Width) < WidthBlock)
+                    {
+                        node.Left = localLeft;
+                        node.Top = localTop;
+
+                        localWidth += node.Width;
+                        localLeft += node.Width;
+                        localHeigth = node.Height;
+                    }
+                    else
+                    {
+                        localTop += localHeigth;
+                        node.Top = localTop;
+                        node.Left = localLeft;
+                        localWidth = 0;
+                        localLeft = LeftBlock;
+                        localHeigth += node.Height;
+
+                        
+                        
+                    }
+                }
+            }
         }
     }
 }
