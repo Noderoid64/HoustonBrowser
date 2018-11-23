@@ -26,7 +26,7 @@ namespace HoustonBrowser.Parsing
         }
         public new void ProcessToken(Token token)
         {
-            if (openTagsDict.ContainsKey(token.Value))
+            if (openTagsDict.ContainsKey(token.Value)|| closeTagsDict.ContainsKey(token.Value))
             {
                 if (token.Type == (int)TokenType.NameOfTag)
                 {
@@ -71,14 +71,14 @@ namespace HoustonBrowser.Parsing
         }
         private void HTMLCloseProcessing()
         {
-            if(StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == "html")
-            {
-                StatesData.openedTags.Pop();
-            }
-            else
-            {
-                Console.WriteLine("Error with closing tag html");
-            }
+            //if(StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == "html")
+            //{
+            //    StatesData.openedTags.Pop();
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Error with closing tag html");
+            //}
             StatesData.FinishParsing();
         }
         

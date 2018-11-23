@@ -60,7 +60,15 @@ namespace HoustonBrowser.Parsing
                         }
                     case (int)TokenType.NameOfTagClosing:
                         {
-                            if (closeTagsDict.ContainsKey(token.Value))
+                            if (lastNonCloseTagOpened != "")
+                            {
+                                if (StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeName == lastNonCloseTagOpened)
+                                {
+                                    StatesData.openedTags.Pop();
+                                    lastNonCloseTagOpened = "";
+                                }
+                        }
+                        if (closeTagsDict.ContainsKey(token.Value))
                             {
                                 closeTagsDict.GetValueOrDefault(token.Value).Invoke();
                             }
