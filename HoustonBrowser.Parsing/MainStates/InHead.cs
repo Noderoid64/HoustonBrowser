@@ -87,7 +87,7 @@ namespace HoustonBrowser.Parsing
                             }
                             else
                             {
-                                var item = new HTMLText(token.Value);
+                                var item = new Text(token.Value);
                                 StatesData.openedTags.Peek().AppendChild(item);
                             }
                         }

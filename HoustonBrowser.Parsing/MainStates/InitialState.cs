@@ -51,8 +51,7 @@ namespace HoustonBrowser.Parsing
             }
         }
         private void HTMLOpenProcessing()
-        {
-            StatesData.root = new HTMLDocument();                                                    
+        {                                                   
             var item = new Element("html");
             StatesData.root.AppendChild(item);
             StatesData.openedTags.Push(item);

@@ -5,7 +5,7 @@ using HoustonBrowser.DOM.Core;
 
 namespace HoustonBrowser.DOM.HTML
 {
-    public class HTMLText: Text
+    class HTMLText: Text
     {
         public HTMLText(string contentNode) : base(contentNode) { }
     }

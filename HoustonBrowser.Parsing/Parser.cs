@@ -28,7 +28,7 @@ namespace HoustonBrowser.Parsing
             List<int> StackOfTemplateInsertModesUsed = new List<int>();
             List<Node> listOfOpenTags = new List<Node>();
             List<Token> tokens = new List<Token>();
-            Document doc = new Document();
+            Document doc = new HTMLDocument();
             HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
             Stack<Node> nodes=new Stack<Node>();
             State state = new State();//main parse class

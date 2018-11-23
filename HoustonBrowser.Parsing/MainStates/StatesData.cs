@@ -28,7 +28,7 @@ namespace HoustonBrowser.Parsing
         }
         static public void SetData(Stack<Node> openTags, Node rootNode)
         {
-            rootNode = root;
+            root = rootNode;
             openedTags = openTags;
         }
         static internal void FinishParsing()
