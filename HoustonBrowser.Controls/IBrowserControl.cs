@@ -23,7 +23,8 @@ namespace HoustonBrowser.Controls
         IBrush ForegroundBrush {get;set;}
         Typeface TextTypeface {get;set;}
         TextAlignment AlignText {get;set;}
-        bool IsDefault {get;set;}
+        TextWrapping WrapText {get;set;}
+        FormattedText FormattedText {get;}
         bool IsPressed {get;set;}
 
         event EventHandler<KeyEventArgs> KeyDown;
@@ -31,10 +32,6 @@ namespace HoustonBrowser.Controls
         event EventHandler<PointerReleasedEventArgs> PointerReleased;
 
         void Render(DrawingContext context);
-        void OnKeyDown(object sender, KeyEventArgs e);
-        void OnPointerPressed(object sender, PointerPressedEventArgs e);
-        void OnPointerReleased(object sender, PointerReleasedEventArgs e);
-
         //mock
         string Render();
     }

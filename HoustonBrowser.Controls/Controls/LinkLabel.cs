@@ -11,6 +11,8 @@ namespace HoustonBrowser.Controls
     public class LinkLabel: Label
     {
         public override IBrush ForegroundBrush {get;set;} = new SolidColorBrush(new Color(255,0,0,102));
+
+        public string URL {get;set;}
         public override void Render(DrawingContext context)
         {
             if(this.Form==null)
@@ -31,7 +33,7 @@ namespace HoustonBrowser.Controls
             {
                 var bounds1 = this.FormattedText.HitTestTextPosition(start);
                 var bounds2 = this.FormattedText.HitTestTextPosition(start+lines[i].Length-1);
-                context.DrawLine(underlinePen, bounds1.BottomLeft+new Point(Left,Top+Height/2), bounds2.BottomRight+new Point(Left, Top+Height/2));
+                context.DrawLine(underlinePen, bounds1.BottomLeft+new Point(Left,Top), bounds2.BottomRight+new Point(Left, Top));
                 start+=lines[i].Length;
             }
 

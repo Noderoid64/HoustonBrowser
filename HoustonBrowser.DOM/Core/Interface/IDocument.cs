@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace HoustonBrowser.DOM.Core.Interface
+namespace HoustonBrowser.DOM.Interface
 {
     public interface IDocument : INode
     {
@@ -18,6 +18,5 @@ namespace HoustonBrowser.DOM.Core.Interface
                                                   
         List<Node> GetElementsByTagName(string tagname);
 
-        string DomWork();
     }
 }

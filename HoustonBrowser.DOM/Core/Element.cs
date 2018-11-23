@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using HoustonBrowser.DOM.Core.Interface;
+using HoustonBrowser.DOM.Interface;
 
-namespace HoustonBrowser.DOM.Core
+namespace HoustonBrowser.DOM
 {
     public class Element: Node, IElement
     {
@@ -54,7 +54,7 @@ namespace HoustonBrowser.DOM.Core
 
             foreach(var node in ChildNodes)
             {
-                if(node.NodeType == TypeOfNode.ELEMENT_NODE)
+                if(node.NodeType == (int)TypeOfNode.ELEMENT_NODE)
                     if(node.NodeName == name || name == "*")
                         list.Add(node);
             }

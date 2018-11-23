@@ -1,70 +1,37 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using Avalonia.Media;
 using HoustonBrowser.Controls;
 using HoustonBrowser.DOM;
-using HoustonBrowser.DOM.Core;
-
 
 namespace HoustonBrowser.Render
 {
-    public class RenderTree
+    public class RenderTree : RenderObj
     {
-        private Document document;
+        private List<BrowserControl> listOfControls = new List<BrowserControl>();
 
-        public RenderTree(Document document)
+        public List<BrowserControl> ListOfControls
         {
-            this.document = document;
-        }
+            get {
+                if (listOfControls.Count == 0)
+                    listOfControls = GetListOfControls();
 
-        public List<BrowserControl> GetPage()
-        {
-            double left = 0;
-            double top = 0;
-            return GetPage(document, left, top);
-        }
-
-        public List<BrowserControl> GetPage(Node node, double left, double top)
-        {
-            var listControls = new List<BrowserControl>();
-
-            /* switch (node.NodeName)
-            {
-                case ("button"):
-                    var button = new Button(){Left=left, Top=top};
-                    button.Text = node.NodeValue;
-                    left += button.Width;
-                    listControls.Add(button);
-
-                    break;
-                case ("div"):
-                    top += 30;
-                    var div = new Rectangle(){Left=left, Top=top};
-                    listControls.Add(div);
-                    top += div.Height / 3.5;
-                    left = 0;
-                    break;
-                case ("#text"):
-                    var label = new Label(){Left=left, Top=top};
-                    label.Text = node.NodeValue;
-                    left += label.Width;
-                    listControls.Add(label);
-                    break;
-                case ("p"):
-                    listControls.Add(new Label());
-                    break;
+                return listOfControls;
             }
 
-            if (node.ChildNodes.Count != 0)
-            {
-                foreach (Node tmpNode in node.ChildNodes)
-                {
-                    var list = GetPage(tmpNode, left, top);
-                    listControls.AddRange(list);
-                }
-            }*/
+        }
 
-            return listControls;
+        public RenderTree(Node node) : base(node) { }
+
+        private List<BrowserControl> GetListOfControls()
+        {
+            var tmpList = new List<BrowserControl>();
+            tmpList.Add(ControlRenderObj);
+            foreach (RenderObj node in Childs)
+            {
+                tmpList.AddRange(GetListOfControls(node));
+            }
+
+            return tmpList;
         }
     }
 }

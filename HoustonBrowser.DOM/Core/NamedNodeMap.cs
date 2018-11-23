@@ -1,8 +1,8 @@
-using HoustonBrowser.DOM.Core.Interface;
+using HoustonBrowser.DOM.Interface;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace HoustonBrowser.DOM.Core
+namespace HoustonBrowser.DOM
 {
     public class NamedNodeMap: INamedNodeMap
     {

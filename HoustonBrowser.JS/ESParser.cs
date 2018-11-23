@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace HoustonBrowser.JS
 {
-/*
+    /* 
 TODO:
+0)Creating ES primitives during parsing
     1) SwitchStatement CaseBlock CaseClauses CaseClause DefaultClause
     2) FunctionExpression
     3) TryStatement, ThrowStatement, Catch, Finally
@@ -15,18 +17,19 @@ TODO:
     BitwiseXORExpressionNoIn, BitwiseANDExpressionNoIn, EqualityExpressionNoIn,
     RelationalExpressionNoIn, 
     7)ArrayLiteral, Elision, ElementList
-*/
+    */
 
-    public class ESParser
+    class ESParser
     {
-        Token[] parseString;
+        List<Token> tokens;
+
         int pos;
 
-        bool match(string expected)
+        bool Match(string expected)
         {
             try
             {
-                if (expected == parseString[pos].GetTokenValue()) { pos++; return true; }
+                if (expected == tokens[pos].GetTokenValue()) { pos++; return true; }
                 return false;
             }
             catch (System.IndexOutOfRangeException)
@@ -35,41 +38,70 @@ TODO:
             }
         }
 
-        public bool Program(Token[] w)
+        public UnaryExpression Program(List<Token> w)
         {
             try
             {
                 pos = 0;
-                parseString = w;
-                return SourseElements();
+                tokens = w;
+                Block node = new Block();
+                node.Body = SourseElements();
+                return node;
             }
             catch
             {
-                return false;
+                return null;
             }
         }
 
-        bool SourseElements()
+        List<UnaryExpression> SourseElements()
         {
             int oldPos = pos;
-            if (SourseElement() && SourseElements1()) return true;
+            List<UnaryExpression> nodes = new List<UnaryExpression>();
+            UnaryExpression node;
+            List<UnaryExpression> tempNodes;
+            if ((node = SourseElement()) != null)
+            {
+                nodes.Add(node);
+                tempNodes = SourseElements1();
+                if (tempNodes != null)
+                    foreach (var item in tempNodes)
+                    {
+                        nodes.Add(item);
+                    }
+                return nodes;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool SourseElements1()//e
+        List<UnaryExpression> SourseElements1()//e
         {
-            if (pos == parseString.Length) return true;
+            if (pos == tokens.Count) return null;
             int oldPos = pos;
-            if (SourseElement() && SourseElements1()) return true;
+            List<UnaryExpression> nodes = new List<UnaryExpression>();
+            List<UnaryExpression> tempNodes;
+            UnaryExpression node;
+            if ((node = SourseElement()) != null)
+            {
+                nodes.Add(node);
+                tempNodes = SourseElements1();
+                if (tempNodes != null)
+                    foreach (var item in tempNodes)
+                    {
+                        nodes.Add(item);
+                    }
+                return nodes;
+            }
             pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool SourseElement()
+        UnaryExpression SourseElement()
         {
             int oldPos = pos;
-            switch (parseString[pos].GetTokenValue())
+            UnaryExpression node;
+            switch (tokens[pos].GetTokenValue())
             {
                 case "break":
                 case "else":
@@ -85,136 +117,163 @@ TODO:
                 case "delete":
                 case "in":
                 case "instanceof":
-                    throw new Exception("Unexpected token: " + parseString[pos].GetTokenValue());
+                    throw new Exception("Unexpected token: " + tokens[pos].GetTokenValue());
             }
-
-            if (Statement()) return true;
+            if ((node = FunctionDeclaration()) != null) return node;
             pos = oldPos;
-            if (FunctionDeclaration()) return true;
-            return false;
+            if ((node = Statement()) != null) return node;
+            pos = oldPos;
+            return null;
         }
 
-        bool Statement()
+        UnaryExpression Statement()
         {
             int oldPos = pos;
-            if (Block()) return true;
+            UnaryExpression node;
+            // if (Block()) return true;
+            // pos = oldPos;
+
+            if ((node = VariableStatement()) != null) return node;
             pos = oldPos;
 
-            if (VariableStatement()) return true;
+            //if (EmptyStatement()) return null;
+            //pos = oldPos;
+
+            if ((node = ExpressionStatement()) != null) return node;
             pos = oldPos;
 
-            if (EmptyStatement()) return true;
-            pos = oldPos;
+            //if ((node = IfStatement())!=null) return node;
+            //pos = oldPos;
 
-            if (ExpressionStatement()) return true;
-            pos = oldPos;
-
-            if (IfStatement()) return true;
-            pos = oldPos;
-
-            // backtrack();
-            // saveCursor();
             // IterationStatement();
+            //pos = oldPos;
 
-            if (ContinueStatement()) return true;
-            pos = oldPos;
+            // if (ContinueStatement()) return true;
+            // pos = oldPos;
 
-            if (BreakStatement()) return true;
-            pos = oldPos;
+            // if (BreakStatement()) return true;
+            // pos = oldPos;
 
-            if (ReturnStatement()) return true;
-            pos = oldPos;
+            // if (ReturnStatement()) return true;
+            // pos = oldPos;
 
-            if (WithStatement()) return true;
-            pos = oldPos;
-            return false;
+            // if (WithStatement()) return true;
+            // pos = oldPos;
+            return null;
         }
+        /*
+                bool Block()
+                {
+                    int oldPos = pos;
+                    if (match("{") && match("}")) return true;
+                    pos = oldPos;
 
-        bool Block()
+                    if (match("{") && StatementList() && match("}")) return true;
+                    oldPos = pos;
+
+                    return false;
+                }
+
+                bool StatementList()
+                {
+                    int oldPos = pos;
+                    if (Statement() && StatementList1()) return true;
+                    pos = oldPos;
+                    return false;
+                }
+
+                bool StatementList1() //e
+                {
+                    int oldPos = pos;
+                    if (Statement() && StatementList1()) return true;
+                    pos = oldPos;
+                    return true;
+                }
+         */
+        VariableDeclaration VariableStatement()
         {
             int oldPos = pos;
-            if (match("{") && match("}")) return true;
+            VariableDeclaration declaration = new VariableDeclaration();
+            if (Match("var") && (declaration = VariableDeclarationList()) != null && Match(";")) return declaration;
             pos = oldPos;
-
-            if (match("{") && StatementList() && match("}")) return true;
-            oldPos = pos;
-
-            return false;
+            return null;
         }
 
-        bool StatementList()
+        VariableDeclaration VariableDeclarationList()
         {
             int oldPos = pos;
-            if (Statement() && StatementList1()) return true;
+            VariableDeclaration nodes = new VariableDeclaration();
+            VariableDeclarator node;
+            if ((node = VariableDeclaration()) != null)
+            {
+                nodes.Declarations = VariableDeclarationList1();
+                if (nodes.Declarations == null) nodes.Declarations = new List<VariableDeclarator>();
+                nodes.Declarations.Add(node);
+                return nodes;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool StatementList1() //e
+        List<VariableDeclarator> VariableDeclarationList1()//e
         {
             int oldPos = pos;
-            if (Statement() && StatementList1()) return true;
+            VariableDeclarator node;
+            if (Match(",") && (node = VariableDeclaration()) != null)
+            {
+                List<VariableDeclarator> nodes = VariableDeclarationList1();
+                if (nodes == null) nodes = new List<VariableDeclarator>();
+                nodes.Add(node);
+
+                return nodes;
+            }
             pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool VariableStatement()
+        VariableDeclarator VariableDeclaration()
         {
             int oldPos = pos;
-            if (match("var") && VariableDeclarationList() && match(";")) return true;
+            string ident;
+            if (tokens[pos].GetTokenType() == TokenType.Identifier)
+            {
+                UnaryExpression init = null;
+                ident = tokens[pos++].GetTokenValue();
+                oldPos = pos;
+                init = Initializer();
+                if (init == null) pos = oldPos;
+                return new VariableDeclarator(ident, init);
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool VariableDeclarationList()
+        UnaryExpression Initializer()
         {
             int oldPos = pos;
-            if (VariableDeclaration() && VariableDeclarationList1()) return true;
+            UnaryExpression node = null;
+            if (Match("=") && (node = AssignmentExpression()) != null) return node;
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool VariableDeclarationList1()//e
+        UnaryExpression AssignmentExpression()
         {
             int oldPos = pos;
-            if (match(",") && VariableDeclaration() && VariableDeclarationList1()) return true;
+            UnaryExpression left, right;
+            string oper;
+            if ((left = LeftHandSideExpression()) != null &&
+            (oper = AssignmentOperator()) != null &&
+            (right = AssignmentExpression()) != null) return new BinaryExpression(left, right, oper, ExpressionType.AssignmentExpression);
             pos = oldPos;
-            return true;
+            if ((left = ConditionalExpression()) != null) return left;
+            pos = oldPos;
+            return null;
         }
 
-        bool VariableDeclaration()
+        string AssignmentOperator()
         {
-            int oldPos = pos;
-            if (parseString[pos++].GetTokenType() == TokenType.Identifier && Initializer()) return true;
-            pos = oldPos;
-            if (parseString[pos++].GetTokenType() == TokenType.Identifier) return true;
-            pos = oldPos;
-            return false;
-        }
-
-        bool Initializer()
-        {
-            int oldPos = pos;
-            if (match("=") && AssignmentExpression()) return true;
-            pos = oldPos;
-            return false;
-        }
-
-        bool AssignmentExpression()
-        {
-            int oldPos = pos;
-            if (LeftHandSideExpression() &&
-            AssignmentOperator() &&
-            AssignmentExpression()) return true;
-            pos = oldPos;
-            if (ConditionalExpression()) return true;
-            pos = oldPos;
-            return false;
-        }
-
-        bool AssignmentOperator()
-        {
-            switch (parseString[pos].GetTokenValue())
+            switch (tokens[pos].GetTokenValue())
             {
                 case "=":
                 case "*=":
@@ -228,157 +287,237 @@ TODO:
                 case "&=":
                 case "^=":
                 case "|=":
-                    match(parseString[pos].GetTokenValue());
-                    return true;
+                    //match(tokens[pos].GetTokenValue());
+                    return tokens[pos++].GetTokenValue();
             }
-            return false;
+            return null;
         }
 
-        bool ConditionalExpression()
+        UnaryExpression ConditionalExpression()
         {
             int oldPos = pos;
-            if (LogicalORExpression() &&
-            match("?") &&
-            AssignmentExpression() &&
-            match(":") &&
-            AssignmentExpression()) return true;
+            UnaryExpression expr = LogicalORExpression();
+            if (expr != null)
+            {
+                //UnaryExpression trueVariant =null, falseVariant;
+                //if (match("?") &&
+                //(trueVariant=AssignmentExpression())!=null &&
+                //match(":") &&
+                //(falseVariant=AssignmentExpression())!=null) return trueVariant;
+
+                return expr;
+            }
             pos = oldPos;
-            if (LogicalORExpression()) return true;
-            pos = oldPos;
-            return false;
+            return null;
         }
 
         #region Logical expressions
-        bool LogicalORExpression()
+        UnaryExpression LogicalORExpression()
         {
             int oldPos = pos;
-            if (LogicalANDExpression() && LogicalORExpression1()) return true;
+            UnaryExpression expr = LogicalANDExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression next = LogicalORExpression1();
+                if (next != null) return new BinaryExpression(expr, next, "||", ExpressionType.LogicalExpression);
+                pos = oldPos;
+                return expr;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool LogicalORExpression1()//e
+        UnaryExpression LogicalORExpression1()//e
         {
             int oldPos = pos;
-            if (match("||") &&
-            LogicalANDExpression() &&
-            LogicalORExpression1()) return true;
+            UnaryExpression expr, next;
+            if (Match("||") && (expr = LogicalANDExpression()) != null)
+            {
+                oldPos = pos;
+                next = LogicalORExpression1();
+                if (next != null) return new BinaryExpression(expr, next, "||", ExpressionType.LogicalExpression);
+                return expr;
+            }
             pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool LogicalANDExpression()
+        UnaryExpression LogicalANDExpression()
         {
             int oldPos = pos;
-            bool res = BitwiseORExpression() &&
-            LogicalANDExpression1();
-            if (res) return true;
+            UnaryExpression expr = BitwiseORExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression next = LogicalANDExpression1();
+                if (next != null) return new BinaryExpression(expr, next, "&&", ExpressionType.LogicalExpression);
+                return expr;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool LogicalANDExpression1()//e
+        UnaryExpression LogicalANDExpression1()//e
         {
             int oldPos = pos;
-            if (match("&&") &&
-            BitwiseORExpression() &&
-            LogicalANDExpression1()) return true;
+            UnaryExpression expr, next;
+            if (Match("&&") &&
+            (expr = BitwiseORExpression()) != null)
+            {
+                oldPos = pos;
+                next = LogicalANDExpression1();
+                if (next != null) return new BinaryExpression(expr, next, "&&", ExpressionType.LogicalExpression);
+                return expr;
+            }
             pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool BitwiseORExpression()
+        UnaryExpression BitwiseORExpression()
         {
             int oldPos = pos;
-            if (BitwiseXORExpression() && BitwiseORExpression1()) return true;
+            UnaryExpression expr = BitwiseXORExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression newExpr = BitwiseORExpression1();
+                if (newExpr == null) pos = oldPos;
+                return expr;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool BitwiseORExpression1()//e
+        UnaryExpression BitwiseORExpression1()//e
         {
             int oldPos = pos;
-            if (match("|") &&
-            BitwiseXORExpression() &&
-            BitwiseORExpression1()) return true;
+            UnaryExpression expr, next;
+            if (Match("|") &&
+            (expr = BitwiseXORExpression()) != null)
+            {
+                oldPos = pos;
+                next = BitwiseORExpression1();
+                if (next != null) return new BinaryExpression(expr, next, "|", ExpressionType.BinaryExpression);
+                return expr;
+            }
             pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool BitwiseXORExpression()
+        UnaryExpression BitwiseXORExpression()
         {
             int oldPos = pos;
-            if (BitwiseANDExpression() && BitwiseXORExpression1()) return true;
+            UnaryExpression expr = BitwiseANDExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression newExpr = BitwiseXORExpression1();
+                if (newExpr == null) pos = oldPos;
+                return expr;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool BitwiseXORExpression1()//e
+        UnaryExpression BitwiseXORExpression1()//e
         {
             int oldPos = pos;
-            if (match("^") &&
-            BitwiseANDExpression() &&
-            BitwiseXORExpression1()) return true;
+            UnaryExpression expr, next;
+            if (Match("^") &&
+            (expr = BitwiseANDExpression()) != null)
+            {
+                oldPos = pos;
+                next = BitwiseXORExpression1();
+                if (next != null) return new BinaryExpression(expr, next, "^", ExpressionType.BinaryExpression);
+                return expr;
+            }
             pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool BitwiseANDExpression()
+        UnaryExpression BitwiseANDExpression()
         {
             int oldPos = pos;
-            if (EqualityExpression() && BitwiseANDExpression1()) return true;
+            UnaryExpression expr = EqualityExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression newExpr = BitwiseANDExpression1();
+                if (newExpr == null) pos = oldPos;
+                return expr;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool BitwiseANDExpression1()//e
+        UnaryExpression BitwiseANDExpression1()//e
         {
             int oldPos = pos;
-            if (match("&") &&
-            EqualityExpression() &&
-            BitwiseANDExpression1()) return true;
+            UnaryExpression expr, next;
+            if (Match("&") &&
+            (expr = EqualityExpression()) != null)
+            {
+                oldPos = pos;
+                next = BitwiseANDExpression1();
+                if (next != null) return new BinaryExpression(expr, next, "&", ExpressionType.BinaryExpression);
+                return expr;
+            }
             pos = oldPos;
-            return true;
+            return null;
         }
         #endregion
-        bool EqualityExpression()
+        UnaryExpression EqualityExpression()
         {
             int oldPos = pos;
-            if (RelationalExpression() && EqualityExpression1()) return true;
+            UnaryExpression expr = RelationalExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression newExpr = EqualityExpression1();
+                if (newExpr == null) pos = oldPos;
+                return expr;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool EqualityExpression1()//e
+        UnaryExpression EqualityExpression1()//e
         {
             int oldPos = pos;
-            bool res = match("==") &&
-            RelationalExpression() &&
-            EqualityExpression1();
-            if (res) return true;
+            UnaryExpression expr, next;
+            if ((Match("==") || Match("!=")) &&
+            (expr = RelationalExpression()) != null)
+            {
+                oldPos = pos;
+                next = EqualityExpression1();
+                if (next != null) return new BinaryExpression(expr, next, "==", ExpressionType.BinaryExpression);
+                return expr;
+            }
             pos = oldPos;
-            res = match("!=") &&
-            RelationalExpression() &&
-            EqualityExpression1();
-            if (res) return true;
-            pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool RelationalExpression()
+        UnaryExpression RelationalExpression()
         {
             int oldPos = pos;
-            bool res = ShiftExpression() &&
-            RelationalExpression1();
-            if (res) return true;
+            UnaryExpression expr = ShiftExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression newExpr = RelationalExpression1();
+                if (newExpr == null) pos = oldPos;
+                return expr;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool RelationalExpression1()//e
+        UnaryExpression RelationalExpression1()//e
         {
             int oldPos = pos;
-            switch (parseString[pos].GetTokenValue())
+            UnaryExpression expr, next;
+            switch (tokens[pos].GetTokenValue())
             {
                 case ">":
                 case "<":
@@ -386,92 +525,155 @@ TODO:
                 case "<=":
                 case "in":
                 case "instanseof":
-                    if (match(parseString[pos].GetTokenValue()) &&
-                    ShiftExpression() &&
-                    RelationalExpression1()) return true;
+                    if (Match(tokens[pos].GetTokenValue()) &&
+                        (expr = ShiftExpression()) != null)
+                    {
+                        oldPos = pos;
+                        next = RelationalExpression1();
+                        if (next != null) return new BinaryExpression(expr, next, ">", ExpressionType.BinaryExpression);
+                        return expr;
+                    }
                     break;
 
             }
             pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool ShiftExpression()
+        UnaryExpression ShiftExpression()
         {
             int oldPos = pos;
-            if (AdditiveExpression() && ShiftExpression1()) return true;
+            UnaryExpression expr = AdditiveExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression newExpr = ShiftExpression1();
+                if (newExpr == null) pos = oldPos;
+                return expr;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool ShiftExpression1()//e
+        UnaryExpression ShiftExpression1()//e
         {
-            switch (parseString[pos].GetTokenValue())
+            int oldPos = pos;
+            UnaryExpression expr, next;
+            switch (tokens[pos].GetTokenValue())
             {
                 case "<<":
                 case ">>":
                 case ">>>":
-                    if (match(parseString[pos].GetTokenValue()) &&
-                    AdditiveExpression() &&
-                    ShiftExpression1()) return true;
+                    if (Match(tokens[pos].GetTokenValue()) &&
+                               (expr = AdditiveExpression()) != null)
+                    {
+                        oldPos = pos;
+                        next = ShiftExpression1();
+                        if (next != null) return new BinaryExpression(expr, next, ">>", ExpressionType.BinaryExpression);
+                        return expr;
+                    }
                     break;
             }
-            return true;
-        }
-
-        bool AdditiveExpression()
-        {
-            int oldPos = pos;
-            if (MultiplicativeExpression() && AdditiveExpression1()) return true;
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool AdditiveExpression1()//e
+        UnaryExpression AdditiveExpression()
         {
             int oldPos = pos;
-            switch (parseString[pos].GetTokenValue())
+            UnaryExpression expr = MultiplicativeExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression next = AdditiveExpression1();
+                if (next != null)
+                {
+                    next.FirstValue = expr;
+                    return next;
+                }
+                return expr;
+            }
+            pos = oldPos;
+            return null;
+        }
+
+        UnaryExpression AdditiveExpression1()//e
+        {
+            int oldPos = pos;
+            UnaryExpression expr, next;
+            switch (tokens[pos].GetTokenValue())
             {
                 case "+":
                 case "-":
-                    if (match(parseString[pos].GetTokenValue()) &&
-                    MultiplicativeExpression() &&
-                    AdditiveExpression1()) return true;
+                    string oper = tokens[pos++].GetTokenValue();
+                    if ((expr = MultiplicativeExpression()) != null)
+                    {
+                        oldPos = pos;
+                        next = AdditiveExpression1();
+                        if (next != null)
+                        {
+                            next.FirstValue = expr;
+                            return new BinaryExpression(null, next, oper, ExpressionType.BinaryExpression);
+                        }
+                        return new BinaryExpression(null, expr, oper, ExpressionType.BinaryExpression);
+                    }
                     break;
             }
             pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool MultiplicativeExpression()
+        UnaryExpression MultiplicativeExpression()
         {
             int oldPos = pos;
-            if (UnaryExpression() && MultiplicativeExpression1()) return true;
+            UnaryExpression expr = UnaryExpression();
+            if (expr != null)
+            {
+                oldPos = pos;
+                UnaryExpression next = MultiplicativeExpression1();
+                if (next != null)
+                {
+                    next.FirstValue = expr;
+                    return next;
+                }
+                return expr;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool MultiplicativeExpression1()//e
+        UnaryExpression MultiplicativeExpression1()//e
         {
             int oldPos = pos;
-            switch (parseString[pos].GetTokenValue())
+            UnaryExpression expr, next;
+            switch (tokens[pos].GetTokenValue())
             {
                 case "*":
                 case "/":
                 case "%":
-                    if (match(parseString[pos].GetTokenValue()) &&
-                    UnaryExpression() &&
-                    MultiplicativeExpression1()) return true;
+                    string oper = tokens[pos++].GetTokenValue();
+                    if ((expr = UnaryExpression()) != null)
+                    {
+                        oldPos = pos;
+                        next = MultiplicativeExpression1();
+                        if (next != null)
+                        {
+                            next.FirstValue = expr;
+                            return new BinaryExpression(null, next, oper, ExpressionType.BinaryExpression);
+                        }
+                        return new BinaryExpression(null, expr, oper, ExpressionType.BinaryExpression);
+                    }
                     break;
             }
             pos = oldPos;
-            return true;
+            return null;
         }
 
-        bool UnaryExpression()
+        UnaryExpression UnaryExpression()
         {
             int oldPos = pos;
-            switch (parseString[pos].GetTokenValue())
+            UnaryExpression expr;
+            switch (tokens[pos].GetTokenValue())
             {
                 case "delete":
                 case "void":
@@ -482,112 +684,139 @@ TODO:
                 case "-":
                 case "~":
                 case "!":
-                    if (match(parseString[pos].GetTokenValue()) &&
-                    UnaryExpression()) return true;
+                    if (Match(tokens[pos].GetTokenValue()) &&
+                    (expr = UnaryExpression()) != null) return expr;
                     break;
             }
             pos = oldPos;
-            if (PostfixExpression()) return true;
-            return false;
+            if ((expr = PostfixExpression()) != null) return expr;
+            return null;
         }
 
-        bool PostfixExpression()
+        UnaryExpression PostfixExpression()
         {
             int oldPos = pos;
-
-            if (LeftHandSideExpression() && match("++")) return true;
-            pos = oldPos;
-            if (LeftHandSideExpression() && match("--")) return true;
-            pos = oldPos;
-            if (LeftHandSideExpression()) return true;
-            oldPos = pos;
-            return false;
-        }
-
-        bool LeftHandSideExpression()
-        {
-            int oldPos = pos;
-            if (NewExpression()) return true;
-            pos = oldPos;
-            if (CallExpression()) return true;
-            pos = oldPos;
-            return false;
-        }
-
-        bool NewExpression()
-        {
-            int oldPos = pos;
-            if (match("new") && NewExpression()) return true;
-            pos = oldPos;
-            if (MemberExpression()) return true;
-            pos = oldPos;
-            return false;
-        }
-
-        bool MemberExpression()
-        {
-            int oldPos = pos;
-            if (match("new") && MemberExpression() &&
-            Arguments() &&
-            MemberExpression1()) return true;
-            pos = oldPos;
-            if (PrimaryExpression() &&
-            MemberExpression1()) return true;
-            pos = oldPos;
-            return false;
-        }
-
-        bool MemberExpression1()//e
-        {
-            int oldPos = pos;
-
-            switch (parseString[pos].GetTokenValue())
+            UnaryExpression expr = LeftHandSideExpression();
+            if (expr != null)
             {
-                case "[":
-                    if (match("[") && Expression() && match("]") && MemberExpression1()) return true;
-                    break;
-                case ".":
-                    if (match(".") &&
-                    parseString[pos++].GetTokenType() == TokenType.Identifier &&
-                    MemberExpression1()) return true;
-                    break;
+                if (Match("++") || Match("--")) pos++;
+                return expr;
             }
-            pos = oldPos;
-            return true;
+            oldPos = pos;
+            return null;
         }
 
-        bool PrimaryExpression()
+        UnaryExpression LeftHandSideExpression()
+        {
+            UnaryExpression expr;
+            int oldPos = pos;
+            if ((expr = CallExpression()) != null) return expr;
+            pos = oldPos;
+            if ((expr = NewExpression()) != null) return expr;
+            pos = oldPos;
+            return null;
+        }
+
+        UnaryExpression NewExpression()
         {
             int oldPos = pos;
-            if (match("this")) return true;
+            UnaryExpression expr;
+            //if (match("new") && NewExpression()) return true;
+            //pos = oldPos;
+            if ((expr = MemberExpression()) != null) return expr;
             pos = oldPos;
-            if (parseString[pos++].GetTokenType() == TokenType.Identifier) return true;
+            return null;
+        }
+
+        UnaryExpression MemberExpression()
+        {
+            int oldPos = pos;
+            UnaryExpression expr, next;
+            //if (match("new") && MemberExpression() &&
+            //Arguments() &&
+            //MemberExpression1()) return true;
+            //pos = oldPos;
+            if ((expr = PrimaryExpression()) != null)
+            {
+                next = MemberExpression1();
+                if (next != null) return new BinaryExpression(expr, next, ".", ExpressionType.MemberExpression);
+                return expr;
+            }
             pos = oldPos;
-            if (parseString[pos++].GetTokenType() == TokenType.Literal) return true;
+            return null;
+        }
+
+        UnaryExpression MemberExpression1()//e
+        {
+            int oldPos = pos;
+            UnaryExpression expr, next;
+            switch (tokens[pos].GetTokenValue())
+            {
+                //case "[":
+                //    if (match("[") && Expression() && match("]") && MemberExpression1()) return true;
+                //    break;
+                case ".":
+                    if (Match(".") &&
+                    tokens[pos].GetTokenType() == TokenType.Identifier)
+                    {
+                        oldPos = pos;
+                        expr = new SimpleExpression(ExpressionType.Ident, tokens[pos++].GetTokenValue());
+                        next = MemberExpression1();
+                        if (next != null) return new BinaryExpression(expr, next, ".", ExpressionType.MemberExpression);
+                        return expr;
+                    }
+                    break;
+
+            }
             pos = oldPos;
-            if (ObjectLiteral()) return true;
-            pos = oldPos;
+            return null;
+        }
+
+        UnaryExpression PrimaryExpression()
+        {
+            int oldPos = pos;
+            //if (match("this")) return true;
+            //pos = oldPos;
+
+            if (tokens[pos].GetTokenType() == TokenType.Identifier)
+                return new SimpleExpression(ExpressionType.Ident, tokens[pos++].GetTokenValue());
+
+            if (tokens[pos].GetTokenType() == TokenType.NullLiteral)
+                return new SimpleExpression(ExpressionType.Null, tokens[pos++].GetTokenValue());
+
+            if (tokens[pos].GetTokenType() == TokenType.NumericLiteral)
+                return new SimpleExpression(ExpressionType.Number, tokens[pos++].GetTokenValue());
+
+            if (tokens[pos].GetTokenType() == TokenType.StringLiteral)
+                return new SimpleExpression(ExpressionType.String, tokens[pos++].GetTokenValue());
+
+            UnaryExpression node;
+            if ((node = ObjectLiteral()) != null) return node;
+
             // TODO: Array literal
 
 
-            if (match("(") && Expression() && match(")")) return true;
-            pos = oldPos;
-            return false;
+            //if (match("(") && Expression() && match(")")) return true;
+            //pos = oldPos;
+            return null;
         }
 
-        bool ObjectLiteral()
+        UnaryExpression ObjectLiteral()
         {
             int oldPos = pos;
-            if (match("{") && match("}")) return true;
+            if (Match("{")) {
+                oldPos = pos;
+                //PropertyNameAndValueList(); 
+                if (Match("}")) return new UnaryExpression(ExpressionType.Object, null);
+            }
             pos = oldPos;
-            if (match("{") && PropertyNameAndValueList() && match("}")) return true;
-            pos = oldPos;
-            return false;
+            return null;
         }
+
         bool PropertyNameAndValueList()
         {
             int oldPos = pos;
-            if (PropertyName() && match(":") && AssignmentExpression() && PropertyNameAndValueList1()) return true;
+            //if (PropertyName() && match(":") && AssignmentExpression() && PropertyNameAndValueList1()) return true;
             pos = oldPos;
             return false;
         }
@@ -595,11 +824,11 @@ TODO:
         bool PropertyNameAndValueList1()//e
         {
             int oldPos = pos;
-            if (match(",") &&
-            PropertyName() &&
-            match(":") &&
-            AssignmentExpression() &&
-            PropertyNameAndValueList1()) return true;
+            // if (match(",") &&
+            //PropertyName() &&
+            //match(":") &&
+            //AssignmentExpression() &&
+            //PropertyNameAndValueList1()) return true;
             pos = oldPos;
             return true;
         }
@@ -607,75 +836,108 @@ TODO:
         bool PropertyName()
         {
             int oldPos = pos;
-            if (parseString[pos++].GetTokenType() == TokenType.Identifier) return true;
+            if (tokens[pos++].GetTokenType() == TokenType.Identifier) return true;
             pos = oldPos;
-            if (parseString[pos++].GetTokenType() == TokenType.StringLiteral) return true;
+            if (tokens[pos++].GetTokenType() == TokenType.StringLiteral) return true;
             pos = oldPos;
-            if (parseString[pos++].GetTokenType() == TokenType.NumericLiteral) return true;
+            if (tokens[pos++].GetTokenType() == TokenType.NumericLiteral) return true;
             pos = oldPos;
             return false;
         }
 
-
-
-        bool Expression()
+        UnaryExpression Expression()
         {
             int oldPos = pos;
-            if (AssignmentExpression() && Expression1()) return true;
+            UnaryExpression node;
+            if ((node = AssignmentExpression()) != null) {
+                //Expression1();
+                return node;
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
         bool Expression1()//e
         {
             int oldPos = pos;
-            if (match(",") && AssignmentExpression() && Expression1()) return true;
+            //if (match(",") && AssignmentExpression() && Expression1()) return true;
             pos = oldPos;
             return true;
         }
 
-        bool Arguments()
+        UnaryExpression Arguments()
         {
             int oldPos = pos;
-            if (match("(") && match(")")) return true;
+            if (Match("(") && Match(")")) return new SimpleExpression(ExpressionType.Arguments,null);
             pos = oldPos;
-            if (match("(") && ArgumentList() && match(")")) return true;
+            List<UnaryExpression> argList;
+            if (Match("(") && (argList=ArgumentList())!=null && Match(")")) return new SimpleExpression(ExpressionType.Arguments, argList);
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool ArgumentList()
+        List<UnaryExpression> ArgumentList()
         {
             int oldPos = pos;
-            if (AssignmentExpression() && ArgumentList1()) return true;
+            List<UnaryExpression> list = new List<UnaryExpression>(), argList;
+            UnaryExpression ae;
+            if ((ae=AssignmentExpression())!=null) {
+                list.Add(ae);
+                if ((argList = ArgumentList1()) != null){
+                    foreach (var item in argList)                    
+                        list.Add(item);                    
+                }
+                return list;
+
+            }
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool ArgumentList1()//e
+        List<UnaryExpression> ArgumentList1()//e
         {
             int oldPos = pos;
-            if (match(",") && AssignmentExpression() && ArgumentList1()) return true;
+            //if (match(",") && AssignmentExpression() && ArgumentList1()) return true;
+            List<UnaryExpression> list = new List<UnaryExpression>(), argList;
+            UnaryExpression ae;
+            if (Match(",") && (ae = AssignmentExpression()) != null)
+            {
+                list.Add(ae);
+                argList = ArgumentList1();
+                if(argList != null)foreach (var item in argList)
+                {
+                    list.Add(item);
+                }
+                return list;
+            }
             pos = oldPos;
-            return true;
+            return null;
+
         }
 
-        bool CallExpression()
+        UnaryExpression CallExpression()
         {
             int oldPos = pos;
-            if (MemberExpression() && Arguments() && CallExpression1()) return true;
+            UnaryExpression member = MemberExpression();
+            UnaryExpression args = Arguments();
+            if (member != null && args!=null)
+            {
+                oldPos = pos;
+                //CallExpression1();
+                return new BinaryExpression(member,args,null,ExpressionType.CallExpression);
+            } 
             pos = oldPos;
-            return false;
+            return null;
         }
 
         bool CallExpression1()//e
         {
             int oldPos = pos;
-            if (Arguments() && CallExpression1()) return true;
+            //if (Arguments() && CallExpression1()) return true;
             pos = oldPos;
-            if (match("[") && Expression() && match("]") && CallExpression1()) return true;
+            //if (match("[") && Expression() && match("]") && CallExpression1()) return true;
             pos = oldPos;
-            if (match(".") && parseString[pos++].GetTokenType() == TokenType.Identifier && CallExpression1()) return true;
+            if (Match(".") && tokens[pos++].GetTokenType() == TokenType.Identifier && CallExpression1()) return true;
             pos = oldPos;
             return true;
         }
@@ -683,134 +945,172 @@ TODO:
         bool EmptyStatement()
         {
             int oldPos = pos;
-            if (match(";")) return true;
+            if (Match(";")) return true;
             pos = oldPos;
             return false;
         }
 
-        bool ExpressionStatement()
+        UnaryExpression ExpressionStatement()
         {
             int oldPos = pos;
-            if (Expression() && match(";")) return true;
+            UnaryExpression node;
+            if ((node=Expression())!=null && Match(";")) return node;
             pos = oldPos;
-            return false;
+            return null;
+        }
+        /* 
+                bool IfStatement()
+                {
+                    int oldPos = pos;
+                    // bool firstPart = match("if") && match("(") &&
+                    // Expression() && match(")") && Statement();
+                    // if (firstPart)
+                    // {
+                    //     oldPos = pos;
+                    //     if (match("else") &&
+                    //     Statement()) return true;
+                    //     pos = oldPos;
+                    //     return true;
+                    // }
+                    // pos = oldPos;
+                    // return false;
+                    if(match("if") && match("(")) {
+                        Expression =
+                    Expression();
+                    match(")");
+                    Statement();
+                    oldPos = pos;
+                    if (match("else") &&
+                    Statement()) return true;
+                    pos = oldPos;
+                    return true;
+                    }
+                }
+
+
+
+                bool IterationStatement()
+                { return false; }
+
+                bool ContinueStatement()
+                {
+                    int oldPos = pos;
+                    if (match("continue") && match(";")) return true;
+                    pos = oldPos;
+                    return false;
+                }
+
+                bool BreakStatement()
+                {
+                    int oldPos = pos;
+                    if (match("break") && match(";")) return true;
+                    pos = oldPos;
+                    return false;
+                }
+
+                bool ReturnStatement()
+                {
+                    int oldPos = pos;
+                    if (match("return") &&
+                    match(";")) return true;
+                    pos = oldPos;
+
+                    if (match("return") &&
+                    Expression() &&
+                    match(";")) return true;
+                    pos = oldPos;
+
+                    return false;
+                }
+                bool WithStatement()
+                {
+                    int oldPos = pos;
+                    if (match("with") &&
+                    match("(") &&
+                    Expression() &&
+                    match(")") &&
+                    Statement()) return true;
+                    pos = oldPos;
+
+                    return false;
+                }
+        */
+
+        Function FunctionDeclaration()
+        {
+            Block block = null;
+            int oldPos = pos;
+            string id;
+
+            if (Match("function") &&
+            (id = tokens[pos].GetTokenValue()) != null &&
+            tokens[pos++].GetTokenType() == TokenType.Identifier &&
+            Match("(")){
+                List<SimpleExpression> parameters = FormalParameterList();
+                if (Match(")") &&
+                Match("{") &&
+                (block = FunctionBody()) != null &&
+                Match("}")
+                )
+                {
+                    return new Function(id, parameters, block);
+                }
+            }
+
+            pos = oldPos;
+            return null;
         }
 
-        bool IfStatement()
+        Block FunctionBody()
         {
+            Block node = new Block();
             int oldPos = pos;
-            bool firstPart = match("if") && match("(") &&
-            Expression() && match(")") && Statement();
-            if (firstPart)
+            if ((node.Body = SourseElements()) != null) return node;
+            pos = oldPos;
+            return null;
+        }
+
+        List<SimpleExpression> FormalParameterList() // not by spec
+        {
+            int oldPos = pos;                        
+            string id = "";
+
+            if (tokens[pos].GetTokenType() == TokenType.Identifier &&
+                (id = tokens[pos++].GetTokenValue()) != null)
             {
                 oldPos = pos;
-                if (firstPart && match("else") &&
-                Statement()) return true;
-                pos = oldPos;
-                return true;
+                List<SimpleExpression> parameters = new List<SimpleExpression>();                
+                List<SimpleExpression> next = FormalParameterList1();
+
+                parameters.Add(new SimpleExpression(ExpressionType.Ident, id));
+                if (next != null) parameters.AddRange(next);
+                return parameters;
             }
+
             pos = oldPos;
-            return false;
+            return null;
         }
 
-        bool IterationStatement()
-        { return false; }
-
-        bool ContinueStatement()
+        List<SimpleExpression> FormalParameterList1()//e
         {
             int oldPos = pos;
-            if (match("continue") && match(";")) return true;
-            pos = oldPos;
-            return false;
-        }
+            string id = "";
 
-        bool BreakStatement()
-        {
-            int oldPos = pos;
-            if (match("break") && match(";")) return true;
-            pos = oldPos;
-            return false;
-        }
+            if (Match(",") &&
+            tokens[pos].GetTokenType() == TokenType.Identifier &&
+            (id = tokens[pos++].GetTokenValue()) != null)
+            {
+                oldPos = pos;
+                List<SimpleExpression> parameters = new List<SimpleExpression>();
+                List<SimpleExpression> next = FormalParameterList1();
 
-        bool ReturnStatement()
-        {
-            int oldPos = pos;
-            if (match("return") &&
-            match(";")) return true;
-            pos = oldPos;
+                parameters.Add(new SimpleExpression(ExpressionType.Ident, id));
 
-            if (match("return") &&
-            Expression() &&
-            match(";")) return true;
-            pos = oldPos;
-
-            return false;
-        }
-
-        bool WithStatement()
-        {
-            int oldPos = pos;
-            if (match("with") &&
-            match("(") &&
-            Expression() &&
-            match(")") &&
-            Statement()) return true;
-            pos = oldPos;
-
-            return false;
-        }
-
-        bool FunctionDeclaration()
-        {
-            int oldPos = pos;
-            if (match("function") &&
-            parseString[pos++].GetTokenType() == TokenType.Identifier &&
-            match("(") &&
-            match(")") &&
-            match("{") &&
-            FunctionBody() &&
-            match("}")
-            ) return true;
-            pos = oldPos;
-
-            if (match("function") &&
-            parseString[pos++].GetTokenType() == TokenType.Identifier &&
-            match("(") &&
-            FormalParameterList() &&
-            match(")") &&
-            match("{") &&
-            FunctionBody() &&
-            match("}")
-            ) return true;
-            pos = oldPos;
-            return false;
-        }
-
-        bool FunctionBody()
-        {
-            int oldPos = pos;
-            if (SourseElements()) return true;
-            pos = oldPos;
-            return false;
-        }
-
-        bool FormalParameterList()
-        {
-            int oldPos = pos;
-            if (parseString[pos++].GetTokenType() == TokenType.Identifier &&
-            FormalParameterList1()) return true;
-            pos = oldPos;
-            return false;
-        }
-
-        bool FormalParameterList1()//e
-        {
-            int oldPos = pos;
-            if (match(",") &&
-            parseString[pos++].GetTokenType() == TokenType.Identifier &&
-            FormalParameterList1()) return true;
-            pos = oldPos;
-            return true;
+                if (next != null) parameters.AddRange(next);
+                return parameters;
+            }
+            return null;
         }
     }
+
 }
