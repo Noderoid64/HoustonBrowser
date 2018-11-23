@@ -175,7 +175,9 @@ namespace HoustonBrowser.Parsing
         #endregion
         private void POpenProcessing()
         {
-            AddingStructureTag("p");
+            var item = new HTMLParagraphElement();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
         }
         private void PCloseProcessing()
         {
