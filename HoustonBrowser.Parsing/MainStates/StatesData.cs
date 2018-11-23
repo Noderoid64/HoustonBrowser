@@ -1,8 +1,7 @@
 ﻿using System;
-using HoustonBrowser.DOM.Core;
+using HoustonBrowser.DOM;
 using System.Collections.Generic;
 using HoustonBrowser.Parsing.Enums;
-using HoustonBrowser.DOM.HTML;
 
 namespace HoustonBrowser.Parsing
 {
