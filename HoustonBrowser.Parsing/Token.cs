@@ -5,7 +5,7 @@ using HoustonBrowser.Parsing.Enums;
 
 namespace HoustonBrowser.Parsing
 {
-    public struct Token
+    public class Token
     {
         int type;
         string value;

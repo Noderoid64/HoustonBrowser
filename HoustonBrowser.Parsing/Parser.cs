@@ -211,6 +211,7 @@ namespace HoustonBrowser.Parsing
 
                 }*/
             }
+            int x = tokens.Capacity;
             doc.ToString();
             return doc;
         }
