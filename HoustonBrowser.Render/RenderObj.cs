@@ -10,7 +10,7 @@ namespace HoustonBrowser.Render
         protected RenderTree rootNode;
 
         public Style style;
-        Node nodeOfDom;
+        public Node nodeOfDom;
         public Node NodeOfDom { get => nodeOfDom; }
         public bool IsFixedSize { get; set; } = false;
 
@@ -187,6 +187,13 @@ namespace HoustonBrowser.Render
         {
             var tmpList = new List<BrowserControl>();
             tmpList.Add(RenderObj.ControlRenderObj);
+
+            if(RenderObj.nodeOfDom.NodeName == "h1") return tmpList;
+            if (RenderObj.nodeOfDom.NodeName == "h2") return tmpList;
+            if (RenderObj.nodeOfDom.NodeName == "h3") return tmpList;
+            if (RenderObj.nodeOfDom.NodeName == "h4") return tmpList;
+            if (RenderObj.nodeOfDom.NodeName == "h5") return tmpList;
+            if (RenderObj.nodeOfDom.NodeName == "h6") return tmpList;
 
             foreach (RenderObj node in RenderObj.Childs)
             {
