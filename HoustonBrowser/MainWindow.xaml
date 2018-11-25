@@ -2,11 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:HoustonBrowser.Controls;assembly=HoustonBrowser.Controls"
         Title="Houston Browser"
-        Height="600" Width="930">
+        Height="540" Width="930">
 
         <Grid Width="930" HorizontalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
@@ -17,17 +16,8 @@
                 <ColumnDefinition Width="410" /> 
                 <ColumnDefinition Width="130" />               
             </Grid.ColumnDefinitions>
-            <TextBlock  FontSize="18" 
-                        FontWeight="DemiBold"
-                        HorizontalAlignment="Center"
-                        Margin="0 10 0 10"
-                        Foreground="#334d99"
-                        Grid.Row="0" 
-                        Grid.ColumnSpan="5">
-                        Houston Browser
-            </TextBlock>
             <Button Name="btnBack" 
-                    Grid.Row="1" 
+                    Grid.Row="0" 
                     Grid.Column="0" 
                     Height="25" 
                     Width="120" 
@@ -36,7 +26,7 @@
                     HorizontalAlignment="Left">
             </Button>
             <Button Name="btnForward" 
-                    Grid.Row="1" 
+                    Grid.Row="0" 
                     Grid.Column="1" 
                     Height="25" 
                     Width="120" 
@@ -45,7 +35,7 @@
                     HorizontalAlignment="Left">
             </Button>
             <Button Name="btnRefresh" 
-                    Grid.Row="1" 
+                    Grid.Row="0" 
                     Grid.Column="2" 
                     Height="25" 
                     Width="120" 
@@ -54,7 +44,7 @@
                     HorizontalAlignment="Left">
             </Button>
             <TextBox Name="urlInputBox" 
-                    Grid.Row="1" 
+                    Grid.Row="0" 
                     Grid.Column="3" 
                     Height="25"
                     Width="395"
@@ -62,7 +52,7 @@
                     HorizontalAlignment="Left">
                 </TextBox>
                 <Button Name="btnSearch" 
-                        Grid.Row="1" 
+                        Grid.Row="0" 
                         Grid.Column="4" 
                         Height="25" 
                         Width="120" 
@@ -70,11 +60,13 @@
                         Margin="5 5 5 5"
                         HorizontalAlignment="Left">
                 </Button>
-                <local:MyPanel Name="drawingCanvas" 
-                            Grid.Row="2" 
-                            Background="LightGray" 
-                            Grid.ColumnSpan="5" 
-                            Height="500" 
-                            Margin="5 5 5 5"/>
+                <ScrollViewer Name="scroll" Grid.Row="1" 
+                        Grid.ColumnSpan="5" 
+                        Margin="5 5 5 5" 
+                        VerticalScrollBarVisibility="Auto" 
+                        HorizontalScrollBarVisibility="Auto"
+                        Height="500">
+                <local:MyPanel Name="drawingCanvas"/>
+                </ScrollViewer>
     </Grid>
 </Window>

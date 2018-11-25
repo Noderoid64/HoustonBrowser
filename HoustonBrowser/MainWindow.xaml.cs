@@ -38,7 +38,9 @@ namespace HoustonBrowser
             drawPanel = this.Find<MyPanel>("drawingCanvas"); 
             urlTextBox = this.Find<Avalonia.Controls.TextBox>("urlInputBox");
             searchButton = this.Find<Avalonia.Controls.Button>("btnSearch"); 
-            
+            ScrollViewer scrollViewer = this.Find<ScrollViewer>("scroll");
+            drawPanel.MinHeight = scrollViewer.Height;
+
             core = new Core.Core(this);
             core.onRender+= Core_onRender;
             js  =  core.Js;
@@ -48,6 +50,9 @@ namespace HoustonBrowser
             urlTextBox.KeyDown+= urlTextBox_OnKeyDown;
             js.onAlert +=  Js_onAlert;    
 
+            drawPanel.Controls=new List<BrowserControl>();
+            Label l = new Label(){TextTypeface=new Typeface("Arial", 42),Text="aaaaagggggggggggggggggggggggggaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaakkkkkkkkkkkkkkkkkkkkkk"};
+            drawPanel.Controls.Add(l);
         }
 
         private void Js_onAlert(object sender, string e)
