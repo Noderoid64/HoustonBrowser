@@ -16,160 +16,31 @@ namespace HoustonBrowser.JS
         ReadOnly=1, DontEnum=2, DontDelete=4, Internal=8
     }
 
-    class Property
-    {
-        private Attributes attrs;
-        private Primitive value;
-
-        public Property()
-        {
-        }
-
-        public Property(Attributes attrs, Primitive value)
-        {
-            this.attrs = attrs;
-            this.value = value;
-        }
-
-        internal Attributes Attrs { get => attrs; set => attrs = value; }
-        internal Primitive Value { get => value; set => this.value = value; }
-    }
-
-    class Primitive
-    {
-        private ESType type;
-        private object value;
-
-        public Primitive()
-        {
-        }
-
-        public Primitive(ESType type, object value)
-        {
-            this.type = type;
-            this.value = value;
-        }
-
-        public object Value { get => value; set => this.value = value; }
-        public ESType Type { get => type; set => type = value; }
-    }
-
-    class VarObject : Primitive
-    {
-        private VarObject prototype;
-        private string @class;
-        private VarObject scope;
-        private Func<List<Primitive>, Primitive> code;
-        private Dictionary<string, Property> properties = new Dictionary<string, Property>();
-
-        public Func<List<Primitive>, Primitive> Code { get => code; set => code = value; }
-        public VarObject Scope { get => scope; set => scope = value; }
-
-        public VarObject(VarObject proto, string @class, Func<List<Primitive>, Primitive> code = null)
-        {
-            this.prototype = proto;
-            this.@class = @class;
-            this.code = code;
-        }
-
-        public Primitive Get(string p)
-        {
-            VarObject hostObject = this;
-            while (hostObject != null)
-            {
-                if (properties.ContainsKey(p)) return properties[p].Value;
-                hostObject = hostObject.prototype;
-            }
-            Primitive prop = new Primitive(ESType.Undefined, null);
-            properties.Add(p, new Property(0, prop));
-            return prop;
-        }
-
-        public void Put(string p, Primitive v, Attributes attributes = 0)
-        {
-            if (CanPut(p))
-            {
-                if (properties.ContainsKey(p)) properties[p].Value = v;
-                else properties.Add(p, new Property(attributes, v));
-            }
-        }
-
-        public bool CanPut(string p)
-        {
-            VarObject hostObject = this;
-            while (true)
-            {
-                if (properties.ContainsKey(p))
-                {
-                    Property tuple = hostObject.properties[p];
-                    if ((tuple.Attrs & Attributes.ReadOnly) == Attributes.ReadOnly) return false;
-                    return true;
-                }
-                if (hostObject.prototype == null) return true;
-                hostObject = hostObject.prototype;
-            }
-        }
-
-        public bool HasProperty(string p)
-        {
-            VarObject hostObject = this;
-            while (hostObject != null)
-            {
-                if (hostObject.properties.ContainsKey(p)) return true;
-                hostObject = hostObject.prototype;
-            }
-            return false;
-        }
-
-        public bool Delete(string p)
-        {
-            if (!properties.ContainsKey(p)) return true;
-            Property tuple = properties[p];
-            if ((tuple.Attrs & Attributes.DontDelete) == Attributes.DontDelete) return false;
-            return properties.Remove(p); // = return true
-        }
-
-        public void DefaultValue()// TODO
-        { }
-
-        public VarObject Call(Primitive arguments)// not by spec
-        {
-            return Code.Invoke(arguments.Value as List<Primitive>) as VarObject;
-        }
-
-        public VarObject Construct(Primitive arguments)
-        {
-            return Code.Invoke(arguments.Value as List<Primitive>) as VarObject;
-        }
-    }
-
     class ESInterpreter
     {
-        private UnaryExpression root;
-        private Stack<VarObject> scopeChain = new Stack<VarObject>();
+        private Stack<HostObject> scopeChain = new Stack<HostObject>();
 
-        public ESInterpreter(VarObject globalObject)
+        public ESInterpreter(HostObject globalObject)
         {
             scopeChain.Push(globalObject);
         }
 
         public void Process(UnaryExpression rootExpr)
         {
-            Stack<UnaryExpression> stack = new Stack<UnaryExpression>();
+            Stack<UnaryExpression> expressionStack = new Stack<UnaryExpression>();
 
-            root = rootExpr;
-            stack.Push(rootExpr);
+            expressionStack.Push(rootExpr);
 
-            while (stack.Count != 0)
+            while (expressionStack.Count != 0)
             {
-                UnaryExpression node = stack.Pop();
+                UnaryExpression node = expressionStack.Pop();
                     switch (node.Type)
                     {
                         case ExpressionType.Block:
                             Block block = node as Block;
                             for (int i = block.Body.Count-1; i >=0; i--)
                             {
-                                stack.Push(block.Body[i]);
+                                expressionStack.Push(block.Body[i]);
                             }
                             break;
 
@@ -191,21 +62,31 @@ namespace HoustonBrowser.JS
 
                         case ExpressionType.CallExpression:
                             BinaryExpression callexpr = node as BinaryExpression;
-                            VarObject memb = EvalExpression(callexpr.FirstValue) as VarObject;
+                            HostObject memb = EvalExpression(callexpr.FirstValue) as HostObject;
                             Primitive args = EvalExpression(callexpr.SecondValue) as Primitive;
-                            memb.Call(args);
+                            memb.Call(scopeChain.Peek(), args);
                             break;
                         
                     case ExpressionType.IfExpression:
                         IfExpression ifExpr = node as IfExpression;
                         if (TypeConverter.ToBoolean(EvalExpression(ifExpr.Cond)))
                         {
-                            stack.Push(ifExpr.FirstValue);
+                            expressionStack.Push(ifExpr.FirstValue);
                         }
                         else
                         {
-                            if(ifExpr.SecondValue!=null) stack.Push(ifExpr.SecondValue);
+                            if(ifExpr.SecondValue!=null) expressionStack.Push(ifExpr.SecondValue);
                         }
+                        break;
+
+                    case ExpressionType.Function:
+                        Function func = node as Function;
+                        HostObject go = scopeChain.Peek();
+                        go.Put(func.Id, new NativeObject(go.Get("Object") as HostObject, "Object", func.FirstValue));
+                        break;
+
+                    case ExpressionType.NewExpression:
+                        
                         break;
 
                     default:
@@ -235,12 +116,12 @@ namespace HoustonBrowser.JS
                     return new Primitive(ESType.Number, d);
 
                 case ExpressionType.Object: // TODO: add properties to this object 
-                    VarObject p = new VarObject(null, "Object");
+                    HostObject p = new HostObject(null, "Object");
 
                     return p;
                 case ExpressionType.Ident: // not by spec. should throw reference error
                     SimpleExpression ident = expression as SimpleExpression;
-                    VarObject scope = scopeChain.Peek();
+                    HostObject scope = scopeChain.Peek();
                     while (scope != null)
                     {
                         if (scope.HasProperty((string)ident.Value)) return scope.Get((string)ident.Value);
@@ -248,13 +129,14 @@ namespace HoustonBrowser.JS
                     }
                     return new Primitive(ESType.Undefined, null);
 
-                case ExpressionType.MemberExpression: // not by spec. see page 52 of es262.
+                case ExpressionType.MemberExpression: // not by spec. see page 52
                     BinaryExpression memexpr = expression as BinaryExpression;
-                    VarObject mObj = EvalExpression(memexpr.FirstValue) as VarObject;
+                    HostObject mObj = EvalExpression(memexpr.FirstValue) as HostObject;
                     SimpleExpression mProp = memexpr.SecondValue as SimpleExpression;
+                    if (mProp == null) return mObj;
                     return mObj.Get((string)mProp.Value);
 
-                case ExpressionType.BinaryExpression: // not by spec. see page 58 of es262.
+                case ExpressionType.BinaryExpression: // not by spec. see page 58
                     BinaryExpression binary = expression as BinaryExpression;
                     Primitive a = EvalExpression(binary.FirstValue), b = EvalExpression(binary.SecondValue);
                     switch (binary.Oper)
@@ -297,20 +179,29 @@ namespace HoustonBrowser.JS
 
                 case ExpressionType.Arguments:
                     Arguments primitive = expression as Arguments;
-                    List<Primitive> list = new List<Primitive>();
-                    if (primitive.Args != null) foreach (var item in primitive.Args)
+                    List<Primitive> list;
+                    if (primitive.Args != null)
+                    {
+                        list = new List<Primitive>();
+                        foreach (var item in primitive.Args)
                         {
                             list.Add(EvalExpression(item));
                         }
-                    return new Primitive(ESType.List, list);
+                        return new Primitive(ESType.List, list);
+                    }
+                    return new Primitive(ESType.List, null);
 
                 case ExpressionType.LogicalExpression:
                     break;
 
+                case ExpressionType.NewExpression:
+                    BinaryExpression binaryExpression = expression as BinaryExpression;
+                    HostObject first = EvalExpression(binaryExpression.FirstValue) as HostObject;
+                    Primitive second = EvalExpression(binaryExpression.SecondValue);
+                    return first.Call(null, second);
+                    break;
 
                 case ExpressionType.AssignmentExpression:
-                    BinaryExpression binaryExpression = expression as BinaryExpression;
-
                     break;
 
                 default:
@@ -319,90 +210,9 @@ namespace HoustonBrowser.JS
             return null;
         }
 
-        public void AddHostObject(string propertyName, VarObject hostObject)
+        public void AddHostObject(string propertyName, HostObject hostObject)
         {
             scopeChain.Peek().Put(propertyName, hostObject);
-        }
-    }
-
-    static class TypeConverter
-    {
-        public static Primitive ToPrimitive(Primitive input, ESType preferredType = ESType.Undefined)
-        {
-
-            return input;
-        }
-
-        public static bool ToBoolean(Primitive input)
-        {
-            switch (input.Type)
-            {
-                case ESType.Undefined:
-                case ESType.Null:
-                    return false;
-                case ESType.Object:
-                    return true;
-
-                case ESType.Boolean:
-                    return (bool)input.Value;
-                case ESType.String:
-                    return ((string)input.Value).Length > 0;
-                case ESType.Number:
-                    break;
-
-                default:
-                    break;
-            }
-
-            return false;
-        }
-
-        public static bool ToNumber(Primitive input)
-        {
-            switch (input.Type)
-            {
-                case ESType.Undefined:
-                case ESType.Null:
-                    return false;
-                case ESType.Object:
-                    return true;
-
-                case ESType.Boolean:
-                    return (bool)input.Value;
-                case ESType.String:
-                    return ((string)input.Value).Length > 0;
-                case ESType.Number:
-                    break;
-
-                default:
-                    break;
-            }
-
-            return false;
-        }
-
-        public static string ToString(Primitive input)
-        {
-            switch (input.Type)
-            {
-                case ESType.Undefined:
-                    return "undefined";
-                case ESType.Null:
-                    return "null";
-                case ESType.Boolean:
-                    if ((bool)input.Value) return "true";
-                    else return "false";
-                case ESType.String:
-                    return (string)input.Value;
-                case ESType.Number:
-                    break;
-                case ESType.Object:
-                    break;
-                default:
-                    break;
-            }
-
-            return "unkown";
         }
     }
 }
