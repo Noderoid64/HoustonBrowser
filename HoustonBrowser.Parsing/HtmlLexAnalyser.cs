@@ -36,9 +36,10 @@ namespace HoustonBrowser.Parsing
                 document = document.Replace('\r', ' ');
                 document = document.Replace('\t', ' ');
                 document = document.Replace("  ", " ");
+
                 while (document.IndexOf("<!--") != -1)
                 {
-                    document = document.Remove(document.IndexOf("<!--"), document.IndexOf("-->") - document.IndexOf("<!--"));
+                    document = document.Remove(document.IndexOf("<!--"), document.IndexOf("-->") - document.IndexOf("<!--") + 3);
                 }
                 Token token;
                 for (; currentSymbol <document.Length; currentSymbol++)
@@ -51,15 +52,16 @@ namespace HoustonBrowser.Parsing
                                 {
                                     case '<':
                                         {
+                                            if (!TokenCheck(cache))
+                                            {
+                                                cache = "";
+                                            }
                                             currentState=(int)TokenStates.TagOpen;
                                             break;
                                         }
                                     default:
                                         {
-                                            if ((int)InsertionModes.InBody == insertionState)
-                                            {
-                                                currentState=(int)TokenStates.Text;
-                                            }
+                                            currentState=(int)TokenStates.Text;
                                             break;
                                         }
                                 }
@@ -268,7 +270,7 @@ namespace HoustonBrowser.Parsing
                                     case '"':
                                         {
                                             currentState = (int)TokenStates.Attributes;
-                                            Token t = new Token((int)TokenType.AttributeName, cache);
+                                            Token t = new Token((int)TokenType.AttributeValue, cache);
                                             cache = "";
                                             return t;
                                         }

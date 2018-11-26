@@ -68,6 +68,12 @@ namespace HoustonBrowser.HttpModule.Model
                             fields.Add(field);
                         }
                         break;
+                    case HeaderFieldLocation.FieldName:
+                        {
+                            HeaderFieldLocation field = new HeaderFieldLocation(item);
+                            fields.Add(field);
+                        }
+                        break;
                     default:
                         {
                             HttpHeaderField field = new HttpHeaderField(item);

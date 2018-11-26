@@ -26,6 +26,7 @@ namespace HoustonBrowser.HttpModule
 
         // 3xx Redirection
         public const ushort MultiplyChoices = 300;
+        public const ushort MovedPermanently = 301;
 
         // 4xx Client Error
         public const ushort BadRequest = 400;

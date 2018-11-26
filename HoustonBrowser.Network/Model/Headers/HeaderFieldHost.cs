@@ -2,7 +2,7 @@ using System;
 
 
 
-namespace HoustonBrowser.HttpModule.Model
+namespace HoustonBrowser.HttpModule.Model.Headers
 {
     internal class HeaderFieldHost : HttpHeaderField
     {

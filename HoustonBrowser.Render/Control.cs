@@ -37,12 +37,12 @@ namespace HoustonBrowser.Render
                 [typeof(HTMLButtonElement)] = GetButtonControl,
                 [typeof(HTMLDivElement)] = GetDivControl,
                 //[typeof(HTMLFormElement)] = GetFormControl,
-                //[typeof(HTMLH1Element)] = GetHeadingControl,
+                [typeof(HTMLH1Element)] = GetH1Control,
                 [typeof(HTMLH2Element)] = GetH2Control,
                 [typeof(HTMLH3Element)] = GetH3Control,
-                //[typeof(HTMLH4Element)] = GetHeadingControl,
-                //[typeof(HTMLH5Element)] = GetHeadingControl,
-                //[typeof(HTMLH6Element)] = GetHeadingControl,
+                [typeof(HTMLH4Element)] = GetH4Control,
+                [typeof(HTMLH5Element)] = GetH5Control,
+                [typeof(HTMLH6Element)] = GetH6Control,
                 [typeof(HTMLParagraphElement)] = GetParagraphControl,
                 [typeof(Text)] = GetTextControl,
             };
@@ -53,6 +53,11 @@ namespace HoustonBrowser.Render
             {
                 case ((int)TypeOfNode.ELEMENT_NODE):
                     if (node.NodeName == "head") return false;
+                    if (node.NodeName == "a") return false;
+                    if (node.NodeName == "link") return false;
+                    if (node.NodeName == "img") return false;
+                    if (node.NodeName == "hr") return false;
+                    if (node.NodeName == "script") return false;
                     return true;
                 case (9):
                     return true;
@@ -68,38 +73,113 @@ namespace HoustonBrowser.Render
         // }
 
 
+        public static BrowserControl GetH1Control(
+            ref Style style,
+            RenderObj renderNode,
+            Node node
+        )
+        {
+
+            renderNode.IsFixedSize = true;
+            style = new Style(10, 10, 0, 0);
+            var control = new Label()
+            {
+                Width = renderNode.Width,
+                WrapText = TextWrapping.Wrap,
+                Text = node.FirstChild.NodeValue,
+                TextTypeface = new Typeface("Arial", 10,FontStyle.Normal,FontWeight.Bold)
+            };
+
+            return control;
+        }
+
         public static BrowserControl GetH2Control(
             ref Style style,
             RenderObj renderNode,
             Node node
         )
         {
-            GetControl control;
-            if (ControlsDictionary.TryGetValue(node.GetType(), out control))
+            renderNode.IsFixedSize = true;
+            var control = new Label()
             {
-                return control(ref style, renderNode, node);
-            }
+                Width = renderNode.Width,
+                WrapText = TextWrapping.Wrap,
+                Text = node.FirstChild.NodeValue,
+                TextTypeface = new Typeface("Arial", 12,FontStyle.Normal, FontWeight.Bold)
+            };
 
-            Console.WriteLine("Zad");
-            style = new Style(0, 0, 0, 0);
-            return null;
+            style = new Style(10, 10, 0, 0);
+
+            return control;
         }
 
-        public static BrowserControl GetH3Control(
-            ref Style style,
-            RenderObj renderNode,
-            Node node
-        )
+        public static BrowserControl GetH3Control(ref Style style, RenderObj renderNode, Node node
+)
         {
-            GetControl control;
-            if (ControlsDictionary.TryGetValue(node.GetType(), out control))
+            renderNode.IsFixedSize = true;
+            var control = new Label()
             {
-                return control(ref style, renderNode, node);
-            }
+                Width = renderNode.Width,
+                WrapText = TextWrapping.Wrap,
+                Text = node.FirstChild.NodeValue,
+                TextTypeface = new Typeface("Arial", 14, FontStyle.Normal, FontWeight.Bold)
+        };
 
-            Console.WriteLine("Zad");
-            style = new Style(0, 0, 0, 0);
-            return null;
+            style = new Style(10, 10, 0, 0);
+
+            return control;
+        }
+
+
+        public static BrowserControl GetH4Control(ref Style style, RenderObj renderNode, Node node
+)
+        {
+            renderNode.IsFixedSize = true;
+            var control = new Label()
+            {
+                Width = renderNode.Width,
+                WrapText = TextWrapping.Wrap,
+                Text = node.FirstChild.NodeValue,
+                TextTypeface = new Typeface("Arial", 16, FontStyle.Normal, FontWeight.Bold)
+            };
+
+            style = new Style(10, 10, 0, 0);
+
+            return control;
+        }
+
+        public static BrowserControl GetH5Control(ref Style style, RenderObj renderNode, Node node
+)
+        {
+            renderNode.IsFixedSize = true;
+            var control = new Label()
+            {
+                Width = renderNode.Width,
+                WrapText = TextWrapping.Wrap,
+                Text = node.FirstChild.NodeValue,
+                TextTypeface = new Typeface("Arial", 18, FontStyle.Normal, FontWeight.Bold)
+            };
+
+            style = new Style(10, 10, 0, 0);
+
+            return control;
+        }
+
+        public static BrowserControl GetH6Control(ref Style style, RenderObj renderNode, Node node
+)
+        {
+            renderNode.IsFixedSize = true;
+            var control = new Label()
+            {
+                Width = renderNode.Width,
+                WrapText = TextWrapping.Wrap,
+                Text = node.FirstChild.NodeValue,
+                TextTypeface = new Typeface("Arial", 20, FontStyle.Normal, FontWeight.Bold)
+            };
+
+            style = new Style(10, 10, 0, 0);
+
+            return control;
         }
 
         public static BrowserControl Get(
@@ -162,7 +242,10 @@ namespace HoustonBrowser.Render
         {
             style = new Style(0, 0, 0, 0);
 
-            return new Controls.Button();
+            return new Controls.Button()
+            { Text = node.NodeValue,
+                Width = 120,
+            };
         }
 
         public static BrowserControl GetDivControl(

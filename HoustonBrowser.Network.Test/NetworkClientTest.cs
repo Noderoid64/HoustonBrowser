@@ -8,7 +8,7 @@ namespace HoustonBrowser.HttpModule.Test{
         INetworkClient client = new NetworkClient();
         
         //When
-        string result = client.Get("https://msdn.microsoft.com/en-us/");
+        string result = client.Get("http://msdn.microsoft.com/en-us/");
         
         //Then
         Assert.NotEmpty(result);

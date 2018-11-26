@@ -2,6 +2,8 @@ using HoustonBrowser.HttpModule.Senders;
 using HoustonBrowser.HttpModule.Model;
 using HoustonBrowser.HttpModule.Model.Headers;
 using HoustonBrowser.HttpModule.Builders;
+using HoustonBrowser.HttpModule.Middleware;
+
 using System.Text;
 using System;
 
@@ -9,7 +11,21 @@ namespace HoustonBrowser.HttpModule
 {
     public class NetworkClient : INetworkClient
     {
+        MiddlewareLayer contentTypeLayer;
+        MiddlewareLayer LocationLayer;
+        public NetworkClient()
+        {
+            contentTypeLayer = new ContentTypeLayer();
+            LocationLayer = new LocationLayer();
+        }
         public string Get(string host)
+        {
+            HttpResponseDatagram dat = GetDatagram(host);
+
+            return dat.body.GetString();
+        }
+
+        internal HttpResponseDatagram GetDatagram(string host)
         {
             ISender sender;
             if (host.StartsWith("https"))
@@ -18,37 +34,17 @@ namespace HoustonBrowser.HttpModule
                 sender = new HttpSender();
 
 
-            HttpDatagram datagram = new HttpRequestDatagram(HttpMethods.GET, UrlBuilder.GetRequestUri(host), HttpVersion.Get11());
-            datagram.header.AddHeaderField(new HttpHeaderField("Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"));
-            datagram.header.AddHeaderField(new HttpHeaderField("Host: " + UrlBuilder.GetHost(host)));
-            //datagram.header.AddHeaderField(new HttpHeaderField("Accept-Encoding: gzip, deflate"));
-            datagram.header.AddHeaderField(new HttpHeaderField("Accept-Language: en-US,en;q=0.9,ru;q=0.8")); //Content-Type: text/html; charset=utf-8
-
-
+            HttpRequestDatagram datagram = HttpDatagramBuilder.GetRequestDatagram(host); // Получаем базовую модель датаграммы (без алгоритмов сжатия)
 
             string response = sender.Send(UrlBuilder.GetHost(host), datagram.GetString());
-            HttpResponseDatagram dat = new HttpResponseDatagram(response);
-            string coding = "ISO-8859-1";
-            Encoding encoderIn = Encoding.GetEncoding(coding);
-            if (dat.header.fields.Find(x => x.name == HeaderFieldContentType.FieldName) is HeaderFieldContentType a)
-            {
-                for (int i = 0; i < a.values.Length; i++)
-                {
-                    if (a.values[i].StartsWith("charset="))
-                    {
-                        coding = a.values[i].Substring("charset=".Length);
-                        break;
-                    }
-                }
-            }
-            Encoding encoderOut = Encoding.GetEncoding(coding);
-            byte[] data = encoderIn.GetBytes(dat.body.GetString());
-            //byte [] codingData = Encoding.Convert(encoderIn,encoderOut,data);
 
-            Console.WriteLine(data.Length);
-            Console.WriteLine(encoderOut.GetString(data, 0, data.Length).Length);
+            HttpResponseDatagram responseDatagram = new HttpResponseDatagram(response);
 
-            return encoderOut.GetString(data, 0, data.Length);
+            contentTypeLayer.Handle(responseDatagram);
+            responseDatagram = LocationLayer.Handle(responseDatagram);
+
+
+            return responseDatagram;
         }
 
         public string GetStatus()

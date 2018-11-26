@@ -15,13 +15,17 @@ namespace HoustonBrowser.Parsing
 
         public Token(int type,string value)
         {
-            this.Type=type;
-            this.Value=value;
+            this.type=type;
+            this.value =value;
         }
-        public Token()
+        //public Token()
+        //{
+        //    type=(int)TokenType.Null;
+        //    value="";
+        //}
+        public void Standartize()
         {
-            this.Type=(int)TokenType.Null;
-            this.Value="";
+            value = value.ToLower();
         }
     }
 }
