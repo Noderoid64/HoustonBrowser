@@ -1,8 +1,7 @@
 using System;
-using HoustonBrowser.DOM.Core;
+using HoustonBrowser.DOM;
 using System.Collections.Generic;
 using HoustonBrowser.Parsing.Enums;
-using HoustonBrowser.DOM.HTML;
 
 namespace HoustonBrowser.Parsing
 {
@@ -52,20 +51,24 @@ namespace HoustonBrowser.Parsing
         }
         private void HTMLOpenProcessing()
         {                                                   
-            var item = new Element("html");
+            var item = new HTMLHtmlElement();
             StatesData.root.AppendChild(item);
             StatesData.openedTags.Push(item);
             openTagsDict.Remove("html");
         }
         private void HEADOpenProcessing()
         {
-            AddingStructureTag("head");
+            var item = new HTMLHeadElement();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
             openTagsDict.Remove("head");
             StatesData.currentState = (int)InsertionModes.InHead;
         }
         private void BODYOpenProcessing()
         {
-            AddingStructureTag("body");
+            var item = new HTMLBodyElement();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
             openTagsDict.Remove("body");
             StatesData.currentState = (int)InsertionModes.InBody;
         }

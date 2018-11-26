@@ -1,8 +1,7 @@
 using System;
-using HoustonBrowser.DOM.Core;
+using HoustonBrowser.DOM;
 using System.Collections.Generic;
 using HoustonBrowser.Parsing.Enums;
-using HoustonBrowser.DOM.HTML;
 
 namespace HoustonBrowser.Parsing
 {
@@ -130,15 +129,21 @@ namespace HoustonBrowser.Parsing
         #region headers
         private void H1OpenProcessing()
         {
-            AddingStructureTag("h1");
+            var item = new HTMLH1Element();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
         }
         private void H2OpenProcessing()
         {
-            AddingStructureTag("h2");
+            var item = new HTMLH2Element();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
         }
         private void H3OpenProcessing()
         {
-            AddingStructureTag("h3");
+            var item = new HTMLH3Element();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
         }
         private void H1CloseProcessing()
         {
@@ -176,7 +181,9 @@ namespace HoustonBrowser.Parsing
         #endregion
         private void POpenProcessing()
         {
-            AddingStructureTag("p");
+            var item = new HTMLParagraphElement();
+            StatesData.openedTags.Peek().AppendChild(item);
+            StatesData.openedTags.Push(item);
         }
         private void PCloseProcessing()
         {
