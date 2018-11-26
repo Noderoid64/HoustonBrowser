@@ -2,18 +2,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:HoustonBrowser.Controls;assembly=HoustonBrowser.Controls"
         Title="Houston Browser"
-        Height="540" Width="930">
+        Height="540" MinHeight="50" Width="930" MinWidth="800">
 
-        <Grid Width="930" HorizontalAlignment="Center">
+        <Grid Name="MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="130" />
                 <ColumnDefinition Width="130" />
                 <ColumnDefinition Width="130" />
-                <ColumnDefinition Width="410" /> 
+                <ColumnDefinition Width="*" /> 
                 <ColumnDefinition Width="130" />               
             </Grid.ColumnDefinitions>
             <Button Name="btnBack" 
@@ -47,9 +47,8 @@
                     Grid.Row="0" 
                     Grid.Column="3" 
                     Height="25"
-                    Width="395"
                     Margin="10 5 5 5"  
-                    HorizontalAlignment="Left">
+                    HorizontalAlignment="Stretch">
                 </TextBox>
                 <Button Name="btnSearch" 
                         Grid.Row="0" 
@@ -65,8 +64,8 @@
                         Margin="5 5 5 5" 
                         VerticalScrollBarVisibility="Auto" 
                         HorizontalScrollBarVisibility="Auto"
-                        Height="500">
-                <local:MyPanel Name="drawingCanvas"/>
+                        Height="448">
+                <local:MyPanel Name="drawingCanvas" />
                 </ScrollViewer>
     </Grid>
 </Window>
