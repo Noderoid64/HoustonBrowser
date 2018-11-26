@@ -73,6 +73,7 @@ namespace HoustonBrowser.JS
         {
             pos=0;
             parsingString = data;
+            tokens = new List<Token>();
 
             Root();
 
@@ -203,10 +204,19 @@ namespace HoustonBrowser.JS
         {
             string[] keywords = {"function","if","else","var","this"};
 
-
             if (MatchSequence("null"))
             {
                 tokens.Add(new Token(TokenType.NullLiteral, "null"));
+                return true;
+            }
+            if (MatchSequence("true"))
+            {
+                tokens.Add(new Token(TokenType.BooleanLiteral, "true"));
+                return true;
+            }
+            if (MatchSequence("false"))
+            {
+                tokens.Add(new Token(TokenType.BooleanLiteral, "false"));
                 return true;
             }
 
