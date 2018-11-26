@@ -2,7 +2,7 @@ using System;
 
 namespace HoustonBrowser.DOM
 {  
-    class EventListener
+    public class EventListener
     {
         public void HandleEvent(Event evt)
         {

@@ -5,7 +5,7 @@ using HoustonBrowser.DOM.Interface;
 
 namespace HoustonBrowser.DOM
 {
-    public class Node : INode
+    public class Node : INode, EventTarget
     {
         public enum TypeOfNode
         {
@@ -132,6 +132,23 @@ namespace HoustonBrowser.DOM
             }
 
             return (Node)this.MemberwiseClone();
+        }
+
+
+
+        public void AddEventListener(string type, EventListener listener, bool useCapture)
+        {
+            
+        }
+
+        public void RemoveEventListener(string type, EventListener listener, bool useCapture)
+        {
+          
+        }
+
+        public bool DispatchEvent(Event evt)
+        {
+            return true;
         }
     }
 }

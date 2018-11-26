@@ -6,7 +6,8 @@ namespace HoustonBrowser.DOM
     {
         UnspecifiedEventTypeError
     }
-    class EventException
+
+    public class EventException
     {
         public int Code { get; set; }
     }

@@ -1,6 +1,6 @@
 namespace HoustonBrowser.DOM
 {
-    class UIEvent : Event
+    public class UIEvent : Event
     {
         public AbstractView View { get; }
         public int Detail { get; }

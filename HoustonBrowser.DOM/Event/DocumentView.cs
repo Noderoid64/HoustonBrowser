@@ -1,6 +1,6 @@
 namespace HoustonBrowser.DOM
 {
-    class DocumentView
+    public class DocumentView
     {
         public AbstractView DefaultView { get; }
     }

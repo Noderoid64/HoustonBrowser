@@ -7,8 +7,8 @@ namespace HoustonBrowser.DOM
         Addition,
         Removal
     }
-    
-    class MutationEvent : Event
+
+    public class MutationEvent : Event
     {
         public string PrevValue { get; }
         public string NewValue { get; }

@@ -1,6 +1,6 @@
 namespace HoustonBrowser.DOM
 {
-    class MouseEvent : UIEvent
+    public class MouseEvent : UIEvent
     {
         public int ScreenX { get; }
         public int ScreenY { get; }
