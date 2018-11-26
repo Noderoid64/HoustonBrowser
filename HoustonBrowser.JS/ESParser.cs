@@ -36,12 +36,23 @@ TODO:
             }
         }
 
-        public UnaryExpression Program(List<Token> w)
+        public void Init(List<Token> w)
         {
             try
             {
                 pos = 0;
                 tokens = w;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public UnaryExpression Program()
+        {
+            try
+            {
                 Block node = new Block
                 {
                     Body = SourseElements()
@@ -739,21 +750,22 @@ TODO:
         {
             int oldPos = pos;
             UnaryExpression expr;
-            //if (match("new") && NewExpression()) return true;
-            //pos = oldPos;
             if ((expr = MemberExpression()) != null) return expr;
+            pos = oldPos;
+            if (Match("new") && (expr = NewExpression()) != null) return new BinaryExpression(ExpressionType.NewExpression, expr,null, null);
             pos = oldPos;
             return null;
         }
 
-        UnaryExpression MemberExpression()
+        UnaryExpression MemberExpression() // not by spec. see page 52
         {
             int oldPos = pos;
             UnaryExpression expr, next;
-            //if (match("new") && MemberExpression() &&
-            //Arguments() &&
-            //MemberExpression1()) return true;
-            //pos = oldPos;
+            if (Match("new") && (expr = MemberExpression()) != null && (next = Arguments()) != null) {
+                //MemberExpression1() 
+                return new BinaryExpression(ExpressionType.NewExpression, expr, next, null);
+            }
+            pos = oldPos;
             if ((expr = PrimaryExpression()) != null)
             {
                 next = MemberExpression1();
@@ -1076,7 +1088,7 @@ TODO:
             return null;
         }
 
-        Block FunctionBody()
+        internal Block FunctionBody()
         {
             Block node = new Block();
             int oldPos = pos;
@@ -1085,7 +1097,7 @@ TODO:
             return null;
         }
 
-        List<SimpleExpression> FormalParameterList() // not by spec
+        internal List<SimpleExpression> FormalParameterList() // not by spec
         {
             int oldPos = pos;
             string id = "";

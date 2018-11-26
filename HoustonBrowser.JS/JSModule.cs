@@ -22,16 +22,24 @@ namespace HoustonBrowser.JS
         {
             List<Token> list = tokenizer.Tokenize(rawJS);
             if (list == null) throw new Exception("Error occured during js tokenisation");
-            UnaryExpression root = parser.Program(list);
+            parser.Init(list);
+            UnaryExpression root = parser.Program();
             if (root == null) throw new Exception("Error occured during js parsing");
             interpreter.Process(root);
             return "OK";
         }
 
-        private VarObject CreateWindowObject()
+        private HostObject CreateWindowObject()
         {
-            VarObject window = new VarObject(null, "Window");
-            VarObject alert = new VarObject(null, "Object", x => {
+            HostObject window = new HostObject(null, "Window");
+            HostObject @object = CreateObjectObject();
+            window.Put("Object", @object);
+           
+
+
+
+
+            HostObject alert = new HostObject(null, "Object", (caller,x) => {
                 StringBuilder sb = new StringBuilder();
                 if (x != null) foreach (var item in x)
                     {
@@ -44,29 +52,61 @@ namespace HoustonBrowser.JS
             return window;
         }
 
+        private HostObject CreateObjectObject()
+        {
+            HostObject objectProto = new HostObject(null, "Object");
+            objectProto.Put("toString", new HostObject(null, "Function", (caller, x) => {
+                return new Primitive(ESType.String, $"[object {caller.Class}]");
+            }));
+            objectProto.Put("valueOf", new HostObject(null, "Function", (caller, x) => {
+                return caller;
+            }));
+            objectProto.Put("hasOwnProperty", new HostObject(null, "Function", (caller, x) => {
+                string prop = "undefined";
+                if (x != null) prop = TypeConverter.ToString(x[0]);
+                if (caller.Properties.ContainsKey(prop)) return new Primitive(ESType.Boolean, true);
+                return new Primitive(ESType.Boolean, false);
+            }));
+            objectProto.Put("isPrototypeOf", new HostObject(null, "Function", (caller, x) => {
+                if (x == null || x[0].Type != ESType.Object) return new Primitive(ESType.Boolean, false);
+                HostObject a = x[0] as HostObject;
+                if (a.Prototype == null || a.Prototype!=caller.Prototype)return new Primitive(ESType.Boolean, false);
+                return new Primitive(ESType.Boolean, true);
+            }));
+            objectProto.Put("propertyIsEnumerable", new HostObject(null, "Function", (caller, x) => {
+                string prop = "undefined";
+                if (x != null) prop = TypeConverter.ToString(x[0]);
+                if (caller.Properties.ContainsKey(prop) && (caller.Properties[prop].Attrs & Attributes.DontEnum)== Attributes.DontEnum) return new Primitive(ESType.Boolean, true);
+                return new Primitive(ESType.Boolean, false);
+            }));
+            HostObject @object = new HostObject(objectProto, "Object",null);
+            objectProto.Put("constructor", @object);
+            @object.CallMethod = (caller, x) =>
+            {
+                if (x == null || x[0].Type == ESType.Undefined || x[0].Type == ESType.Null)
+                {
+                    NativeObject obj = new NativeObject(@object, "Object");
+                    return obj;
+                }
+                else
+                {
+                    //return new  NUmber string or boolean objects
+                }
+                return new Primitive(ESType.Undefined, null);
+            };
+            @object.Put("prototype", objectProto);
+
+            return @object;
+        }
+
         private void CreateConsoleObject(ESInterpreter interpreter)
         {
-            VarObject console = new VarObject(null, "Object");
-            VarObject log = new VarObject(null, "Object", x => {
+            HostObject console = new HostObject(null, "Object");
+            HostObject log = new HostObject(null, "Object", (caller,x) => {
                 StringBuilder sb = new StringBuilder();
-                foreach (var item in x)
-                {
-                    switch (item.Type)
-                    {
-                        case ESType.Undefined:
-                            sb.Append("undefined");
-                            break;
-                        case ESType.Null:
-                            sb.Append("null");
-                            break;
-                        case ESType.Boolean:
-                        case ESType.String:
-                        case ESType.Number:
-                        case ESType.Object:
-                            sb.Append(item.Value.ToString());
-                            break;
-                    }
-
+                if(x!=null)foreach (var item in x)
+                {                        
+                    sb.Append(TypeConverter.ToString(item));
                 }
 
                 Console.WriteLine(sb.ToString());
@@ -76,6 +116,5 @@ namespace HoustonBrowser.JS
 
             interpreter.AddHostObject("console", console);
         }
-
     }
 }

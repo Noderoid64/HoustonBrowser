@@ -202,23 +202,26 @@ namespace HoustonBrowser.JS
 
         bool ReservedWord()
         {
-            string[] keywords = {"function","if","else","var","this"};
-
+            string[] keywords = {"function","if","else","var","this","new"};
+            SavePos();
             if (MatchSequence("null"))
             {
                 tokens.Add(new Token(TokenType.NullLiteral, "null"));
                 return true;
             }
+            RestorePos();
             if (MatchSequence("true"))
             {
                 tokens.Add(new Token(TokenType.BooleanLiteral, "true"));
                 return true;
             }
+            RestorePos();
             if (MatchSequence("false"))
             {
                 tokens.Add(new Token(TokenType.BooleanLiteral, "false"));
                 return true;
             }
+            RestorePos();
 
             foreach (var item in keywords)
             {
@@ -230,6 +233,7 @@ namespace HoustonBrowser.JS
                 }
                 RestorePos();
             }
+            RestorePos();
             return false;
         }
     
