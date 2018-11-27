@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using HoustonBrowser.HttpModule.Model.Headers;
 
-namespace HoustonBrowser.HttpModule.Test
+namespace HoustonBrowser.Test.HttpModule.Model
 {
 
     public class HeaderFieldContentTypeTest
