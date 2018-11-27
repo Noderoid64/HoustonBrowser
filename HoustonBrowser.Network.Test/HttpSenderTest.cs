@@ -2,7 +2,7 @@ using Xunit;
 using System;
 using HoustonBrowser.HttpModule.Senders;
 
-namespace HoustonBrowser.HttpModule.Test
+namespace HoustonBrowser.Test.HttpModule
 {
     public class HttpSenderTest
     {
