@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HoustonBrowser.HttpModule
@@ -28,11 +29,25 @@ HoustonBrowser
             return "HttpModule is working";
         }
 
-        public Task GetTask(string host)
+        public Task<string> GetTask(string host)
         {
             Task<string> a = new Task<string>(() => mockValue);
             a.Start();
             return a;
+        }
+
+        public Task<string> GetTask(string host, CancellationToken token)
+        {
+            Task<string> a = new Task<string>(() =>
+            {
+                Thread.Sleep(1000); // эмуляция долгой работы
+                token.ThrowIfCancellationRequested(); // выбросит исключение AggregateException(OperationCanceledException), что говорит о не завершении задания
+                return mockValue;
+            }, token);
+            a.Start();
+            return a;
+
+
         }
     }
 }
