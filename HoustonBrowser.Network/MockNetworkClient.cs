@@ -1,9 +1,10 @@
-namespace HoustonBrowser.HttpModule{
+using System.Threading.Tasks;
+
+namespace HoustonBrowser.HttpModule
+{
     public class MockNetworkClient : INetworkClient
     {
-        public string Get(string host)
-        {
-            return @"<html>
+        string mockValue = @"<html>
 <head>
 HoustonBrowser
 </head>
@@ -17,11 +18,21 @@ HoustonBrowser
 </div>
 </body>
 </html>";
+        public string Get(string host)
+        {
+            return mockValue;
         }
 
         public string GetStatus()
         {
             return "HttpModule is working";
+        }
+
+        public Task GetTask(string host)
+        {
+            Task<string> a = new Task<string>(() => mockValue);
+            a.Start();
+            return a;
         }
     }
 }
