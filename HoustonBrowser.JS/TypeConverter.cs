@@ -1,14 +1,31 @@
-﻿namespace HoustonBrowser.JS
+﻿using System;
+
+namespace HoustonBrowser.JS
 {
     static class TypeConverter
     {
-        public static Primitive ToPrimitive(Primitive input, ESType preferredType = ESType.Undefined)
+        internal static Primitive ToPrimitive(Primitive input, ESType prefferedType)
         {
+            switch (input.Type)
+            {
+                case ESType.Undefined:
+                case ESType.Null:
+                case ESType.Boolean:
+                case ESType.String:
+                case ESType.Number:
+                    return input;
 
-            return input;
+                case ESType.Object:
+                    
+
+                default:
+                    break;
+            }
+
+            return null;
         }
 
-        public static bool ToBoolean(Primitive input)
+        internal static bool ToBoolean(Primitive input)
         {
             switch (input.Type)
             {
@@ -17,14 +34,14 @@
                     return false;
                 case ESType.Object:
                     return true;
-
                 case ESType.Boolean:
                     return (bool)input.Value;
                 case ESType.String:
                     return ((string)input.Value).Length > 0;
                 case ESType.Number:
-                    break;
-
+                    double d = (double)input.Value;
+                    if (d == 0 || double.IsNaN(d) || d == -double.Epsilon) return false;
+                    return true;
                 default:
                     break;
             }
@@ -32,31 +49,101 @@
             return false;
         }
 
-        public static bool ToNumber(Primitive input)
+        internal static double ToNumber(Primitive input)
         {
             switch (input.Type)
             {
                 case ESType.Undefined:
+                    return double.NaN;
                 case ESType.Null:
-                    return false;
-                case ESType.Object:
-                    return true;
-
+                    return 0;
                 case ESType.Boolean:
-                    return (bool)input.Value;
+                    if ((bool)input.Value) return 1;
+                    return 0;
                 case ESType.String:
-                    return ((string)input.Value).Length > 0;
+                    double res;
+                    double.TryParse((string)input.Value, out res);
+                    return res;
                 case ESType.Number:
-                    break;
+                    return (double)input.Value;
+                case ESType.Object:
+                    return ToNumber(ToPrimitive(input, ESType.Number));
 
                 default:
                     break;
             }
 
-            return false;
+            return 0;
         }
 
-        public static string ToString(Primitive input) //not by spec see page 42
+        internal static double ToInteger(Primitive input)
+        {
+            double d = ToNumber(input);
+            switch (d)
+            {
+                case 0:
+                case -double.Epsilon:
+                case double.NegativeInfinity:
+                case double.PositiveInfinity:
+                    return d;
+                case double.NaN:
+                    return 0;
+                default:
+                    return Math.Sign(d*Math.Floor(Math.Abs(d)));
+            }
+        }
+
+        internal static double ToInt32(Primitive input)
+        {
+            double d = ToNumber(input);
+            switch (d)
+            {
+                case 0:
+                case -double.Epsilon:
+                case double.NegativeInfinity:
+                case double.PositiveInfinity:
+                case double.NaN:
+                    return 0;
+                default:
+                    double res = Math.IEEERemainder(Math.Sign(d * Math.Floor(Math.Abs(d))), 4294967296.0);
+                    if (res >= 2147483648.0) return res - 4294967296.0;
+                    return res;
+            }
+        }
+
+        internal static double ToUint32(Primitive input)
+        {
+            double d = ToNumber(input);
+            switch (d)
+            {
+                case 0:
+                case -double.Epsilon:
+                case double.NegativeInfinity:
+                case double.PositiveInfinity:
+                case double.NaN:
+                    return 0;
+                default:
+                    return Math.IEEERemainder(Math.Sign(d * Math.Floor(Math.Abs(d))), 4294967296.0);
+            }
+        }
+
+        internal static double ToUint16(Primitive input)
+        {
+            double d = ToNumber(input);
+            switch (d)
+            {
+                case 0:
+                case -double.Epsilon:
+                case double.NegativeInfinity:
+                case double.PositiveInfinity:
+                case double.NaN:
+                    return 0;
+                default:
+                    return Math.IEEERemainder(Math.Sign(d * Math.Floor(Math.Abs(d))), 65536.0);
+            }
+        }
+
+        internal static string ToString(Primitive input)
         {
             switch (input.Type)
             {

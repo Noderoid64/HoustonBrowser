@@ -168,26 +168,14 @@ namespace HoustonBrowser.JS
             int startingPos = SavePos();
             if(Match('"'))
             {
-                while(MatchInterval('a','z') 
-                || MatchInterval('A','Z') 
-                || Match('$')
-                || Match('-')
-                || Match('.')
-                || Match(':')
-                || Match(' ')
-                || Match('_')){}
-                if(!Match('"'))throw new Exception();
+                while(!Match('\r')
+                     && !Match('\n')
+                     && !Match('"')) { pos++; }
             }else if(Match('\''))
             {
-                while(MatchInterval('a','z') 
-                || MatchInterval('A','Z')
-                || Match('$')
-                || Match('-')
-                || Match('.')
-                || Match(':')
-                || Match(' ')
-                || Match('_')) {}
-                if(!Match('\''))throw new Exception();
+                while (!Match('\r')
+                 && !Match('\n')
+                 && !Match('\'')) { pos++; }
             }
             if(startingPos == pos)return false;
 
