@@ -8,7 +8,7 @@ namespace HoustonBrowser.JS
         Undefined, Null, Boolean, String, Number, Object,
         Ident, MemberExpression, Block, VariableDeclaration,
         VariableDeclarator, BinaryExpression, LogicalExpression,
-        Function, AssignmentExpression, CallExpression, Arguments,
+        FunctionDeclaration, AssignmentExpression, CallExpression, Arguments,
         IfExpression, NewExpression
     }
 
@@ -92,12 +92,12 @@ namespace HoustonBrowser.JS
         public string Id { get => id; }
     }
 
-    class Function : UnaryExpression
+    class FunctionDeclaration : UnaryExpression
     {
         private string id;
         private List<SimpleExpression> parameters;
 
-        public Function(string id, List<SimpleExpression> parameters, UnaryExpression body) : base(ExpressionType.Function, body)
+        public FunctionDeclaration(string id, List<SimpleExpression> parameters, UnaryExpression body) : base(ExpressionType.FunctionDeclaration, body)
         {
             this.id = id;
             this.parameters = parameters;

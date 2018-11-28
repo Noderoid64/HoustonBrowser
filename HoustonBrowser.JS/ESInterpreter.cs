@@ -18,26 +18,22 @@ namespace HoustonBrowser.JS
 
     class ESInterpreter
     {
-        private Stack<HostObject> scopeChain = new Stack<HostObject>();
-        private Stack<UnaryExpression> expressionStack = new Stack<UnaryExpression>();
+        private ESContext currentContext;
 
-        public ESInterpreter(HostObject globalObject)
+        internal ESContext CurrentContext { get => currentContext; set => currentContext = value; }
+
+        internal void Process(UnaryExpression rootExpr)
         {
-            scopeChain.Push(globalObject);
-        }
+            currentContext.ExpressionStack.Push(rootExpr);
 
-        public void Process(UnaryExpression rootExpr)
-        {
-            expressionStack.Push(rootExpr);
-
-            while (expressionStack.Count != 0)
+            while (currentContext.ExpressionStack.Count != 0)
             {
-                UnaryExpression node = expressionStack.Pop();
+                UnaryExpression node = currentContext.ExpressionStack.Pop();
                 EvalExpression(node);
             }
         }
 
-        public Primitive EvalExpression(UnaryExpression expression)
+        internal Primitive EvalExpression(UnaryExpression expression)
         {
             switch (expression.Type)
             {
@@ -73,9 +69,9 @@ namespace HoustonBrowser.JS
                     ProcessIfExpression(expression);
                     break;
 
-                case ExpressionType.Function:
-                    return ProcessFunction(expression);
-
+                case ExpressionType.FunctionDeclaration:
+                    ProcessFunctionDeclaration(expression);
+                    break;
                 case ExpressionType.Object: // TODO: add properties to this object 
                     HostObject p = new HostObject(null, "Object");
                     return p;
@@ -152,7 +148,7 @@ namespace HoustonBrowser.JS
         private Primitive ProcessCallExpression(UnaryExpression expression)
         {
             BinaryExpression callexpr = expression as BinaryExpression;
-            HostObject @this = scopeChain.Peek();
+            HostObject @this = currentContext.This;
             if (callexpr.FirstValue.FirstValue != null) @this = EvalExpression(callexpr.FirstValue.FirstValue) as HostObject;
             HostObject memb = EvalExpression(callexpr.FirstValue) as HostObject;
             Primitive args = EvalExpression(callexpr.SecondValue) as Primitive;
@@ -187,21 +183,15 @@ namespace HoustonBrowser.JS
         private Primitive ProcessIdent(UnaryExpression expression)
         {
             SimpleExpression ident = expression as SimpleExpression;
-            HostObject scope = scopeChain.Peek();
+            HostObject scope = currentContext.This;
             return scope.Get((string)ident.Value);
         }
 
-        internal NativeObject ProcessFunction(UnaryExpression expression)
+        internal void ProcessFunctionDeclaration(UnaryExpression expression)
         {
-            Function func = expression as Function;
-            HostObject go = scopeChain.Peek();
-            NativeObject newFunc = new NativeObject((go.Get("Function") as HostObject).Prototype, "Function",func.FirstValue);
-            NativeObject newObj = new NativeObject((go.Get("Object") as HostObject).Prototype, "Object");
-            newObj.Put("constructor", newFunc, Attributes.DontEnum);
-            newFunc.Scope = go;
-            newFunc.Put("length", new Primitive(ESType.Number, func.Parameters == null ? 0 : func.Parameters.Count));
-            newFunc.Put("prototype", newObj, Attributes.DontDelete);
-            return newFunc;
+            FunctionDeclaration func = expression as FunctionDeclaration;
+            NativeObject funcObj = CreateFunction(expression);
+            currentContext.This.Put(func.Id, funcObj);
         }
 
         private void ProcessIfExpression(UnaryExpression expression)
@@ -209,11 +199,11 @@ namespace HoustonBrowser.JS
             IfExpression ifExpr = expression as IfExpression;
             if (TypeConverter.ToBoolean(EvalExpression(ifExpr.Cond)))
             {
-                expressionStack.Push(ifExpr.FirstValue);
+                currentContext.ExpressionStack.Push(ifExpr.FirstValue);
             }
             else
             {
-                if (ifExpr.SecondValue != null) expressionStack.Push(ifExpr.SecondValue);
+                if (ifExpr.SecondValue != null) currentContext.ExpressionStack.Push(ifExpr.SecondValue);
             }
         }
 
@@ -239,7 +229,7 @@ namespace HoustonBrowser.JS
             VariableDeclaration variable = expression as VariableDeclaration;
             foreach (var item in variable.Declarations)
             {
-                scopeChain.Peek().Put(item.Id, EvalExpression(item.FirstValue));
+                currentContext.This.Put(item.Id, EvalExpression(item.FirstValue));
             }
         }
 
@@ -248,13 +238,21 @@ namespace HoustonBrowser.JS
             Block block = expression as Block;
             for (int i = block.Body.Count - 1; i >= 0; i--)
             {
-                expressionStack.Push(block.Body[i]);
+                currentContext.ExpressionStack.Push(block.Body[i]);
             }
         }
 
-        public void AddHostObject(string propertyName, HostObject hostObject)
+        private NativeObject CreateFunction(UnaryExpression expression)
         {
-            scopeChain.Peek().Put(propertyName, hostObject);
+            FunctionDeclaration func = expression as FunctionDeclaration;
+            HostObject go = currentContext.GlobalObject;
+            NativeObject newFunc = new NativeObject((go.Get("Function") as HostObject).Prototype, "Function", func.FirstValue);
+            NativeObject newObj = new NativeObject((go.Get("Object") as HostObject).Prototype, "Object");
+            newObj.Put("constructor", newFunc, Attributes.DontEnum);
+            newFunc.Scope = go;
+            newFunc.Put("length", new Primitive(ESType.Number, func.Parameters == null ? 0 : func.Parameters.Count));
+            newFunc.Put("prototype", newObj, Attributes.DontDelete);
+            return newFunc;
         }
     }
 }
