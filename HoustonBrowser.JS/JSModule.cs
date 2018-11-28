@@ -14,8 +14,10 @@ namespace HoustonBrowser.JS
 
         public JSModule()
         {
-            interpreter = new ESInterpreter(CreateWindowObject());
-            interpreter.AddHostObject("console", CreateConsoleObject());
+            interpreter = new ESInterpreter();
+            ESContext context = new ESContext(CreateWindowObject());
+            context.AddHostObject("console", CreateConsoleObject());
+            interpreter.CurrentContext = context;
         }
 
         public string Process(string rawJS)
@@ -94,8 +96,7 @@ namespace HoustonBrowser.JS
 
             return @object;
         }
-
-
+        
         private HostObject CreateFunctionObject(HostObject @object)
         {
             HostObject funcProto = new HostObject(@object, "Function", (caller, x) => new Primitive(ESType.Undefined, null));
@@ -119,7 +120,7 @@ namespace HoustonBrowser.JS
                 if (list == null) ; // throw SyntaxError
                 parser.Init(list);
                 UnaryExpression bodyExpr = parser.FunctionBody();
-                return interpreter.EvalExpression(new Function("", paramsList, bodyExpr));
+                return interpreter.EvalExpression(new FunctionDeclaration("", paramsList, bodyExpr));
             });
             funcProto.Put("constructor", funcObj);
 

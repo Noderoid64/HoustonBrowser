@@ -18,7 +18,8 @@ namespace HoustonBrowser.JS
         public override Primitive Call(HostObject @this, Primitive arguments) // not by spec. see page 81
         {
             HostObject execContext = new HostObject(null, "Object");
-            ESInterpreter interpreter = new ESInterpreter(@this);
+            ESInterpreter interpreter = new ESInterpreter(); //
+            interpreter.CurrentContext = new ESContext(@this);
             interpreter.Process(callBody);
             return new Primitive(ESType.Undefined, null);
         }

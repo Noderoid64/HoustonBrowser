@@ -1062,7 +1062,7 @@ TODO:
                 }
         */
 
-        Function FunctionDeclaration()
+        FunctionDeclaration FunctionDeclaration()
         {
             Block block = null;
             int oldPos = pos;
@@ -1080,7 +1080,7 @@ TODO:
                 Match("}")
                 )
                 {
-                    return new Function(id, parameters, block);
+                    return new FunctionDeclaration(id, parameters, block);
                 }
             }
 
