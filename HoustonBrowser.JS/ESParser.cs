@@ -30,7 +30,7 @@ TODO:
                 if (expected == tokens[pos].GetTokenValue()) { pos++; return true; }
                 return false;
             }
-            catch (System.IndexOutOfRangeException)
+            catch
             {
                 return false;
             }

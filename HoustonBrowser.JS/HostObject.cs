@@ -5,23 +5,29 @@ namespace HoustonBrowser.JS
 {
     class HostObject : Primitive
     {
-        private HostObject prototype;
-        private string @class;
-        private HostObject scope;
-        private Func<HostObject, List<Primitive>, Primitive> callMethod;
-        private Dictionary<string, Property> properties = new Dictionary<string, Property>();
+        protected HostObject prototype;
+        protected string @class;
+        protected HostObject scope;
+        protected Func<HostObject, List<Primitive>, Primitive> callMethod;
+        protected Func<HostObject, List<Primitive>, Primitive> constructMethod;
+        protected Dictionary<string, Property> properties = new Dictionary<string, Property>();
 
         public Func<HostObject, List<Primitive>, Primitive> CallMethod { get => callMethod; set => callMethod = value; }
         public HostObject Scope { get => scope; set => scope = value; }
         public string Class { get => @class; set => @class = value; }
+
         internal Dictionary<string, Property> Properties { get => properties; set => properties = value; }
         internal HostObject Prototype { get => prototype; set => prototype = value; }
+        internal Func<HostObject, List<Primitive>, Primitive> ConstructMethod { get => constructMethod; set => constructMethod = value; }
 
-        public HostObject(HostObject proto, string @class, Func<HostObject, List<Primitive>, Primitive> callMethod = null)
-        {
+        public HostObject(HostObject proto, string @class, 
+            Func<HostObject, List<Primitive>, Primitive> callMethod = null,
+            Func<HostObject, List<Primitive>, Primitive> constructMethod = null) :base(ESType.Object,null)
+        {            
             this.prototype = proto;
             this.@class = @class;
             this.callMethod = callMethod;
+            this.constructMethod = constructMethod;
         }
 
         public Primitive Get(string p)
@@ -29,7 +35,7 @@ namespace HoustonBrowser.JS
             HostObject hostObject = this;
             while (hostObject != null)
             {
-                if (properties.ContainsKey(p)) return properties[p].Value;
+                if (hostObject.properties.ContainsKey(p)) return hostObject.properties[p].Value;
                 hostObject = hostObject.prototype;
             }
             Primitive prop = new Primitive(ESType.Undefined, null);
@@ -96,9 +102,9 @@ namespace HoustonBrowser.JS
             return callMethod.Invoke(@this, arguments.Value as List<Primitive>);
         }
 
-        //public virtual HostObject Construct(Primitive arguments)
-        //{
-        //    return callMethod.Invoke(arguments.Value as List<Primitive>) as HostObject;
-        //}
+        public virtual HostObject Construct(HostObject @this, Primitive arguments)
+        {
+            return constructMethod.Invoke(@this, arguments.Value as List<Primitive>) as HostObject;
+        }
     }
 }

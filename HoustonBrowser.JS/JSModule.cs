@@ -15,7 +15,7 @@ namespace HoustonBrowser.JS
         public JSModule()
         {
             interpreter = new ESInterpreter(CreateWindowObject());
-            CreateConsoleObject(interpreter);
+            interpreter.AddHostObject("console", CreateConsoleObject());
         }
 
         public string Process(string rawJS)
@@ -34,12 +34,8 @@ namespace HoustonBrowser.JS
             HostObject window = new HostObject(null, "Window");
             HostObject @object = CreateObjectObject();
             window.Put("Object", @object);
-           
-
-
-
-
-            HostObject alert = new HostObject(null, "Object", (caller,x) => {
+            window.Put("Function", CreateFunctionObject(@object));
+            HostObject alert = new HostObject(@object, "Object", (caller,x) => {
                 StringBuilder sb = new StringBuilder();
                 if (x != null) foreach (var item in x)
                     {
@@ -81,7 +77,7 @@ namespace HoustonBrowser.JS
             }));
             HostObject @object = new HostObject(objectProto, "Object",null);
             objectProto.Put("constructor", @object);
-            @object.CallMethod = (caller, x) =>
+            @object.ConstructMethod = (caller, x) =>
             {
                 if (x == null || x[0].Type == ESType.Undefined || x[0].Type == ESType.Null)
                 {
@@ -99,7 +95,39 @@ namespace HoustonBrowser.JS
             return @object;
         }
 
-        private void CreateConsoleObject(ESInterpreter interpreter)
+
+        private HostObject CreateFunctionObject(HostObject @object)
+        {
+            HostObject funcProto = new HostObject(@object, "Function", (caller, x) => new Primitive(ESType.Undefined, null));
+            HostObject funcObj = new HostObject(funcProto, "Function",null,(caller,x)=> {
+                StringBuilder parameters = new StringBuilder();
+                string body="";
+                if (x != null)
+                {
+                    for (int i = 0; i < x.Count-1; i++)
+                    {
+                        parameters.Append(TypeConverter.ToString(x[i]));
+                        if (i != x.Count - 2) parameters.Append(",");
+                    }
+                    body = TypeConverter.ToString(x[x.Count - 1]);
+                }
+                List<Token> list = tokenizer.Tokenize(parameters.ToString());
+                if (list == null) ; // throw SyntaxError
+                parser.Init(list);
+                List<SimpleExpression> paramsList = parser.FormalParameterList();
+                list = tokenizer.Tokenize(body.ToString());
+                if (list == null) ; // throw SyntaxError
+                parser.Init(list);
+                UnaryExpression bodyExpr = parser.FunctionBody();
+                return interpreter.EvalExpression(new Function("", paramsList, bodyExpr));
+            });
+            funcProto.Put("constructor", funcObj);
+
+            return funcObj;
+        }
+
+
+        private HostObject CreateConsoleObject()
         {
             HostObject console = new HostObject(null, "Object");
             HostObject log = new HostObject(null, "Object", (caller,x) => {
@@ -114,7 +142,7 @@ namespace HoustonBrowser.JS
             });
             console.Put("log", log);
 
-            interpreter.AddHostObject("console", console);
+            return console;
         }
     }
 }

@@ -22,5 +22,12 @@ namespace HoustonBrowser.JS
             interpreter.Process(callBody);
             return new Primitive(ESType.Undefined, null);
         }
+
+        public override HostObject Construct(HostObject @this, Primitive arguments)
+        {
+            NativeObject newObj = new NativeObject(prototype, "Object");
+            Call(newObj, arguments);
+            return newObj;
+        }
     }
 }
