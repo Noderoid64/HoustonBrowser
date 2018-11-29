@@ -2,7 +2,7 @@ using Xunit;
 using HoustonBrowser.HttpModule.Model;
 using HoustonBrowser.HttpModule;
 
-namespace HoustonBrowser.HttpModule.Model.Test
+namespace HoustonBrowser.Test.HttpModule.Model
 {
     public class HttpResponseDatagramTest
     {

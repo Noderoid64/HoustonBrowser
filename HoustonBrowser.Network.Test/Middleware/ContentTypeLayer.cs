@@ -3,8 +3,9 @@ using System.Text;
 using HoustonBrowser.HttpModule.Middleware;
 using HoustonBrowser.HttpModule.Model;
 using HoustonBrowser.HttpModule.Model.Headers;
+using HoustonBrowser.HttpModule;
 
-namespace HoustonBrowser.HttpModule.Model.Test
+namespace HoustonBrowser.Test.HttpModule.Middleware
 {
     public class ContentTypeLayerTest
     {
