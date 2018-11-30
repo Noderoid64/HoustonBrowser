@@ -119,7 +119,6 @@ TODO:
                 case "new":
                 case "case":
                 case "finally":
-                case "return":
                 case "void":
                 case "catch":
                 case "continue":
@@ -165,8 +164,8 @@ TODO:
             // if (BreakStatement()) return true;
             // pos = oldPos;
 
-            // if (ReturnStatement()) return true;
-            // pos = oldPos;
+            if ((node = ReturnStatement()) != null) return node;
+            pos = oldPos;
 
             // if (WithStatement()) return true;
             // pos = oldPos;
@@ -222,7 +221,7 @@ TODO:
         VariableDeclaration VariableStatement()
         {
             int oldPos = pos;
-            VariableDeclaration declaration = new VariableDeclaration();
+            VariableDeclaration declaration;
             if (Match("var") && (declaration = VariableDeclarationList()) != null && Match(";")) return declaration;
             pos = oldPos;
             return null;
@@ -960,23 +959,33 @@ TODO:
             if (member != null && args != null)
             {
                 oldPos = pos;
-                //CallExpression1();
-                return new BinaryExpression(ExpressionType.CallExpression, member, args, null);
+                UnaryExpression next = CallExpression1();
+                if(next==null) return new BinaryExpression(ExpressionType.CallExpression, member, args, null);
+                return new BinaryExpression(ExpressionType.CallExpression,member,
+                    new BinaryExpression(ExpressionType.CallExpression,
+                    args,
+                    next, null),null);
             }
             pos = oldPos;
             return null;
         }
 
-        bool CallExpression1()//e
+        UnaryExpression CallExpression1()//e
         {
             int oldPos = pos;
-            //if (Arguments() && CallExpression1()) return true;
+            UnaryExpression args = Arguments();
+            if (args!=null)
+            {
+                UnaryExpression next = CallExpression1();
+                if(next!=null) return new BinaryExpression(ExpressionType.CallExpression, args, next, null);
+                return args;
+            } 
             pos = oldPos;
             //if (match("[") && Expression() && match("]") && CallExpression1()) return true;
-            pos = oldPos;
-            if (Match(".") && tokens[pos++].GetTokenType() == TokenType.Identifier && CallExpression1()) return true;
-            pos = oldPos;
-            return true;
+            //pos = oldPos;
+            //if (Match(".") && tokens[pos++].GetTokenType() == TokenType.Identifier && CallExpression1()) return true;
+            //pos = oldPos;
+            return null;
         }
 
         UnaryExpression EmptyStatement()
@@ -1034,20 +1043,7 @@ TODO:
                     return false;
                 }
 
-                bool ReturnStatement()
-                {
-                    int oldPos = pos;
-                    if (match("return") &&
-                    match(";")) return true;
-                    pos = oldPos;
 
-                    if (match("return") &&
-                    Expression() &&
-                    match(";")) return true;
-                    pos = oldPos;
-
-                    return false;
-                }
                 bool WithStatement()
                 {
                     int oldPos = pos;
@@ -1061,6 +1057,21 @@ TODO:
                     return false;
                 }
         */
+
+        UnaryExpression ReturnStatement()
+        {
+            int oldPos = pos;
+            if (Match("return"))
+            {
+                oldPos = pos;
+                UnaryExpression expr = Expression();
+                if (Match(";")) return new UnaryExpression(ExpressionType.ReturnExpression, expr);
+                throw new Exception("Expected ';'");
+            }
+            
+            pos = oldPos;
+            return null;
+        }
 
         FunctionDeclaration FunctionDeclaration()
         {

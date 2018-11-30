@@ -6,20 +6,20 @@ namespace HoustonBrowser.JS
 {
     class ESContext
     {
-        private HostObject globalObject;
-        private HostObject @this;
-        private Stack<UnaryExpression> expressionStack = new Stack<UnaryExpression>();
+        private readonly HostObject globalObject;
+        private readonly Stack<HostObject> execContextStack = new Stack<HostObject>();
+        private readonly Stack<UnaryExpression> expressionStack = new Stack<UnaryExpression>();
 
         public ESContext(HostObject globalObject)
         {
             this.globalObject = globalObject;
-            this.@this = globalObject;
+            execContextStack.Push(globalObject);
         }
 
         internal HostObject GlobalObject { get => globalObject;}
         internal Stack<UnaryExpression> ExpressionStack { get => expressionStack;}
-        internal HostObject This { get => @this; set => @this = value; }
-        
+        internal Stack<HostObject> ExecContextStack { get => execContextStack; }
+
         internal void AddHostObject(string propertyName, HostObject hostObject)
         {
             globalObject.Put(propertyName, hostObject);

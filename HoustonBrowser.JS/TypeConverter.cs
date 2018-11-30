@@ -157,7 +157,7 @@ namespace HoustonBrowser.JS
                 case ESType.String:
                     return (string)input.Value;
                 case ESType.Number:
-                    return (string)input.Value;
+                    return input.Value.ToString();
                 case ESType.Object:
                     return ToString(ToPrimitive(input, ESType.String));
                 default:

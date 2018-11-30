@@ -22,15 +22,24 @@ namespace HoustonBrowser.JS
 
         internal ESContext CurrentContext { get => currentContext; set => currentContext = value; }
 
-        internal void Process(UnaryExpression rootExpr)
+        internal Primitive Process(UnaryExpression rootExpr)
         {
             currentContext.ExpressionStack.Push(rootExpr);
 
             while (currentContext.ExpressionStack.Count != 0)
             {
                 UnaryExpression node = currentContext.ExpressionStack.Pop();
-                EvalExpression(node);
+                switch (node.Type)  
+                {
+                    case ExpressionType.ReturnExpression:
+                        return EvalExpression(node.FirstValue);
+                    default:
+                        EvalExpression(node);
+                        break;
+                }
+                
             }
+            return new Primitive(ESType.Undefined, null);
         }
 
         internal Primitive EvalExpression(UnaryExpression expression)
@@ -148,11 +157,34 @@ namespace HoustonBrowser.JS
         private Primitive ProcessCallExpression(UnaryExpression expression)
         {
             BinaryExpression callexpr = expression as BinaryExpression;
-            HostObject @this = currentContext.This;
-            if (callexpr.FirstValue.FirstValue != null) @this = EvalExpression(callexpr.FirstValue.FirstValue) as HostObject;
             HostObject memb = EvalExpression(callexpr.FirstValue) as HostObject;
-            Primitive args = EvalExpression(callexpr.SecondValue) as Primitive;
-            return memb.Call(@this, args);
+            UnaryExpression expr = callexpr.SecondValue;
+            Primitive res = null;
+            int i = 0;
+            do
+            {
+                i++;
+                Primitive args = null;
+                HostObject go = currentContext.ExecContextStack.Peek();
+                if (expr.Type == ExpressionType.CallExpression)
+                {
+                    args = EvalExpression(expr.FirstValue);
+                    HostObject newExecContext = new HostObject(go, "Object");
+                    currentContext.ExecContextStack.Push(newExecContext);
+                    memb = memb.Call(currentContext.ExecContextStack.Peek(), args) as HostObject;
+                    expr = (expr as BinaryExpression).SecondValue;
+                }
+                else
+                {
+                    args = EvalExpression(expr);
+                    HostObject newExecContext = new HostObject(go, "Object");
+                    currentContext.ExecContextStack.Push(newExecContext);
+                    res = memb.Call(currentContext.ExecContextStack.Peek(), args);
+                    break;
+                }
+            } while (expr!=null);
+            for (; i > 0; i--) currentContext.ExecContextStack.Pop();
+            return res;
         }
 
         private Primitive ProcessArguments(UnaryExpression expression)
@@ -183,15 +215,21 @@ namespace HoustonBrowser.JS
         private Primitive ProcessIdent(UnaryExpression expression)
         {
             SimpleExpression ident = expression as SimpleExpression;
-            HostObject scope = currentContext.This;
-            return scope.Get((string)ident.Value);
+            HostObject scope = currentContext.ExecContextStack.Peek();
+            while (scope!=null)
+            {
+                if (scope.HasProperty((string)ident.Value)) return scope.Get((string)ident.Value);
+                scope = scope.Scope;
+            }
+            return null;
         }
 
         internal void ProcessFunctionDeclaration(UnaryExpression expression)
         {
             FunctionDeclaration func = expression as FunctionDeclaration;
             NativeObject funcObj = CreateFunction(expression);
-            currentContext.This.Put(func.Id, funcObj);
+            currentContext.ExecContextStack.Peek().Put(func.Id, funcObj);
+            
         }
 
         private void ProcessIfExpression(UnaryExpression expression)
@@ -207,21 +245,13 @@ namespace HoustonBrowser.JS
             }
         }
 
-        private void ProcessAssignmentExpression(UnaryExpression expression)
+        private Primitive ProcessAssignmentExpression(UnaryExpression expression)
         {
             BinaryExpression assignmentExpr = expression as BinaryExpression;
             Primitive a = EvalExpression(assignmentExpr.FirstValue);
             Primitive b = EvalExpression(assignmentExpr.SecondValue);
-            if (b.Type == ESType.Object)
-            {
-
-            }
-            else
-            {
-                a.Type = b.Type;
-                a.Value = b.Value;
-            }
-            a = b;
+            //a.AssignNewObject(b);
+            return a;
         }
 
         private void ProcessVariableDeclaration(UnaryExpression expression)
@@ -229,7 +259,7 @@ namespace HoustonBrowser.JS
             VariableDeclaration variable = expression as VariableDeclaration;
             foreach (var item in variable.Declarations)
             {
-                currentContext.This.Put(item.Id, EvalExpression(item.FirstValue));
+                currentContext.ExecContextStack.Peek().Put(item.Id, EvalExpression(item.FirstValue));
             }
         }
 
@@ -249,7 +279,7 @@ namespace HoustonBrowser.JS
             NativeObject newFunc = new NativeObject((go.Get("Function") as HostObject).Prototype, "Function", func.FirstValue);
             NativeObject newObj = new NativeObject((go.Get("Object") as HostObject).Prototype, "Object");
             newObj.Put("constructor", newFunc, Attributes.DontEnum);
-            newFunc.Scope = go;
+            newFunc.Scope = currentContext.ExecContextStack.Peek();
             newFunc.Put("length", new Primitive(ESType.Number, func.Parameters == null ? 0 : func.Parameters.Count));
             newFunc.Put("prototype", newObj, Attributes.DontDelete);
             return newFunc;
