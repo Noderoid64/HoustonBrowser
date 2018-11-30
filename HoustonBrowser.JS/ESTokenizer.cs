@@ -190,7 +190,7 @@ namespace HoustonBrowser.JS
 
         bool ReservedWord()
         {
-            string[] keywords = {"function","if","else","var","this","new"};
+            string[] keywords = {"function","if","else","var","this","new","return"};
             SavePos();
             if (MatchSequence("null"))
             {

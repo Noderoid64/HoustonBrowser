@@ -9,7 +9,7 @@ namespace HoustonBrowser.JS
         Ident, MemberExpression, Block, VariableDeclaration,
         VariableDeclarator, BinaryExpression, LogicalExpression,
         FunctionDeclaration, AssignmentExpression, CallExpression, Arguments,
-        IfExpression, NewExpression
+        IfExpression, NewExpression, ReturnExpression
     }
 
     class UnaryExpression
