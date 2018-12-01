@@ -47,16 +47,20 @@ namespace HoustonBrowser.DOM
         {
             return new EntityReference(name);
         }
-                                                  
+
         public List<Node> GetElementsByTagName(string name)
         {
             var list = new List<Node>();
 
-            foreach(var node in ChildNodes)
+            foreach (var node in ChildNodes)
             {
-                if(node.NodeType == (int)TypeOfNode.ELEMENT_NODE)
-                    if(node.NodeName == name || name == "*")
+                if (node.NodeType == (int)TypeOfNode.ELEMENT_NODE)
+                {
+                    var tmp = (Element)node;
+                    list.AddRange(tmp.GetElementsByTagName(name));
+                    if (node.NodeName == name || name == "*")
                         list.Add(node);
+                }
             }
 
             return list;

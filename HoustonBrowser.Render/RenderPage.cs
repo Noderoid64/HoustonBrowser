@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using HoustonBrowser.Controls;
 using HoustonBrowser.DOM;
@@ -12,25 +13,18 @@ namespace HoustonBrowser.Render
 
         public static double Width { get; set; } = 920;
         public double Height { get; set; } = 500;
-        public List<BrowserControl> ListOfControls { get => renderTree.ListOfControls;  }
+        public List<BrowserControl> ListOfControls { get => renderTree.GetListOfControls();  }
 
         public RenderPage(HTMLDocument document)
         {
             this.document = document;
+            var bodyNode = document.GetElementsByTagName("body");
 
-            foreach (Node node in document.FirstChild.ChildNodes)
+            if (bodyNode.Count != 0)
             {
-                if (node.GetType() == typeof(HTMLBodyElement))
-                {
-                    renderTree = new RenderTree(node);
-                    renderTree.Width = Width;
-                    renderTree.Height = Height;
-                    renderTree.Left = 0;
-                    renderTree.Top = 0;
-
-                    BuildRenderTree(node, renderTree);
-                    renderTree.Relayout();
-                }
+                renderTree = new RenderTree(bodyNode[0], Width, Height);
+                BuildRenderTree(bodyNode[0], renderTree);
+                renderTree.Relayout();
             }
         }
 
@@ -50,7 +44,7 @@ namespace HoustonBrowser.Render
                         renderTree,
                         childNode
                         );
-                        RenderObj.Childs.Add(newRenderObj);
+                        RenderObj.AppendChild(newRenderObj);
 
                         BuildRenderTree(childNode, newRenderObj);
                     }

@@ -104,17 +104,13 @@ namespace HoustonBrowser.Render
             }
         }
 
-        public List<RenderObj> Childs { get; set; }
-             = new List<RenderObj>();
+        public List<RenderObj> Childs { get; set; } = new List<RenderObj>();
         public RenderObj PreviousNode { get => previousNode; }
         public BrowserControl ControlRenderObj { get; set; }
 
-        protected RenderObj(Node node)
+        public RenderObj(Node node)
         {
             nodeOfDom = node;
-            ControlRenderObj = Control.Get(ref style, this, node);
-            this.previousNode = null;
-            this.rootNode = null;
         }
 
         public RenderObj(
@@ -129,7 +125,8 @@ namespace HoustonBrowser.Render
             ControlRenderObj = Control.Get(ref style, this, node);
             Left = previousNode.LeftBlock;
             Top = previousNode.TopBlock;
-            Width = previousNode.WidthBlock;
+            if (!IsFixedSize)
+                Width = previousNode.WidthBlock;
         }
 
         public void ReLocation()
@@ -170,9 +167,9 @@ namespace HoustonBrowser.Render
                     else
                     {
                         localLeft = LeftBlock;
+                        obj.Left = LeftBlock;
                         obj.Top = localTop;
                         localTop += obj.Height;
-                        obj.Left = localLeft;    
                         localHeight += obj.Height;
                     }
 
@@ -183,17 +180,10 @@ namespace HoustonBrowser.Render
             }
         }
 
-        protected List<BrowserControl> GetListOfControls(RenderObj RenderObj)
+        public List<BrowserControl> GetListOfControls(RenderObj RenderObj)
         {
             var tmpList = new List<BrowserControl>();
             tmpList.Add(RenderObj.ControlRenderObj);
-
-            if(RenderObj.nodeOfDom.NodeName == "h1") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h2") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h3") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h4") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h5") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h6") return tmpList;
 
             foreach (RenderObj node in RenderObj.Childs)
             {
@@ -201,6 +191,12 @@ namespace HoustonBrowser.Render
             }
 
             return tmpList;
+        }
+
+        public void AppendChild(RenderObj child)
+        {
+            Height += child.Height;
+            Childs.Add(child);
         }
     }
 }
