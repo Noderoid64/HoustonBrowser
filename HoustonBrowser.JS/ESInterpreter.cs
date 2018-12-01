@@ -5,9 +5,9 @@ using System.Text;
 
 namespace HoustonBrowser.JS
 {
-    enum Types
+    enum ESType
     {
-        Undefined,Null,Boolean,String,Number,Object,Reference,List,Completion
+        Undefined, Null, Boolean, String, Number, Object, Reference, List, Completion
     }
 
     [Flags]
@@ -16,349 +16,340 @@ namespace HoustonBrowser.JS
         ReadOnly=1, DontEnum=2, DontDelete=4, Internal=8
     }
 
-    class Property
-    {
-        Attributes attrs;
-        Primitive value;
-
-        public Property()
-        {
-        }
-
-        public Property(Attributes attrs, Primitive value)
-        {
-            this.attrs = attrs;
-            this.value = value;
-        }
-
-        internal Attributes Attrs { get => attrs; set => attrs = value; }
-        internal Primitive Value { get => value; set => this.value = value; }
-    }
-
-    class Primitive
-    {
-        Types type;
-        object value;
-        Func<List<Primitive>, Primitive> code;
-
-        public Primitive()
-        {
-        }
-
-        public Primitive(Types type, object value, Func<List<Primitive>, Primitive> code=null)
-        {
-            this.type = type;
-            this.value = value;
-            this.code = code;
-        }
-
-        public object Value { get => value; set => this.value = value; }
-        internal Types Type { get => type; set => type = value; }
-        internal Func<List<Primitive>, Primitive> Code { get => code; set => code = value; }
-    }
-
-    class VarObject : Primitive
-    {
-        VarObject prototype;
-        string clas;
-        VarObject scope;
-
-        Dictionary<string, Property> properties = new Dictionary<string, Property>();
-
-        public VarObject Scope { get => scope; set => scope = value; }
-
-        public VarObject(VarObject proto, string clas, Func<List<Primitive>, Primitive> code = null)
-        {
-            this.prototype = proto;
-            this.clas = clas;
-            this.Code = code;
-        }
-
-        public Primitive Get(string p)
-        {
-            VarObject hostObject = this;
-            while (hostObject != null)
-            {
-                if (properties.ContainsKey(p)) return properties[p].Value;
-                hostObject = hostObject.prototype;
-            }
-            Primitive prop = new Primitive(Types.Undefined, null);
-            properties.Add(p,new Property(0,prop));
-            return prop;
-        }
-
-        public void Put(string p, Primitive v)
-        {
-            if (CanPut(p))
-            {
-                if (properties.ContainsKey(p)) properties[p].Value = v;
-                else properties.Add(p, new Property(0,v));
-            }
-        }
-
-        public bool CanPut(string p) 
-        {
-            VarObject hostObject = this;
-            while (true)
-            {
-                if (properties.ContainsKey(p))
-                {
-                    Property tuple = hostObject.properties[p];
-                    if ((tuple.Attrs & Attributes.ReadOnly) == Attributes.ReadOnly) return false;
-                    return true;
-                }
-                if (hostObject.prototype == null) return true;
-                hostObject=hostObject.prototype;
-            }           
-        }
-
-        public bool HasProperty(string p)
-        {
-            VarObject hostObject = this;
-            while (hostObject != null)
-            {
-                if (hostObject.properties.ContainsKey(p)) return true;
-                hostObject = hostObject.prototype;
-            }
-            return false;
-        }
-
-        public bool Delete(string p)
-        {
-            if (!properties.ContainsKey(p)) return true;
-            Property tuple = properties[p];
-            if ((tuple.Attrs & Attributes.DontDelete) == Attributes.DontDelete) return false;
-            return properties.Remove(p); // = return true
-        }
-
-        public void DefaultValue()// TODO
-        { }
-        public virtual void Call(Primitive arguments)// not by spec
-        {
-            List<Primitive> args = arguments == null ? new List<Primitive>(): arguments.Value as List<Primitive>;
-            Code.Invoke(args);
-        }
-    }
-
-    class HostObject : VarObject
-    {
-        public HostObject(VarObject proto, string clas, Func<List<Primitive>, Primitive> code = null) : base(proto, clas,code)
-        {
-        }
-    }
-
     class ESInterpreter
     {
-        UnaryExpression root;
+        private ESContext currentContext;
 
-        Stack<VarObject> scopeChain = new Stack<VarObject>();
+        internal ESContext CurrentContext { get => currentContext; set => currentContext = value; }
 
-        public ESInterpreter()
+        internal Primitive Process(UnaryExpression rootExpr)
         {
-            scopeChain.Push(new HostObject(null,"Global Object"));
-            HostObject go = scopeChain.Peek() as HostObject;
-            HostObject console = new HostObject(null, "Object");
-            console.Put("log",new HostObject(null, "Function", x => {
-                StringBuilder sb = new StringBuilder();
-                foreach (var item in x)
-                {
-                    switch (item.Type)
-                    {
-                        case Types.Undefined:
-                            sb.Append("undefined");
-                            break;
-                        case Types.Null:
-                            sb.Append("null");
-                            break;
-                        case Types.Boolean:
-                        case Types.String:
-                        case Types.Number:
-                        case Types.Object:
-                            sb.Append(item.Value.ToString());
-                            break;
-                    }
-                    
-                }
+            currentContext.ExpressionStack.Push(rootExpr);
 
-                Console.WriteLine(sb.ToString());
-                return new Primitive(Types.Undefined, null);
-            }));
-            go.Put("console", console);
-        }
-
-        public void Process(UnaryExpression rootExpr)
-        {
-            Queue<UnaryExpression> stack = new Queue<UnaryExpression>();
-            HashSet<UnaryExpression> visited = new HashSet<UnaryExpression>();
-
-            root = rootExpr;
-            stack.Enqueue(rootExpr);
-
-            while (stack.Count != 0)
+            while (currentContext.ExpressionStack.Count != 0)
             {
-                UnaryExpression node = stack.Dequeue();
-                if (!visited.Contains(node))
+                UnaryExpression node = currentContext.ExpressionStack.Pop();
+                switch (node.Type)  
                 {
-                    switch (node.Type)
-                    {
-                        case ExpressionType.Block:
-                            Block block = node as Block;
-                            foreach (var item in block.Body)
-                            {
-                                stack.Enqueue(item);
-                            }
-                            break;
-
-                        case ExpressionType.VariableDeclaration:
-                            VariableDeclaration variable = node as VariableDeclaration;
-                            foreach (var item in variable.Declarations)
-                            {
-                                scopeChain.Peek().Put(item.Id, EvalExpression(item.Init));
-                            }
-                            break;
-
-                        case ExpressionType.AssignmentExpression:
-                            BinaryExpression binaryExpression = node as BinaryExpression;
-                            Primitive a = EvalExpression(binaryExpression.FirstValue);
-                            Primitive b = EvalExpression(binaryExpression.SecondValue);
-                            a.Type = b.Type;
-                            a.Value = b.Value;
-                            break;
-
-                        case ExpressionType.CallExpression:
-                            BinaryExpression callexpr = node as BinaryExpression;
-                            VarObject memb  = EvalExpression(callexpr.FirstValue) as VarObject;
-                            Primitive args = EvalExpression(callexpr.SecondValue);
-                            memb.Call(args);
-
-                            break;
-
-                        default:
-                            break;
-                    }
-                    visited.Add(node);
+                    case ExpressionType.ReturnExpression:
+                        return EvalExpression(node.FirstValue);
+                    default:
+                        EvalExpression(node);
+                        break;
                 }
+                
             }
+            return new Primitive(ESType.Undefined, null);
         }
 
-        public Primitive EvalExpression(UnaryExpression expression)
+        internal Primitive EvalExpression(UnaryExpression expression)
         {
             switch (expression.Type)
             {
                 case ExpressionType.Undefined:
-                    return new Primitive(Types.Undefined, null);
+                    return new Primitive(ESType.Undefined, null);
                 case ExpressionType.Null:
-                    return new Primitive(Types.Null, null);
+                    return new Primitive(ESType.Null, null);
                 case ExpressionType.Boolean:
                     SimpleExpression boolean = expression as SimpleExpression;
-                    return new Primitive(Types.Boolean,Convert.ToBoolean(boolean.Value));
+                    return new Primitive(ESType.Boolean, Convert.ToBoolean(boolean.Value));
                 case ExpressionType.String:
                     SimpleExpression srt = expression as SimpleExpression;
-                    return new Primitive(Types.String, srt.Value);
+                    return new Primitive(ESType.String, srt.Value);
                 case ExpressionType.Number:
                     SimpleExpression num = expression as SimpleExpression;
                     double d;
                     double.TryParse((string)num.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out d);
-                    return new Primitive(Types.Number, d);
+                    return new Primitive(ESType.Number, d);
 
-                case ExpressionType.Object: // TODO: add properties to this object 
-                    VarObject p = new VarObject(null,"Object");
-
-                    return p;
-                case ExpressionType.Ident: // not by spec. should throw reference error
-                    SimpleExpression ident = expression as SimpleExpression;
-                    VarObject scope = scopeChain.Peek();
-                    while (scope!=null)
-                    {
-                        if (scope.HasProperty((string)ident.Value)) return scope.Get((string)ident.Value);
-                        scope = scope.Scope;
-                    }
-                    return new Primitive(Types.Undefined, null);
-
-                case ExpressionType.MemberExpression: // not by spec. see page 52 of es262.
-                    BinaryExpression memexpr = expression as BinaryExpression;
-                    VarObject mObj = EvalExpression(memexpr.FirstValue) as VarObject;
-                    SimpleExpression mProp = memexpr.SecondValue as SimpleExpression;
-                    return mObj.Get((string)mProp.Value);
-
-                case ExpressionType.BinaryExpression: // not by spec. see page 58 of es262.
-                    BinaryExpression binary = expression as BinaryExpression;
-                    Primitive a = EvalExpression(binary.FirstValue), b = EvalExpression(binary.SecondValue);
-                    switch (binary.Oper)
-                    {
-                        case "+":
-                            if (a.Type == Types.Number && b.Type == Types.Number)
-                            {
-                                double anum = (double)a.Value;
-                                double bnum = (double)b.Value;
-                                return new Primitive(Types.Number, anum + bnum);
-                            }
-                            break;
-                        case "-":
-                            if (a.Type == Types.Number && b.Type == Types.Number)
-                            {
-                                double anum = (double)a.Value;
-                                double bnum = (double)b.Value;
-                                return new Primitive(Types.Number, anum - bnum);
-                            }
-                            break;
-                        case "*":
-                            if (a.Type == Types.Number && b.Type == Types.Number)
-                            {
-                                double anum = (double)a.Value;
-                                double bnum = (double)b.Value;
-                                return new Primitive(Types.Number, anum * bnum);
-                            }
-                            break;
-                        case "/":
-                            if (a.Type == Types.Number && b.Type == Types.Number)
-                            {
-                                double anum = (double)a.Value;
-                                double bnum = (double)b.Value;
-                                return new Primitive(Types.Number, anum / bnum);
-                            }
-                            break;
-                    }
-
+                case ExpressionType.Block:
+                    ProcessBlock(expression);
                     break;
 
-                case ExpressionType.Arguments:
-                    SimpleExpression primitive = expression as SimpleExpression;
-                    List<Primitive> list = new List<Primitive>();
-                    foreach (var item in primitive.Value as List<UnaryExpression>)
-                    {
-                        list.Add(EvalExpression(item));
-                    }
-                    return new Primitive(Types.List, list);
-
-                case ExpressionType.LogicalExpression:
+                case ExpressionType.VariableDeclaration:
+                    ProcessVariableDeclaration(expression);
                     break;
-
 
                 case ExpressionType.AssignmentExpression:
-                    BinaryExpression binaryExpression = expression as BinaryExpression;
-
+                    ProcessAssignmentExpression(expression);
                     break;
+
+                case ExpressionType.IfExpression:
+                    ProcessIfExpression(expression);
+                    break;
+
+                case ExpressionType.FunctionDeclaration:
+                    ProcessFunctionDeclaration(expression);
+                    break;
+                case ExpressionType.Object: // TODO: add properties to this object 
+                    HostObject p = new HostObject(null, "Object");
+                    return p;
+
+                case ExpressionType.Ident: // not by spec. should throw reference error
+                    return ProcessIdent(expression);
+
+                case ExpressionType.MemberExpression: // not by spec. see page 52
+                    return ProcessMemberExpression(expression);
+
+                case ExpressionType.BinaryExpression:
+                    BinaryExpression binary = expression as BinaryExpression;
+                    return ProcessBinaryExpression(EvalExpression(binary.FirstValue), EvalExpression(binary.SecondValue), binary.Oper);
+
+                case ExpressionType.Arguments:
+                    return ProcessArguments(expression);
+
+                case ExpressionType.CallExpression:
+                    return ProcessCallExpression(expression);
+
+                case ExpressionType.NewExpression:
+                    return ProcessNewExpression(expression);
 
                 default:
                     break;
             }
             return null;
         }
-    }
 
-    class TypeConvertor
-    {
-        public Primitive ToPrimitive(Primitive value, Types preferredType = Types.Undefined )
+        private Primitive ProcessNewExpression(UnaryExpression expression)
         {
-
-            return value;
+            BinaryExpression binaryExpression = expression as BinaryExpression;
+            HostObject first = EvalExpression(binaryExpression.FirstValue) as HostObject;
+            Primitive second = EvalExpression(binaryExpression.SecondValue);
+            return first.Construct(null, second);
         }
 
-        public Primitive ToBoolean(Primitive value)
+        private Primitive ProcessCallExpression(UnaryExpression expression)
         {
+            BinaryExpression callexpr = expression as BinaryExpression;
+            HostObject memb = EvalExpression(callexpr.FirstValue) as HostObject;
+            UnaryExpression expr = callexpr.SecondValue;
+            Primitive res = null;
+            int i = 0;
+            do
+            {
+                i++;
+                Primitive args = null;
+                HostObject go = currentContext.ExecContextStack.Peek();
+                if (expr.Type == ExpressionType.CallExpression)
+                {
+                    args = EvalExpression(expr.FirstValue);
+                    HostObject newExecContext = new HostObject(go, "Object");
+                    currentContext.ExecContextStack.Push(newExecContext);
+                    memb = memb.Call(currentContext.ExecContextStack.Peek(), args) as HostObject;
+                    expr = (expr as BinaryExpression).SecondValue;
+                }
+                else
+                {
+                    args = EvalExpression(expr);
+                    HostObject newExecContext = new HostObject(go, "Object");
+                    newExecContext.Scope = memb;
+                    currentContext.ExecContextStack.Push(newExecContext);
+                    res = memb.Call(currentContext.ExecContextStack.Peek(), args);
+                    break;
+                }
+            } while (expr!=null);
+            for (; i > 0; i--) currentContext.ExecContextStack.Pop();
+            return res;
+        }
+
+        private Primitive ProcessArguments(UnaryExpression expression)
+        {
+            Arguments primitive = expression as Arguments;
+            List<Primitive> list;
+            if (primitive.Args != null)
+            {
+                list = new List<Primitive>();
+                foreach (var item in primitive.Args)
+                {
+                    list.Add(EvalExpression(item));
+                }
+                return new Primitive(ESType.List, list);
+            }
+            return new Primitive(ESType.List, null);
+        }
+
+        private Primitive ProcessMemberExpression(UnaryExpression expression)
+        {
+            BinaryExpression memexpr = expression as BinaryExpression;
+            HostObject mObj = EvalExpression(memexpr.FirstValue) as HostObject;
+            SimpleExpression mProp = memexpr.SecondValue as SimpleExpression;
+            if (mProp == null) return mObj;
+            return mObj.Get((string)mProp.Value).Value;
+        }
+
+        private Primitive ProcessIdent(UnaryExpression expression)
+        {
+            SimpleExpression ident = expression as SimpleExpression;
+            HostObject scope = currentContext.ExecContextStack.Peek();
+            while (scope!=null)
+            {
+                if (scope.HasProperty((string)ident.Value)) return scope.Get((string)ident.Value).Value;
+                scope = scope.Scope;
+            }
             return null;
         }
 
+        private Primitive ProcessBinaryExpression(Primitive leftOp, Primitive rightOp,string oper)
+        {
+            Primitive res = null;
+            double l = 0, r = 0;
+            switch (oper)
+            {
+                case "+":
+
+                    if (leftOp.Type == ESType.String || rightOp.Type == ESType.String)
+                    {
+                        string ls = TypeConverter.ToString(leftOp);
+                        string rs = TypeConverter.ToString(rightOp);
+                        return new Primitive(ESType.String, ls + rs);
+                    }
+                    l = TypeConverter.ToNumber(leftOp);
+                    r = TypeConverter.ToNumber(rightOp);
+                    res = new Primitive(ESType.Number, r + l);
+                    break;
+                case "-":
+                    l = TypeConverter.ToNumber(leftOp);
+                    r = TypeConverter.ToNumber(rightOp);
+                    res = new Primitive(ESType.Number, l - r);
+                    break;
+                case "*":
+                    l = TypeConverter.ToNumber(leftOp);
+                    r = TypeConverter.ToNumber(rightOp);
+                    res = new Primitive(ESType.Number, l * r);
+                    break;
+                case "/":
+                    l = TypeConverter.ToNumber(leftOp);
+                    r = TypeConverter.ToNumber(rightOp);
+                    res = new Primitive(ESType.Number, l / r);
+                    break;
+                case "==":
+                    if (leftOp.Type == rightOp.Type)
+                    {
+                        switch (leftOp.Type)
+                        {
+                            case ESType.Undefined:
+                            case ESType.Null:
+                                res = new Primitive(ESType.Boolean, true);
+                                break;
+                            case ESType.Number:
+                                if (double.IsNaN((double)leftOp.Value) || double.IsNaN((double)rightOp.Value)) res = new Primitive(ESType.Boolean, false);
+                                else if ((double)leftOp.Value == (double)rightOp.Value) res = new Primitive(ESType.Boolean, true);
+                                else res = new Primitive(ESType.Boolean, false);
+                                break;
+                            case ESType.Boolean:
+                                if ((bool)leftOp.Value == (bool)rightOp.Value) res = new Primitive(ESType.Boolean, true);
+                                else res = new Primitive(ESType.Boolean, false);
+                                break;
+                            case ESType.String:
+                                if ((string)leftOp.Value == (string)rightOp.Value) res = new Primitive(ESType.Boolean, true);
+                                else res = new Primitive(ESType.Boolean, false);
+                                break;
+                            case ESType.Object:
+                                if (leftOp.Value == rightOp.Value) res = new Primitive(ESType.Boolean, true);
+                                else res = new Primitive(ESType.Boolean, false);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if (leftOp.Type == ESType.Null && rightOp.Type == ESType.Undefined) res = new Primitive(ESType.Boolean, true);
+                    else if (rightOp.Type == ESType.Null && leftOp.Type == ESType.Undefined) res = new Primitive(ESType.Boolean, true);
+                    else if (leftOp.Type == ESType.Number && rightOp.Type == ESType.String) res = ProcessBinaryExpression(leftOp, new Primitive(ESType.Number, TypeConverter.ToNumber(rightOp)), "==");
+                    else if (rightOp.Type == ESType.String && leftOp.Type == ESType.Number) res = ProcessBinaryExpression(new Primitive(ESType.Number, TypeConverter.ToNumber(leftOp)), rightOp, "==");
+                    else if (leftOp.Type == ESType.Boolean) res = ProcessBinaryExpression(new Primitive(ESType.Number, TypeConverter.ToNumber(leftOp)), rightOp, "==");
+                    else if (rightOp.Type == ESType.Boolean ) res = ProcessBinaryExpression(leftOp, new Primitive(ESType.Number, TypeConverter.ToNumber(rightOp)), "==");
+                    else res = new Primitive(ESType.Boolean, false);
+                    break;
+            }
+            return res;
+        }
+
+        internal void ProcessFunctionDeclaration(UnaryExpression expression)
+        {
+            FunctionDeclaration func = expression as FunctionDeclaration;
+            NativeObject funcObj = CreateFunction(expression);
+            currentContext.ExecContextStack.Peek().Put(func.Id, funcObj);
+            
+        }
+
+        private void ProcessIfExpression(UnaryExpression expression)
+        {
+            IfExpression ifExpr = expression as IfExpression;
+            if (TypeConverter.ToBoolean(EvalExpression(ifExpr.Cond)))
+            {
+                currentContext.ExpressionStack.Push(ifExpr.FirstValue);
+            }
+            else
+            {
+                if (ifExpr.SecondValue != null) currentContext.ExpressionStack.Push(ifExpr.SecondValue);
+            }
+        }
+
+        private Primitive ProcessAssignmentExpression(UnaryExpression expression)
+        {
+            BinaryExpression assignmentExpr = expression as BinaryExpression;
+            Property a = EvalProperty(assignmentExpr.FirstValue);
+            Primitive b = EvalExpression(assignmentExpr.SecondValue);
+            a.Value = b;
+            return a.Value;
+        }
+
+        private void ProcessVariableDeclaration(UnaryExpression expression)
+        {
+            VariableDeclaration variable = expression as VariableDeclaration;
+            foreach (var item in variable.Declarations)
+            {
+                if (item.FirstValue == null) currentContext.ExecContextStack.Peek().Put(item.Id, new Primitive(ESType.Undefined,null));
+                else currentContext.ExecContextStack.Peek().Put(item.Id, EvalExpression(item.FirstValue));
+            }
+        }
+
+        private void ProcessBlock(UnaryExpression expression)
+        {
+            Block block = expression as Block;
+            for (int i = block.Body.Count - 1; i >= 0; i--)
+            {
+                currentContext.ExpressionStack.Push(block.Body[i]);
+            }
+        }
+
+        private NativeObject CreateFunction(UnaryExpression expression)
+        {
+            FunctionDeclaration func = expression as FunctionDeclaration;
+            HostObject go = currentContext.GlobalObject;
+            NativeObject newFunc = new NativeObject((go.Get("Function").Value as HostObject).Prototype, "Function", func.FirstValue);
+            NativeObject newObj = new NativeObject((go.Get("Object").Value as HostObject).Prototype, "Object");
+            newObj.Put("constructor", newFunc, Attributes.DontEnum);
+            newFunc.Scope = currentContext.ExecContextStack.Peek();
+            newFunc.Put("length", new Primitive(ESType.Number, func.Parameters == null ? 0 : func.Parameters.Count));
+            newFunc.Put("prototype", newObj, Attributes.DontDelete);
+            return newFunc;
+        }
+
+        private Property EvalProperty(UnaryExpression expression)
+        {
+            switch (expression.Type)
+            {
+                case ExpressionType.Ident:
+                    SimpleExpression ident = expression as SimpleExpression;
+                    HostObject scope = currentContext.ExecContextStack.Peek();
+                    while (scope != null)
+                    {
+                        if (scope.HasProperty((string)ident.Value)) return scope.Get((string)ident.Value);
+                        scope = scope.Scope;
+                    }
+                    currentContext.ExecContextStack.Peek().Put((string)ident.Value, new Primitive(ESType.Undefined,null));
+                    return currentContext.ExecContextStack.Peek().Get((string)ident.Value);
+                case ExpressionType.MemberExpression:
+                    BinaryExpression memexpr = expression as BinaryExpression;
+                    HostObject mObj = EvalExpression(memexpr.FirstValue) as HostObject;
+                    SimpleExpression mProp = memexpr.SecondValue as SimpleExpression;
+                    //if (mProp == null) return mObj;
+                    return mObj.Get((string)mProp.Value);
+                default:
+                    break;
+            }
+            return null;
+        }
     }
 }

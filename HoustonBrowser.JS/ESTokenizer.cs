@@ -73,6 +73,7 @@ namespace HoustonBrowser.JS
         {
             pos=0;
             parsingString = data;
+            tokens = new List<Token>();
 
             Root();
 
@@ -118,8 +119,8 @@ namespace HoustonBrowser.JS
         {       
             if(ReservedWord()
             || Identifier()
-            || Punctuator()
             || NumericLiteral()
+            || Punctuator()
             || StringLiteral()
             ) return true; 
             
@@ -129,6 +130,7 @@ namespace HoustonBrowser.JS
         private bool NumericLiteral()
         {            
             int startingPos = SavePos();
+            Match('-');
             while (MatchInterval('0', '9')) { }
             if (Match('.')) while (MatchInterval('0', '9')) { }
 
@@ -167,26 +169,14 @@ namespace HoustonBrowser.JS
             int startingPos = SavePos();
             if(Match('"'))
             {
-                while(MatchInterval('a','z') 
-                || MatchInterval('A','Z') 
-                || Match('$')
-                || Match('-')
-                || Match('.')
-                || Match(':')
-                || Match(' ')
-                || Match('_')){}
-                if(!Match('"'))throw new Exception();
+                while(!Match('\r')
+                     && !Match('\n')
+                     && !Match('"')) { pos++; }
             }else if(Match('\''))
             {
-                while(MatchInterval('a','z') 
-                || MatchInterval('A','Z')
-                || Match('$')
-                || Match('-')
-                || Match('.')
-                || Match(':')
-                || Match(' ')
-                || Match('_')) {}
-                if(!Match('\''))throw new Exception();
+                while (!Match('\r')
+                 && !Match('\n')
+                 && !Match('\'')) { pos++; }
             }
             if(startingPos == pos)return false;
 
@@ -201,14 +191,26 @@ namespace HoustonBrowser.JS
 
         bool ReservedWord()
         {
-            string[] keywords = {"function","if","else","var","this"};
-
-
+            string[] keywords = {"function","if","else","var","this","new","return"};
+            SavePos();
             if (MatchSequence("null"))
             {
                 tokens.Add(new Token(TokenType.NullLiteral, "null"));
                 return true;
             }
+            RestorePos();
+            if (MatchSequence("true"))
+            {
+                tokens.Add(new Token(TokenType.BooleanLiteral, "true"));
+                return true;
+            }
+            RestorePos();
+            if (MatchSequence("false"))
+            {
+                tokens.Add(new Token(TokenType.BooleanLiteral, "false"));
+                return true;
+            }
+            RestorePos();
 
             foreach (var item in keywords)
             {
@@ -220,12 +222,13 @@ namespace HoustonBrowser.JS
                 }
                 RestorePos();
             }
+            RestorePos();
             return false;
         }
     
         bool Punctuator()
         {
-            string[] keywords = {"{","}","(",")",".",";","=",",","||","&&","+","-","*","/"};
+            string[] keywords = {"==", "!=", "{","}","(",")",".",";","=",",","||","&&","+","-","*","/"};
             
             foreach (var item in keywords)
             {
