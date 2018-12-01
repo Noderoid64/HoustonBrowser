@@ -119,8 +119,8 @@ namespace HoustonBrowser.JS
         {       
             if(ReservedWord()
             || Identifier()
-            || Punctuator()
             || NumericLiteral()
+            || Punctuator()
             || StringLiteral()
             ) return true; 
             
@@ -130,6 +130,7 @@ namespace HoustonBrowser.JS
         private bool NumericLiteral()
         {            
             int startingPos = SavePos();
+            Match('-');
             while (MatchInterval('0', '9')) { }
             if (Match('.')) while (MatchInterval('0', '9')) { }
 
@@ -227,7 +228,7 @@ namespace HoustonBrowser.JS
     
         bool Punctuator()
         {
-            string[] keywords = {"{","}","(",")",".",";","=",",","||","&&","+","-","*","/"};
+            string[] keywords = {"==", "!=", "{","}","(",")",".",";","=",",","||","&&","+","-","*","/"};
             
             foreach (var item in keywords)
             {

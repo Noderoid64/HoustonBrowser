@@ -503,7 +503,7 @@ TODO:
             {
                 oldPos = pos;
                 UnaryExpression newExpr = EqualityExpression1();
-                if (newExpr == null) pos = oldPos;
+                if (newExpr != null) return new BinaryExpression(ExpressionType.BinaryExpression, expr, newExpr, "==");
                 return expr;
             }
             pos = oldPos;
