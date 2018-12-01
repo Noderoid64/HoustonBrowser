@@ -9,5 +9,7 @@ namespace HoustonBrowser.Core
         event EventHandler<Avalonia.Input.PointerPressedEventArgs> onMouseClick;
         event EventHandler<Avalonia.Input.KeyEventArgs> onKeyDown;
         event EventHandler<PageLoadEventArgs> onPageLoad;
+
+        event EventHandler<Avalonia.AvaloniaPropertyChangedEventArgs> onSizeChanged;
     }
 }

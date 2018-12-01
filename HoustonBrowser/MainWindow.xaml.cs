@@ -22,11 +22,12 @@ namespace HoustonBrowser
         private Avalonia.Controls.Button searchButton;
         private Core.Core core;
         private IJS js;
+        private ScrollViewer scrollViewer;
 
         public event EventHandler<PointerPressedEventArgs> onMouseClick;
         public event EventHandler<KeyEventArgs> onKeyDown;
         public event EventHandler<PageLoadEventArgs> onPageLoad;
-
+        public event EventHandler<AvaloniaPropertyChangedEventArgs> onSizeChanged;
 
         public MainWindow()
         {
@@ -38,7 +39,9 @@ namespace HoustonBrowser
             drawPanel = this.Find<MyPanel>("drawingCanvas"); 
             urlTextBox = this.Find<Avalonia.Controls.TextBox>("urlInputBox");
             searchButton = this.Find<Avalonia.Controls.Button>("btnSearch"); 
-            
+            scrollViewer = this.Find<ScrollViewer>("scroll");
+            drawPanel.MinHeight = scrollViewer.Height;
+
             core = new Core.Core(this);
             core.onRender+= Core_onRender;
             js  =  core.Js;
@@ -47,7 +50,18 @@ namespace HoustonBrowser
             refreshButton.Click+= searchButton_OnClick;
             urlTextBox.KeyDown+= urlTextBox_OnKeyDown;
             js.onAlert +=  Js_onAlert;    
+            this.PropertyChanged+=window_onChanged;
+        }
 
+        private void window_onChanged(object sender, AvaloniaPropertyChangedEventArgs e)
+        { 
+            if(e.Property.Name=="ClientSize")
+            {
+                Size newSize = (Size)e.NewValue;
+                Size oldSize = (Size)e.OldValue;
+                scrollViewer.Height += newSize.Height - oldSize.Height;
+                this.onSizeChanged?.Invoke(sender, e);
+            }
         }
 
         private void Js_onAlert(object sender, string e)

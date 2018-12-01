@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
@@ -19,8 +20,12 @@ namespace HoustonBrowser.Controls
             {
                 foreach (BrowserControl bc in Controls)
                 {
-                    bc.Render(context);
+                    if(bc!=null)
+                    {
+                        bc.Render(context);
+                    }
                 }
+                OnRender();
             }
        }
 
@@ -56,6 +61,12 @@ namespace HoustonBrowser.Controls
            }
            base.OnPointerReleased(e);
             this.InvalidateVisual();
+        }
+
+        protected void OnRender()
+        {
+                var maxHeight=Controls.Max(c=>(c.Top+c.Height));
+                this.Height=maxHeight;
         }
     }
 }
