@@ -91,45 +91,9 @@ namespace HoustonBrowser.JS
                 case ExpressionType.MemberExpression: // not by spec. see page 52
                     return ProcessMemberExpression(expression);
 
-                case ExpressionType.BinaryExpression: // not by spec. see page 58
+                case ExpressionType.BinaryExpression:
                     BinaryExpression binary = expression as BinaryExpression;
-                    Primitive leftOp = EvalExpression(binary.FirstValue), rigthOp = EvalExpression(binary.SecondValue);
-                    switch (binary.Oper)
-                    {
-                        case "+":
-                            if (leftOp.Type == ESType.Number && rigthOp.Type == ESType.Number)
-                            {
-                                double anum = (double)leftOp.Value;
-                                double bnum = (double)rigthOp.Value;
-                                return new Primitive(ESType.Number, anum + bnum);
-                            }
-                            break;
-                        case "-":
-                            if (leftOp.Type == ESType.Number && rigthOp.Type == ESType.Number)
-                            {
-                                double anum = (double)leftOp.Value;
-                                double bnum = (double)rigthOp.Value;
-                                return new Primitive(ESType.Number, anum - bnum);
-                            }
-                            break;
-                        case "*":
-                            if (leftOp.Type == ESType.Number && rigthOp.Type == ESType.Number)
-                            {
-                                double anum = (double)leftOp.Value;
-                                double bnum = (double)rigthOp.Value;
-                                return new Primitive(ESType.Number, anum * bnum);
-                            }
-                            break;
-                        case "/":
-                            if (leftOp.Type == ESType.Number && rigthOp.Type == ESType.Number)
-                            {
-                                double anum = (double)leftOp.Value;
-                                double bnum = (double)rigthOp.Value;
-                                return new Primitive(ESType.Number, anum / bnum);
-                            }
-                            break;
-                    }
-                    break;
+                    return ProcessBinaryExpression(EvalExpression(binary.FirstValue), EvalExpression(binary.SecondValue), binary.Oper);
 
                 case ExpressionType.Arguments:
                     return ProcessArguments(expression);
@@ -178,6 +142,7 @@ namespace HoustonBrowser.JS
                 {
                     args = EvalExpression(expr);
                     HostObject newExecContext = new HostObject(go, "Object");
+                    newExecContext.Scope = memb;
                     currentContext.ExecContextStack.Push(newExecContext);
                     res = memb.Call(currentContext.ExecContextStack.Peek(), args);
                     break;
@@ -209,7 +174,7 @@ namespace HoustonBrowser.JS
             HostObject mObj = EvalExpression(memexpr.FirstValue) as HostObject;
             SimpleExpression mProp = memexpr.SecondValue as SimpleExpression;
             if (mProp == null) return mObj;
-            return mObj.Get((string)mProp.Value);
+            return mObj.Get((string)mProp.Value).Value;
         }
 
         private Primitive ProcessIdent(UnaryExpression expression)
@@ -218,10 +183,85 @@ namespace HoustonBrowser.JS
             HostObject scope = currentContext.ExecContextStack.Peek();
             while (scope!=null)
             {
-                if (scope.HasProperty((string)ident.Value)) return scope.Get((string)ident.Value);
+                if (scope.HasProperty((string)ident.Value)) return scope.Get((string)ident.Value).Value;
                 scope = scope.Scope;
             }
             return null;
+        }
+
+        private Primitive ProcessBinaryExpression(Primitive leftOp, Primitive rightOp,string oper)
+        {
+            Primitive res = null;
+            double l = 0, r = 0;
+            switch (oper)
+            {
+                case "+":
+
+                    if (leftOp.Type == ESType.String || rightOp.Type == ESType.String)
+                    {
+                        string ls = TypeConverter.ToString(leftOp);
+                        string rs = TypeConverter.ToString(rightOp);
+                        return new Primitive(ESType.String, ls + rs);
+                    }
+                    l = TypeConverter.ToNumber(leftOp);
+                    r = TypeConverter.ToNumber(rightOp);
+                    res = new Primitive(ESType.Number, r + l);
+                    break;
+                case "-":
+                    l = TypeConverter.ToNumber(leftOp);
+                    r = TypeConverter.ToNumber(rightOp);
+                    res = new Primitive(ESType.Number, l - r);
+                    break;
+                case "*":
+                    l = TypeConverter.ToNumber(leftOp);
+                    r = TypeConverter.ToNumber(rightOp);
+                    res = new Primitive(ESType.Number, l * r);
+                    break;
+                case "/":
+                    l = TypeConverter.ToNumber(leftOp);
+                    r = TypeConverter.ToNumber(rightOp);
+                    res = new Primitive(ESType.Number, l / r);
+                    break;
+                case "==":
+                    if (leftOp.Type == rightOp.Type)
+                    {
+                        switch (leftOp.Type)
+                        {
+                            case ESType.Undefined:
+                            case ESType.Null:
+                                res = new Primitive(ESType.Boolean, true);
+                                break;
+                            case ESType.Number:
+                                if (double.IsNaN((double)leftOp.Value) || double.IsNaN((double)rightOp.Value)) res = new Primitive(ESType.Boolean, false);
+                                else if ((double)leftOp.Value == (double)rightOp.Value) res = new Primitive(ESType.Boolean, true);
+                                else res = new Primitive(ESType.Boolean, false);
+                                break;
+                            case ESType.Boolean:
+                                if ((bool)leftOp.Value == (bool)rightOp.Value) res = new Primitive(ESType.Boolean, true);
+                                else res = new Primitive(ESType.Boolean, false);
+                                break;
+                            case ESType.String:
+                                if ((string)leftOp.Value == (string)rightOp.Value) res = new Primitive(ESType.Boolean, true);
+                                else res = new Primitive(ESType.Boolean, false);
+                                break;
+                            case ESType.Object:
+                                if (leftOp.Value == rightOp.Value) res = new Primitive(ESType.Boolean, true);
+                                else res = new Primitive(ESType.Boolean, false);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else if (leftOp.Type == ESType.Null && rightOp.Type == ESType.Undefined) res = new Primitive(ESType.Boolean, true);
+                    else if (rightOp.Type == ESType.Null && leftOp.Type == ESType.Undefined) res = new Primitive(ESType.Boolean, true);
+                    else if (leftOp.Type == ESType.Number && rightOp.Type == ESType.String) res = ProcessBinaryExpression(leftOp, new Primitive(ESType.Number, TypeConverter.ToNumber(rightOp)), "==");
+                    else if (rightOp.Type == ESType.String && leftOp.Type == ESType.Number) res = ProcessBinaryExpression(new Primitive(ESType.Number, TypeConverter.ToNumber(leftOp)), rightOp, "==");
+                    else if (leftOp.Type == ESType.Boolean) res = ProcessBinaryExpression(new Primitive(ESType.Number, TypeConverter.ToNumber(leftOp)), rightOp, "==");
+                    else if (rightOp.Type == ESType.Boolean ) res = ProcessBinaryExpression(leftOp, new Primitive(ESType.Number, TypeConverter.ToNumber(rightOp)), "==");
+                    else res = new Primitive(ESType.Boolean, false);
+                    break;
+            }
+            return res;
         }
 
         internal void ProcessFunctionDeclaration(UnaryExpression expression)
@@ -248,10 +288,10 @@ namespace HoustonBrowser.JS
         private Primitive ProcessAssignmentExpression(UnaryExpression expression)
         {
             BinaryExpression assignmentExpr = expression as BinaryExpression;
-            Primitive a = EvalExpression(assignmentExpr.FirstValue);
+            Property a = EvalProperty(assignmentExpr.FirstValue);
             Primitive b = EvalExpression(assignmentExpr.SecondValue);
-            //a.AssignNewObject(b);
-            return a;
+            a.Value = b;
+            return a.Value;
         }
 
         private void ProcessVariableDeclaration(UnaryExpression expression)
@@ -259,7 +299,8 @@ namespace HoustonBrowser.JS
             VariableDeclaration variable = expression as VariableDeclaration;
             foreach (var item in variable.Declarations)
             {
-                currentContext.ExecContextStack.Peek().Put(item.Id, EvalExpression(item.FirstValue));
+                if (item.FirstValue == null) currentContext.ExecContextStack.Peek().Put(item.Id, new Primitive(ESType.Undefined,null));
+                else currentContext.ExecContextStack.Peek().Put(item.Id, EvalExpression(item.FirstValue));
             }
         }
 
@@ -276,13 +317,39 @@ namespace HoustonBrowser.JS
         {
             FunctionDeclaration func = expression as FunctionDeclaration;
             HostObject go = currentContext.GlobalObject;
-            NativeObject newFunc = new NativeObject((go.Get("Function") as HostObject).Prototype, "Function", func.FirstValue);
-            NativeObject newObj = new NativeObject((go.Get("Object") as HostObject).Prototype, "Object");
+            NativeObject newFunc = new NativeObject((go.Get("Function").Value as HostObject).Prototype, "Function", func.FirstValue);
+            NativeObject newObj = new NativeObject((go.Get("Object").Value as HostObject).Prototype, "Object");
             newObj.Put("constructor", newFunc, Attributes.DontEnum);
             newFunc.Scope = currentContext.ExecContextStack.Peek();
             newFunc.Put("length", new Primitive(ESType.Number, func.Parameters == null ? 0 : func.Parameters.Count));
             newFunc.Put("prototype", newObj, Attributes.DontDelete);
             return newFunc;
+        }
+
+        private Property EvalProperty(UnaryExpression expression)
+        {
+            switch (expression.Type)
+            {
+                case ExpressionType.Ident:
+                    SimpleExpression ident = expression as SimpleExpression;
+                    HostObject scope = currentContext.ExecContextStack.Peek();
+                    while (scope != null)
+                    {
+                        if (scope.HasProperty((string)ident.Value)) return scope.Get((string)ident.Value);
+                        scope = scope.Scope;
+                    }
+                    currentContext.ExecContextStack.Peek().Put((string)ident.Value, new Primitive(ESType.Undefined,null));
+                    return currentContext.ExecContextStack.Peek().Get((string)ident.Value);
+                case ExpressionType.MemberExpression:
+                    BinaryExpression memexpr = expression as BinaryExpression;
+                    HostObject mObj = EvalExpression(memexpr.FirstValue) as HostObject;
+                    SimpleExpression mProp = memexpr.SecondValue as SimpleExpression;
+                    //if (mProp == null) return mObj;
+                    return mObj.Get((string)mProp.Value);
+                default:
+                    break;
+            }
+            return null;
         }
     }
 }

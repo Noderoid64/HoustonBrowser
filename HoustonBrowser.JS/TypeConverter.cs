@@ -16,12 +16,42 @@ namespace HoustonBrowser.JS
                     return input;
 
                 case ESType.Object:
-                    
-
+                    if (prefferedType == ESType.String)
+                    {
+                        HostObject obj = (HostObject)input;
+                        Primitive res = null;
+                        if (obj.HasProperty("toString"))
+                        {
+                            res=(obj.Get("toString").Value as HostObject).Call(obj, null);
+                            if (res.Type != ESType.Object) return res;
+                        }
+                        if (obj.HasProperty("valueOf"))
+                        {
+                            res = (obj.Get("valueOf").Value as HostObject).Call(obj, null);
+                            if (res.Type != ESType.Object) return res;
+                        }
+                        //should throw  TypeError
+                    }
+                    else
+                    {
+                        HostObject obj = (HostObject)input;
+                        Primitive res = null;
+                        if (obj.HasProperty("valueOf"))
+                        {
+                            res = (obj.Get("valueOf").Value as HostObject).Call(obj, null);
+                            if (res.Type != ESType.Object) return res;
+                        }
+                        if (obj.HasProperty("toString"))
+                        {
+                            res = (obj.Get("toString").Value as HostObject).Call(obj, null);
+                            if (res.Type != ESType.Object) return res;
+                        }
+                        //should throw  TypeError
+                    }
+                    return null;
                 default:
                     break;
             }
-
             return null;
         }
 
@@ -62,8 +92,8 @@ namespace HoustonBrowser.JS
                     return 0;
                 case ESType.String:
                     double res;
-                    double.TryParse((string)input.Value, out res);
-                    return res;
+                    if (double.TryParse((string)input.Value, out res)) return res;
+                    else return double.NaN;
                 case ESType.Number:
                     return (double)input.Value;
                 case ESType.Object:

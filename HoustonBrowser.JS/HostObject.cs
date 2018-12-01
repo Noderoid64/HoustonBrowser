@@ -30,16 +30,16 @@ namespace HoustonBrowser.JS
             this.constructMethod = constructMethod;
         }
 
-        public Primitive Get(string p)
+        public Property Get(string p)
         {
             HostObject hostObject = this;
             while (hostObject != null)
             {
-                if (hostObject.properties.ContainsKey(p)) return hostObject.properties[p].Value;
+                if (hostObject.properties.ContainsKey(p)) return hostObject.properties[p];
                 hostObject = hostObject.prototype;
             }
-            Primitive prop = new Primitive(ESType.Undefined, null);
-            properties.Add(p, new Property(0, prop));
+            Property prop = new Property(0,new Primitive(ESType.Undefined, null));
+            properties.Add(p, prop);
             return prop;
         }
 
@@ -99,7 +99,9 @@ namespace HoustonBrowser.JS
 
         public virtual Primitive Call(HostObject @this, Primitive arguments)// not by spec
         {
-            return callMethod.Invoke(@this, arguments.Value as List<Primitive>);
+            List<Primitive> list=null;
+            if (arguments != null) list = arguments.Value as List<Primitive>;
+            return callMethod.Invoke(@this, list);
         }
 
         public virtual HostObject Construct(HostObject @this, Primitive arguments)
