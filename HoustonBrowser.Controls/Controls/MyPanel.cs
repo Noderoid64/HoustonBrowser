@@ -13,6 +13,7 @@ namespace HoustonBrowser.Controls
     {
        public List<BrowserControl> Controls {get;set;}
 
+       
        public override void Render(DrawingContext context)
        {
            base.Render(context);
@@ -35,9 +36,11 @@ namespace HoustonBrowser.Controls
            {
                 foreach(var cntrl in Controls)
                 {
+                    cntrl.Parent=this;
                     Point location = e.GetPosition(this);
                     if (location.X>=cntrl.Left && location.X<=cntrl.Width+cntrl.Left && location.Y>=cntrl.Top && location.Y<=cntrl.Top+cntrl.Height)
-                    { 
+                    {
+                        cntrl.PressedLocation = location;
                         cntrl.IsPressed=true;
                     }
                 }
