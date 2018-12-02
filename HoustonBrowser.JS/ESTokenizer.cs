@@ -77,6 +77,7 @@ namespace HoustonBrowser.JS
 
             Root();
 
+            tokens.Add(new Token(TokenType.Punctuator, ";"));
             return tokens;
         }
 

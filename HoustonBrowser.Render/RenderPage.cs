@@ -9,10 +9,12 @@ namespace HoustonBrowser.Render
     {
         private HTMLDocument document;
         private RenderTree renderTree;
+        private Dictionary<BrowserControl, Node> domNodes = new Dictionary<BrowserControl, Node>();
 
         public static double Width { get; set; } = 920;
         public double Height { get; set; } = 500;
         public List<BrowserControl> ListOfControls { get => renderTree.ListOfControls;  }
+        public Dictionary<BrowserControl, Node> DomNodes { get => domNodes; }
 
         public RenderPage(HTMLDocument document)
         {
@@ -38,7 +40,7 @@ namespace HoustonBrowser.Render
         public void BuildRenderTree(Node node, RenderObj RenderObj)
         {
             RenderObj newRenderObj;
-
+            domNodes.TryAdd(RenderObj.ControlRenderObj, node);
             if (node.ChildNodes.Count != 0)
             {
                 foreach (Node childNode in node.ChildNodes)
@@ -51,11 +53,13 @@ namespace HoustonBrowser.Render
                         childNode
                         );
                         RenderObj.Childs.Add(newRenderObj);
-
+                        
                         BuildRenderTree(childNode, newRenderObj);
                     }
                     else
                         BuildRenderTree(childNode, RenderObj);
+
+                    
                 }
             }
         }

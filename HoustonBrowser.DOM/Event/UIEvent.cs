@@ -1,10 +1,14 @@
 namespace HoustonBrowser.DOM
 {
-    class UIEvent : Event
+    public class UIEvent : DomEvent
     {
-        public AbstractView View { get; }
-        public int Detail { get; }
-        public void InitUIEvent(string typeArg, bool canBubbleArg, bool canCancelableArg, AbstractView viewArg, int detailArg)
+        protected AbstractView view;
+        protected int detail;
+
+        public AbstractView View { get => view; }
+        public int Detail { get => detail; }
+
+        public UIEvent(Node target, string typeArg, bool canBubbleArg, bool canCancelableArg, AbstractView viewArg, int detailArg):base(target,typeArg,canBubbleArg,canCancelableArg)
         {
 
         }

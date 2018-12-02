@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace HoustonBrowser.JS
 {
     public class JSModule : IJS
@@ -126,7 +127,6 @@ namespace HoustonBrowser.JS
 
             return funcObj;
         }
-
 
         private HostObject CreateConsoleObject()
         {
