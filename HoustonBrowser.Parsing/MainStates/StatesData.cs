@@ -34,5 +34,13 @@ namespace HoustonBrowser.Parsing
         {
             isLast = true;
         }
+        static public void Reload()
+        {
+            InitialState = new InitialState();
+            InHead = new InHead();
+            InBody = new InBody();
+            currentState = (int)InsertionModes.Initial;
+            isLast = false;
+        }
     }
 }
