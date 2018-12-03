@@ -133,7 +133,17 @@ namespace HoustonBrowser.JS
             int startingPos = SavePos();
             Match('-');
             while (MatchInterval('0', '9')) { }
-            if (Match('.')) while (MatchInterval('0', '9')) { }
+            if (Match('.'))
+            {
+                while (MatchInterval('0', '9')) { }
+
+                if (startingPos == pos - 1)
+                {
+                    RestorePos();
+                    return false;
+                }
+                return true;
+            }
 
 
             if (startingPos == pos) return false;

@@ -52,6 +52,15 @@ namespace HoustonBrowser.JS
             }
         }
 
+        public void Put(string p, Primitive v, Func<Primitive, Primitive> setter, Attributes attributes = 0)
+        {
+            if (CanPut(p))
+            {
+                if (properties.ContainsKey(p)) properties[p].Value = v;
+                else properties.Add(p, new Property(attributes, v, setter));
+            }
+        }
+
         public bool CanPut(string p)
         {
             HostObject hostObject = this;

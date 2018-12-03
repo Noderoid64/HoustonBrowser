@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using HoustonBrowser.DOM;
+using HoustonBrowser.DOM.Interface;
 
 namespace HoustonBrowser.JS
 {
@@ -10,25 +11,45 @@ namespace HoustonBrowser.JS
         private ESTokenizer tokenizer = new ESTokenizer();
         private ESParser parser = new ESParser();
         private ESInterpreter interpreter;
+        private Dictionary<Document, ESContext> contexts = new Dictionary<Document, ESContext>();
 
         public event EventHandler<string> onAlert;
 
         public JSModule()
         {
             interpreter = new ESInterpreter();
-            ESContext context = new ESContext(CreateWindowObject());
-            context.AddHostObject("console", CreateConsoleObject());
+        }
+
+        public void SetContext(Document doc)
+        {
+            ESContext context = null;
+            if (contexts.ContainsKey(doc))
+            {
+                context = contexts[doc];
+            }
+            else
+            {
+                context = new ESContext(CreateWindowObject(), doc);
+                contexts.TryAdd(doc, context);
+            }
             interpreter.CurrentContext = context;
         }
 
         public string Process(string rawJS)
         {
-            List<Token> list = tokenizer.Tokenize(rawJS);
-            if (list == null) throw new Exception("Error occured during js tokenisation");
-            parser.Init(list);
-            UnaryExpression root = parser.Program();
-            if (root == null) throw new Exception("Error occured during js parsing");
-            interpreter.Process(root);
+            try
+            {
+                List<Token> list = tokenizer.Tokenize(rawJS);
+                if (list == null) throw new Exception("Error occured during js tokenisation");
+                parser.Init(list);
+                UnaryExpression root = parser.Program();
+                if (root == null) throw new Exception("Error occured during js parsing");
+                interpreter.Process(root);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
             return "OK";
         }
 
@@ -48,7 +69,67 @@ namespace HoustonBrowser.JS
                 return new Primitive(ESType.Undefined, null);
             });
             window.Put("alert", alert);
+            window.Put("console", CreateConsoleObject());
+            window.Put("document", CreateDocumentObject(@object));
             return window;
+        }
+
+        private HostObject CreateDocumentObject(HostObject @object)
+        {
+            HostObject document = new HostObject(null, "Object");
+            DomObject createElement = new DomObject(null, "Function", (caller, x) => {
+                string nodeName = "";
+                if (x != null && x.Count != 0)
+                {
+                    nodeName = TypeConverter.ToString(x[0]);
+                }
+                Node newNode = new Node(Node.TypeOfNode.ELEMENT_NODE, nodeName, "");
+                DomObject node = CreateAndBound(newNode);
+                node.Node = newNode;
+                return node;
+            });
+            DomObject getElementById = new DomObject(null, "Function", (caller, x) => {
+                string id = "";
+                if (x != null && x.Count != 0)
+                {
+                    id = TypeConverter.ToString(x[0]);
+                }
+                Node foundNode = interpreter.CurrentContext.Document.GetElementById(id); // check for null
+                DomObject node = CreateAndBound(foundNode);
+                node.Node = foundNode;
+                return node;
+            });
+            document.Put("getElementById", getElementById);
+            document.Put("createElement", createElement);
+            return document;
+        }
+
+        private DomObject CreateAndBound(Node domNode)
+        {
+            DomObject node = new DomObject(null, "Object");
+            DomObject appendChild = new DomObject(null, "Function", (caller, x) => {
+                DomObject targetNode=null;
+                if (x != null && x.Count != 0)
+                {
+                    if ((x[0] as DomObject) != null)
+                    {
+                        targetNode = (DomObject)x[0];
+                        (caller as DomObject).Node.AppendChild(targetNode.Node);
+                    }
+                    return null; //should throw exception
+                }
+
+                return new Primitive(ESType.Undefined,null);
+            });
+            node.Put("appendChild", appendChild);
+            node.Put("innerText", new Primitive(ESType.String, ""), (value) => {
+                string str = TypeConverter.ToString(value);
+                domNode.ChildNodes.Clear();
+                domNode.ChildNodes.Add(new Text(str));
+                return new Primitive(ESType.String, str);
+            });
+
+            return node;
         }
 
         private HostObject CreateObjectObject()

@@ -39,6 +39,7 @@ namespace HoustonBrowser.Core
             this.control=new BrowserControl();
             this.js=new JSModule();
             
+            
 
 
             ui.onKeyDown += Ui_onKeyDown;
@@ -56,6 +57,7 @@ namespace HoustonBrowser.Core
         private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
             HTMLDocument dom = parser.Parse(httpClient.Get(e.UrlString));
+            js.SetContext(dom);
             renderTree = new RenderPage(dom);
             RegisterEvents();
             RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
