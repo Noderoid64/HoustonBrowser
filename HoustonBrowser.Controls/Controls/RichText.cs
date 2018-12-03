@@ -40,6 +40,7 @@ namespace HoustonBrowser.Controls
                 string line=Text.Substring(start, lines[i].Length);
                 if(Links!=null)
                 {
+                    int beforeCount = indx.Count();
                     foreach (var param in Links)
                     {
                         string link = Text.Substring(param.StartIndex, param.EndIndex+1-param.StartIndex);
@@ -120,11 +121,12 @@ namespace HoustonBrowser.Controls
                             indx.Add(start);
                             indx.Add(endLineIndex);
                         }
-                        else
-                        {
-                            if(!indx.Contains(start)) indx.Add(start);
-                            if(!indx.Contains(endLineIndex)) indx.Add(endLineIndex);
-                        }
+                      
+                    }
+                    if(indx.Count()==beforeCount)
+                    {
+                        indx.Add(start);
+                        indx.Add(endLineIndex);
                     }
                     if (!indx.Contains(endLineIndex)) { indx.Add(endLineIndex); }
                     
