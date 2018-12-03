@@ -12,7 +12,7 @@ namespace HoustonBrowser.Render
         private RenderTree renderTree;
 
         public static double Width { get; set; } = 920;
-        public double Height { get; set; } = 500;
+        public double Height { get; set; } = 500;                                              
         public List<BrowserControl> ListOfControls { get => renderTree.GetListOfControls();  }
 
         public RenderPage(HTMLDocument document)

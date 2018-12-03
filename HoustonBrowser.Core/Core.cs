@@ -22,7 +22,7 @@ namespace HoustonBrowser.Core
         IBrowserControl control;
         IJS js;
         IUI ui;
-        RenderPage renderTree;
+      //  RenderPage renderTree;
 
         public IJS Js { get => js; }
 
@@ -54,7 +54,25 @@ namespace HoustonBrowser.Core
 
         private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
-            RenderTree renderTree = new RenderTree(parser.Parse(httpClient.Get(e.UrlString)));
+            string str = string.Empty;
+            string ln = string.Empty;
+            RenderPage renderTree;
+
+            using (StreamReader stream = new StreamReader("file.txt"))
+            {
+                ln = stream.ReadLine();
+
+                do
+                {
+                    str += ln + "\r\n";
+                    ln = stream.ReadLine();
+                }
+                while (ln != null);
+
+                renderTree = new RenderPage(parser.Parse(str));
+            }
+
+           // RenderPage renderTree = new RenderPage(parser.Parse(httpClient.Get(e.UrlString)));
             RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
             onRender(this, renderEventArgs);
         }

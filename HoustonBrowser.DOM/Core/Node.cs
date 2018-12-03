@@ -23,6 +23,8 @@ namespace HoustonBrowser.DOM
             NOTATION_NODE
         }
 
+        private Dictionary<string, EventListener> events = new Dictionary<string, EventListener>();
+
         protected readonly string nodeName;
         protected string nodeValue;
         private TypeOfNode nodeType;
@@ -45,7 +47,7 @@ namespace HoustonBrowser.DOM
         public Node LastChild { get => lastChild; }
         public Node PreviousSibling { get => previousSibling; }
         public Node NextSibling { get => nextSibling; }
-        public NamedNodeMap Attributes { get => attributes; }
+        public NamedNodeMap Attributes { get => attributes; set => attributes = value;}
         public Document OwnerDocument { get => ownerDocument; }
 
         public Node() { }
@@ -138,12 +140,12 @@ namespace HoustonBrowser.DOM
 
         public void AddEventListener(string type, EventListener listener, bool useCapture)
         {
-            
+            events.Add(type,listener);
         }
 
         public void RemoveEventListener(string type, EventListener listener, bool useCapture)
         {
-          
+            events.Remove(type);
         }
 
         public bool DispatchEvent(Event evt)

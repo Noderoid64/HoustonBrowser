@@ -9,7 +9,10 @@ namespace HoustonBrowser.Render
         Rectangle distanceBetweenControl;
         Rectangle distanceBetweenBlock;
         public Rectangle DistanceBetweenControl { get => distanceBetweenControl; }
-        public Rectangle DistanceBetweenBlock { get => distanceBetweenBlock;  }
+        public Rectangle DistanceBetweenBlock { get => distanceBetweenBlock; }
+
+        public double Font { get; set; } = 14;
+        public bool Bold { get; set; } = false;
 
         double marginBlockStart;
         double marginBlockEnd;
