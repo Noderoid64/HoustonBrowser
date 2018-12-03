@@ -129,18 +129,30 @@ namespace HoustonBrowser.Parsing
         #region headers
         private void h1OpenProcessing()
         {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "p")
+            {
+                StatesData.OpenedTags.Pop();
+            }
             var item = new HTMLH1Element();
             StatesData.OpenedTags.Peek().AppendChild(item);
             StatesData.OpenedTags.Push(item);
         }
         private void h2OpenProcessing()
         {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "p")
+            {
+                StatesData.OpenedTags.Pop();
+            }
             var item = new HTMLH2Element();
             StatesData.OpenedTags.Peek().AppendChild(item);
             StatesData.OpenedTags.Push(item);
         }
         private void h3OpenProcessing()
         {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "p")
+            {
+                StatesData.OpenedTags.Pop();
+            }
             var item = new HTMLH3Element();
             StatesData.OpenedTags.Peek().AppendChild(item);
             StatesData.OpenedTags.Push(item);
@@ -181,6 +193,10 @@ namespace HoustonBrowser.Parsing
         #endregion
         private void pOpenProcessing()
         {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "p")
+            {
+                StatesData.OpenedTags.Pop();
+            }
             var item = new HTMLParagraphElement();
             StatesData.OpenedTags.Peek().AppendChild(item);
             StatesData.OpenedTags.Push(item);
@@ -213,6 +229,10 @@ namespace HoustonBrowser.Parsing
         }
         private void divOpenProcessing()
         {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "p")
+            {
+                StatesData.OpenedTags.Pop();
+            }
             var item = new HTMLDivElement();
             StatesData.OpenedTags.Peek().AppendChild(item);
             StatesData.OpenedTags.Push(item);
@@ -268,7 +288,7 @@ namespace HoustonBrowser.Parsing
         }
         private void emCloseProcessing()
         {
-            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "i")
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "em")
             {
                 StatesData.OpenedTags.Pop();
             }

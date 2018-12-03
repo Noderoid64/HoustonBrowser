@@ -54,7 +54,7 @@ namespace HoustonBrowser.Core
 
         private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
-            RenderTree renderTree = new RenderTree(parser.Parse(httpClient.Get(e.UrlString)));
+            RenderPage renderTree = new RenderPage(parser.Parse(httpClient.Get(e.UrlString)));
             RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
             onRender(this, renderEventArgs);
         }
