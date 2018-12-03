@@ -15,11 +15,11 @@ namespace HoustonBrowser.Parsing
             openTagsDict = new Dictionary<string,TagProcessing>();
             closeTagsDict = new Dictionary<string, TagProcessing>();
             //OpenTags
-            openTagsDict.Add("html",HTMLOpenProcessing);
-            openTagsDict.Add("head",HEADOpenProcessing);
-            openTagsDict.Add("body",BODYOpenProcessing);
+            openTagsDict.Add("html",htmlOpenProcessing);
+            openTagsDict.Add("head",headOpenProcessing);
+            openTagsDict.Add("body",bodyOpenProcessing);
             //CloseTags
-            closeTagsDict.Add("html",HTMLCloseProcessing);
+            closeTagsDict.Add("html",htmlCloseProcessing);
             
             
         }
@@ -49,30 +49,30 @@ namespace HoustonBrowser.Parsing
                 Console.WriteLine("Some structure problems in your html page html/head/body");
             }
         }
-        private void HTMLOpenProcessing()
+        private void htmlOpenProcessing()
         {                                                   
             var item = new HTMLHtmlElement();
-            StatesData.root.AppendChild(item);
-            StatesData.openedTags.Push(item);
+            StatesData.Root.AppendChild(item);
+            StatesData.OpenedTags.Push(item);
             openTagsDict.Remove("html");
         }
-        private void HEADOpenProcessing()
+        private void headOpenProcessing()
         {
             var item = new HTMLHeadElement();
-            StatesData.openedTags.Peek().AppendChild(item);
-            StatesData.openedTags.Push(item);
+            StatesData.OpenedTags.Peek().AppendChild(item);
+            StatesData.OpenedTags.Push(item);
             openTagsDict.Remove("head");
             StatesData.currentState = (int)InsertionModes.InHead;
         }
-        private void BODYOpenProcessing()
+        private void bodyOpenProcessing()
         {
             var item = new HTMLBodyElement();
-            StatesData.openedTags.Peek().AppendChild(item);
-            StatesData.openedTags.Push(item);
+            StatesData.OpenedTags.Peek().AppendChild(item);
+            StatesData.OpenedTags.Push(item);
             openTagsDict.Remove("body");
             StatesData.currentState = (int)InsertionModes.InBody;
         }
-        private void HTMLCloseProcessing()
+        private void htmlCloseProcessing()
         {
             //if(StatesData.openedTags.Count != 0 && StatesData.openedTags.Peek().NodeValue == "html")
             //{

@@ -34,6 +34,7 @@ namespace HoustonBrowser.Parsing
             Stack<Node> nodes=new Stack<Node>();
 
             State state = new State();//main parse class
+            StatesData.Reload();//IF SOME PROBLEMS DETECTED CHECK THIS METHOD
             StatesData.SetData(nodes, doc);//Adding data
             while (!StatesData.IsLast)
             {
@@ -42,7 +43,6 @@ namespace HoustonBrowser.Parsing
                 tokens.Add(token);
                 token.Standartize();
                 state.ProcessToken(token);
-
             }
             //int x = tokens.Capacity;
             //doc.ToString();

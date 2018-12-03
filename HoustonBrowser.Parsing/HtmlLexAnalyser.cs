@@ -7,7 +7,7 @@ using HoustonBrowser.Parsing.Interfaces;
 
 namespace HoustonBrowser.Parsing
 {
-    class HtmlLexAnalyser
+    public class HtmlLexAnalyser
     {
         private string cache;
         private int currentState;

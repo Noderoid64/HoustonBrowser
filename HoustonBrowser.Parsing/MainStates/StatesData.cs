@@ -9,30 +9,38 @@ namespace HoustonBrowser.Parsing
     {
         static internal int currentState;
         private static bool isLast;
-        static public Stack<Node> openedTags;
-        static public Node root;
-        static public InitialState initialState;
-        static public InHead inHead;
-        static public InBody inBody;
+        static public Stack<Node> OpenedTags;
+        static public Node Root;
+        static public InitialState InitialState;
+        static public InHead InHead;
+        static public InBody InBody;
 
         public static bool IsLast { get => isLast;}
 
         static StatesData()
         {
-            initialState = new InitialState();
-            inHead = new InHead();
-            inBody = new InBody();
+            InitialState = new InitialState();
+            InHead = new InHead();
+            InBody = new InBody();
             currentState = (int)InsertionModes.Initial;
             isLast = false;
         }
         static public void SetData(Stack<Node> openTags, Node rootNode)
         {
-            root = rootNode;
-            openedTags = openTags;
+            Root = rootNode;
+            OpenedTags = openTags;
         }
         static internal void FinishParsing()
         {
             isLast = true;
+        }
+        static public void Reload()
+        {
+            InitialState = new InitialState();
+            InHead = new InHead();
+            InBody = new InBody();
+            currentState = (int)InsertionModes.Initial;
+            isLast = false;
         }
     }
 }
