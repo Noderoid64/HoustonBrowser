@@ -42,7 +42,6 @@ namespace HoustonBrowser.Parsing
                 tokens.Add(token);
                 token.Standartize();
                 state.ProcessToken(token);
-
             }
             //int x = tokens.Capacity;
             //doc.ToString();

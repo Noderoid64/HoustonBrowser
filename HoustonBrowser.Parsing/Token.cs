@@ -25,7 +25,8 @@ namespace HoustonBrowser.Parsing
         //}
         public void Standartize()
         {
-            value = value.ToLower();
+            if(!(type == (int) TokenType.AttributeName|| type == (int)TokenType.NameOfTag||type == (int)TokenType.NameOfTagClosing))
+                value = value.ToLower();
         }
     }
 }

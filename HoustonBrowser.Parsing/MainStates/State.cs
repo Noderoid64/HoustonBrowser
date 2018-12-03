@@ -15,8 +15,8 @@ namespace HoustonBrowser.Parsing
         protected void AddingStructureTag(string name)//For all processing tags except html,meta,script,link,img,hr
         {
             var item = new Element(name);
-            StatesData.openedTags.Peek().AppendChild(item);
-            StatesData.openedTags.Push(item);
+            StatesData.OpenedTags.Peek().AppendChild(item);
+            StatesData.OpenedTags.Push(item);
         }
 
         public void ProcessToken(Token token)
@@ -25,17 +25,17 @@ namespace HoustonBrowser.Parsing
             {
                 case (int)InsertionModes.Initial:
                     {
-                        StatesData.initialState.ProcessToken(token);
+                        StatesData.InitialState.ProcessToken(token);
                         break;
                     }
                 case (int)InsertionModes.InHead:
                     {
-                        StatesData.inHead.ProcessToken(token);
+                        StatesData.InHead.ProcessToken(token);
                         break;
                     }
                 case (int)InsertionModes.InBody:
                     {
-                        StatesData.inBody.ProcessToken(token);
+                        StatesData.InBody.ProcessToken(token);
                         break;
                     }
             }
