@@ -34,6 +34,7 @@ namespace HoustonBrowser.Parsing
             Stack<Node> nodes=new Stack<Node>();
 
             State state = new State();//main parse class
+            StatesData.Reload();//IF SOME PROBLEMS DETECTED CHECK THIS METHOD
             StatesData.SetData(nodes, doc);//Adding data
             while (!StatesData.IsLast)
             {

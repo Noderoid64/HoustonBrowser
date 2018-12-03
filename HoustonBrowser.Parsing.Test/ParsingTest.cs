@@ -8,7 +8,7 @@ namespace HoustonBrowser.Parsing.Tests
     public class ParsingTest
     {
         [Theory]
-        [InlineData("<tagname>?<tagname/>")]
+        [InlineData("<tagname>?</tagname>")]
         private void LexAnalyserTests(string page)
         {
             HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(page);
