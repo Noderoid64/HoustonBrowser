@@ -22,8 +22,10 @@ namespace HoustonBrowser.Core
         IBrowserControl control;
         IJS js;
         IUI ui;
+      
         RenderPage renderTree;
         Queue<DomEvent> eventsQueue = new Queue<DomEvent>();
+
 
         public IJS Js { get => js; }
 
@@ -56,12 +58,16 @@ namespace HoustonBrowser.Core
 
         private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
-            HTMLDocument dom = parser.Parse(httpClient.Get(e.UrlString));
-            js.SetContext(dom);
-            renderTree = new RenderPage(dom);
-            RegisterEvents();
-            RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
-            onRender(this, renderEventArgs);
+           
+            if (e.UrlString != null)
+            {
+              HTMLDocument dom = parser.Parse(httpClient.Get(e.UrlString));
+              js.SetContext(dom);
+              renderTree = new RenderPage(dom);
+              RegisterEvents();
+              RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
+              onRender(this, renderEventArgs);
+            }
         }
 
         private void Control_PointerPressed(object sender, PointerPressedEventArgs e)

@@ -5,6 +5,7 @@ using HoustonBrowser.DOM.Interface;
 
 namespace HoustonBrowser.DOM
 {
+
     public class Node : INode,IEventTarget
     {
         public enum TypeOfNode
@@ -22,6 +23,8 @@ namespace HoustonBrowser.DOM
             DOCUMENT_FRAGMENT_NODE,
             NOTATION_NODE
         }
+
+        private Dictionary<string, EventListener> events = new Dictionary<string, EventListener>();
 
         protected readonly string nodeName;
         protected string nodeValue;
@@ -46,7 +49,7 @@ namespace HoustonBrowser.DOM
         public Node LastChild { get => lastChild; }
         public Node PreviousSibling { get => previousSibling; }
         public Node NextSibling { get => nextSibling; }
-        public NamedNodeMap Attributes { get => attributes; }
+        public NamedNodeMap Attributes { get => attributes; set => attributes = value;}
         public Document OwnerDocument { get => ownerDocument; }
 
         public Node() { }
@@ -135,9 +138,11 @@ namespace HoustonBrowser.DOM
             return (Node)this.MemberwiseClone();
         }
 
+
         public void AddEventListener(string type, EventListener listener, bool useCapture)
         {
             registeredEvents.Add(type, listener);
+
         }
 
         public void RemoveEventListener(string type, EventListener listener, bool useCapture)

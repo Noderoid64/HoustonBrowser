@@ -8,6 +8,7 @@ namespace HoustonBrowser.DOM
         AtTarget,
         BubblingPhase
     }
+
     public class DomEvent
     {
         protected string type;
@@ -28,11 +29,14 @@ namespace HoustonBrowser.DOM
         {
 
         }
+
         public void PreventDefault()
         {
 
         }
+
         public DomEvent(Node target, string eventTypeArg, bool canBubbleArg, bool cancelableArg)
+
         {
             this.target = target;
             this.currentNode = target;

@@ -6,8 +6,8 @@ namespace HoustonBrowser.Render
 {
     public class RenderObj
     {
-        protected RenderObj previousNode;
-        protected RenderTree rootNode;
+        protected RenderObj previousObj;
+        protected RenderTree rootObj;
 
         public Style style;
         public Node nodeOfDom;
@@ -104,60 +104,67 @@ namespace HoustonBrowser.Render
             }
         }
 
-        public List<RenderObj> Childs { get; set; }
-             = new List<RenderObj>();
-        public RenderObj PreviousNode { get => previousNode; }
+        public List<RenderObj> Childs { get; set; } = new List<RenderObj>();
+        public RenderObj PreviousNode { get => previousObj; }
         public BrowserControl ControlRenderObj { get; set; }
 
-        protected RenderObj(Node node)
+        public RenderObj(Node node)
         {
             nodeOfDom = node;
-            ControlRenderObj = Control.Get(ref style, this, node);
-            this.previousNode = null;
-            this.rootNode = null;
         }
 
         public RenderObj(
-            RenderObj previousNode,
-            RenderTree rootNode,
+            RenderObj previousObj,
+            RenderTree rootObj,
             Node node)
         {
             nodeOfDom = node;
-            this.previousNode = previousNode;
-            this.rootNode = rootNode;
+            this.previousObj = previousObj;
+            this.rootObj = rootObj;
 
             ControlRenderObj = Control.Get(ref style, this, node);
-            Left = previousNode.LeftBlock;
-            Top = previousNode.TopBlock;
-            Width = previousNode.WidthBlock;
+            Left = previousObj.LeftBlock;
+            Top = previousObj.TopBlock;
+            if (!IsFixedSize)
+                Width = previousObj.WidthBlock;
         }
 
-        public void ReLocation()
+        public void ReLocation(double movingLeft, double movingTop)
         {
             if (Childs.Count != 0)
             {
+                double localLeft;
+                double localTop = 0;
                 foreach (RenderObj obj in Childs)
                 {
                     obj.Left = LeftBlock;
-                    obj.Top = TopBlock;
+                    obj.Top = TopBlock + localTop;
+                    localTop += obj.Height;
 
-                    obj.ReLocation();
+                    //obj.Left = LeftBlock + movingLeft;
+                    //obj.Top = TopBlock + movingTop;
+
+                    obj.ReLocation(movingLeft, movingTop);
                 }
             }
         }
 
         public void Relayout()
         {
-            if (!IsFixedSize)
+            if (!IsFixedSize && (Childs.Count != 0))
             {
                 double localLeft = LeftBlock;
                 double localTop = TopBlock;
                 double localWidth = 0;
                 double localHeight = 0;
+                double prevHeight = 0;
 
                 foreach (RenderObj obj in Childs)
                 {
                     obj.Relayout();
+
+                    double objLeft = obj.Left;
+                    double objTop = obj.Top;
 
                     if ((obj.Width + localWidth) < WidthBlock)
                     {
@@ -165,35 +172,45 @@ namespace HoustonBrowser.Render
                         obj.Top = localTop;
 
                         localLeft += obj.Width;
-                        localHeight += obj.Height;
+                        localWidth += obj.Width;
+                        
+                        if (localHeight == 0)
+                        {
+                            localHeight += obj.Height;
+                        }
+                        else
+                        {
+                            if (prevHeight < obj.Height)
+                                localHeight += (obj.Height - prevHeight);
+                        }
+
+                        prevHeight = obj.Height;
                     }
                     else
                     {
                         localLeft = LeftBlock;
+                        localWidth = 0;
+                        localWidth += obj.Width;
+
+                        obj.Left = LeftBlock;
+                        localTop = TopBlock + localHeight;
                         obj.Top = localTop;
-                        localTop += obj.Height;
-                        obj.Left = localLeft;    
+
                         localHeight += obj.Height;
                     }
 
-                    obj.ReLocation();
+
+                    obj.ReLocation(obj.Left - objLeft, obj.Top - objTop);
                 }
 
                 ControlRenderObj.Height = localHeight + style.DistanceBetweenBlock.Height;
             }
         }
 
-        protected List<BrowserControl> GetListOfControls(RenderObj RenderObj)
+        public List<BrowserControl> GetListOfControls(RenderObj RenderObj)
         {
             var tmpList = new List<BrowserControl>();
             tmpList.Add(RenderObj.ControlRenderObj);
-
-            if(RenderObj.nodeOfDom.NodeName == "h1") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h2") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h3") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h4") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h5") return tmpList;
-            if (RenderObj.nodeOfDom.NodeName == "h6") return tmpList;
 
             foreach (RenderObj node in RenderObj.Childs)
             {
@@ -201,6 +218,12 @@ namespace HoustonBrowser.Render
             }
 
             return tmpList;
+        }
+
+        public void AppendChild(RenderObj child)
+        {
+            Height += child.Height;
+            Childs.Add(child);
         }
     }
 }

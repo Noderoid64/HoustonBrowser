@@ -2,6 +2,7 @@ using System;
 
 namespace HoustonBrowser.DOM
 {
+
     public class EventListener
     {
         public event EventHandler<DomEvent> HandleDomEvent;

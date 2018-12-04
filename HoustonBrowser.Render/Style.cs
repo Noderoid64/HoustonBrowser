@@ -9,7 +9,10 @@ namespace HoustonBrowser.Render
         Rectangle distanceBetweenControl;
         Rectangle distanceBetweenBlock;
         public Rectangle DistanceBetweenControl { get => distanceBetweenControl; }
-        public Rectangle DistanceBetweenBlock { get => distanceBetweenBlock;  }
+        public Rectangle DistanceBetweenBlock { get => distanceBetweenBlock; }
+
+        public double Font { get; set; } = 14;
+        public bool Bold { get; set; } = false;
 
         double marginBlockStart;
         double marginBlockEnd;
@@ -35,13 +38,13 @@ namespace HoustonBrowser.Render
             paddingRight = 0;
 
             distanceBetweenControl = new Rectangle(
-                marginInlineStart, 
+                marginInlineStart,
                 marginBlockStart,
-                (marginInlineStart+ marginInlineEnd), 
-                (marginBlockStart+ marginBlockEnd)
+                (marginInlineStart + marginInlineEnd),
+                (marginBlockStart + marginBlockEnd)
                 );
 
-            distanceBetweenBlock = new Rectangle(paddingLeft, paddingTop, (paddingLeft+ paddingRight), (paddingTop+ paddingBotton));
+            distanceBetweenBlock = new Rectangle(paddingLeft, paddingTop, (paddingLeft + paddingRight), (paddingTop + paddingBotton));
         }
     }
 }

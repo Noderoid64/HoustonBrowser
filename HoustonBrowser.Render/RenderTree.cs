@@ -7,22 +7,15 @@ namespace HoustonBrowser.Render
 {
     public class RenderTree : RenderObj
     {
-        private List<BrowserControl> listOfControls = new List<BrowserControl>();
-
-        public List<BrowserControl> ListOfControls
+        public RenderTree(Node node, double width, double height) : base(node)
         {
-            get {
-                if (listOfControls.Count == 0)
-                    listOfControls = GetListOfControls();
-
-                return listOfControls;
-            }
-
+            ControlRenderObj = Control.GetBodyControl(ref style, this, node);
+            Width = width;
+            Left = 0;
+            Top = 0;
         }
 
-        public RenderTree(Node node) : base(node) { }
-
-        private List<BrowserControl> GetListOfControls()
+        public List<BrowserControl> GetListOfControls()
         {
             var tmpList = new List<BrowserControl>();
             tmpList.Add(ControlRenderObj);
