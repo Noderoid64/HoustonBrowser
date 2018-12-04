@@ -38,13 +38,13 @@ namespace HoustonBrowser.Render
             paddingRight = 0;
 
             distanceBetweenControl = new Rectangle(
-                marginInlineStart, 
+                marginInlineStart,
                 marginBlockStart,
-                (marginInlineStart+ marginInlineEnd), 
-                (marginBlockStart+ marginBlockEnd)
+                (marginInlineStart + marginInlineEnd),
+                (marginBlockStart + marginBlockEnd)
                 );
 
-            distanceBetweenBlock = new Rectangle(paddingLeft, paddingTop, (paddingLeft+ paddingRight), (paddingTop+ paddingBotton));
+            distanceBetweenBlock = new Rectangle(paddingLeft, paddingTop, (paddingLeft + paddingRight), (paddingTop + paddingBotton));
         }
     }
 }

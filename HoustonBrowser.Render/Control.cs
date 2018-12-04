@@ -34,15 +34,15 @@ namespace HoustonBrowser.Render
             = new Dictionary<Type, GetControl>
             {
                 [typeof(HTMLBodyElement)] = GetBodyControl,
-                [typeof(HTMLButtonElement)] = GetButtonControl,
+                //[typeof(HTMLButtonElement)] = GetButtonControl,
                 [typeof(HTMLDivElement)] = GetDivControl,
                 //[typeof(HTMLFormElement)] = GetFormControl,
-                [typeof(HTMLH1Element)] = GetH1Control,
-                [typeof(HTMLH2Element)] = GetH2Control,
-                [typeof(HTMLH3Element)] = GetH3Control,
-                [typeof(HTMLH4Element)] = GetH4Control,
-                [typeof(HTMLH5Element)] = GetH5Control,
-                [typeof(HTMLH6Element)] = GetH6Control,
+                //[typeof(HTMLH1Element)] = GetH1Control,
+                //[typeof(HTMLH2Element)] = GetH2Control,
+                //[typeof(HTMLH3Element)] = GetH3Control,
+                //[typeof(HTMLH4Element)] = GetH4Control,
+                //[typeof(HTMLH5Element)] = GetH5Control,
+                //[typeof(HTMLH6Element)] = GetH6Control,
                 [typeof(HTMLParagraphElement)] = GetParagraphControl,
                 [typeof(Text)] = GetTextControl,
             };
@@ -235,7 +235,14 @@ namespace HoustonBrowser.Render
         {
             style = new Style(0, 0, 0, 0);
 
-            return new Controls.Rectangle();
+            var control = new Controls.Rectangle()
+            {
+                Height = 1,
+                Width = renderNode.Width,
+                BackgroundBrush = new SolidColorBrush(new Color(255, 0, 0, 200))
+            };
+
+            return control;
         }
 
         public static BrowserControl GetParagraphControl(
@@ -247,7 +254,7 @@ namespace HoustonBrowser.Render
             var control = new Controls.Rectangle()
             {
                 Height = 1,
-                BackgroundBrush = new SolidColorBrush(new Color(255, 0, 0, 200))
+                BackgroundBrush = new SolidColorBrush(new Color(255, 0, 100, 100))
             };
 
             style = new Style(15, 15, 0, 0);

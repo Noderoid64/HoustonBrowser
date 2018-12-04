@@ -54,27 +54,36 @@ namespace HoustonBrowser.Core
 
         private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
-            string str = string.Empty;
-            string ln = string.Empty;
-            RenderPage renderTree;
+           
 
-            using (StreamReader stream = new StreamReader("file.txt"))
+            if (e.UrlString != null)
             {
-                ln = stream.ReadLine();
-
-                do
-                {
-                    str += ln + "\r\n";
-                    ln = stream.ReadLine();
-                }
-                while (ln != null);
-
-                renderTree = new RenderPage(parser.Parse(str));
+                RenderPage renderTree = new RenderPage(parser.Parse(httpClient.Get(e.UrlString)));
+                RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
+                onRender(this, renderEventArgs);
             }
+            else
+            {
+                string str = string.Empty;
+                string ln = string.Empty;
+                RenderPage renderTree;
 
-           // RenderPage renderTree = new RenderPage(parser.Parse(httpClient.Get(e.UrlString)));
-            RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
-            onRender(this, renderEventArgs);
+                using (StreamReader stream = new StreamReader("file.txt"))
+                {
+                    ln = stream.ReadLine();
+
+                    do
+                    {
+                        str += ln + "\r\n";
+                        ln = stream.ReadLine();
+                    }
+                    while (ln != null);
+
+                    renderTree = new RenderPage(parser.Parse(str));
+                    RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
+                    onRender(this, renderEventArgs);
+                }
+            }
         }
 
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
