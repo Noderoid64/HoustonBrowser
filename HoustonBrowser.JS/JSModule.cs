@@ -48,7 +48,9 @@ namespace HoustonBrowser.JS
             }
             catch (Exception ex)
             {
-                throw;
+                this.interpreter.CurrentContext.ExecContextStack.Clear();
+                this.interpreter.CurrentContext.ExecContextStack.Push(this.interpreter.CurrentContext.GlobalObject);
+                Console.WriteLine("[JS Error] " +ex.Message);
             }
             return "OK";
         }

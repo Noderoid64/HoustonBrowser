@@ -6,7 +6,7 @@ namespace HoustonBrowser.Parsing
     public interface IParser
     {
         string Parse();
-        HTMLDocument Parse(string value);
+        HTMLDocument Parse(string value, HTMLDocument doc);
         event EventHandler<string> onNonHtmlEvent;
     }
 }
