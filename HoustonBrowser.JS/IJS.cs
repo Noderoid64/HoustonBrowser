@@ -1,3 +1,4 @@
+using HoustonBrowser.DOM;
 using System;
 
 namespace HoustonBrowser.JS
@@ -6,5 +7,6 @@ namespace HoustonBrowser.JS
     {
         string Process(string rawJS);
         event EventHandler<string> onAlert;
+        void SetContext(Document doc);
     }
 }

@@ -2,12 +2,8 @@ using System;
 
 namespace HoustonBrowser.DOM
 {
-    class DocumentEvent
+    interface IDocumentEvent
     {
-        public Event CreateEvent(string eventType)
-        {
-            Event current = new Event();
-            return current;
-        }
+        DomEvent CreateEvent(string eventType); 
     }
 }

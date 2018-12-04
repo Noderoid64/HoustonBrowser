@@ -71,8 +71,7 @@ namespace HoustonBrowser.JS
                     break;
 
                 case ExpressionType.AssignmentExpression:
-                    ProcessAssignmentExpression(expression);
-                    break;
+                    return ProcessAssignmentExpression(expression);
 
                 case ExpressionType.IfExpression:
                     ProcessIfExpression(expression);

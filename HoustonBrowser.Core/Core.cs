@@ -11,7 +11,7 @@ using HoustonBrowser.Controls;
 using HoustonBrowser.JS;
 using HoustonBrowser.Parsing;
 using HoustonBrowser.Render;
-
+using HoustonBrowser.DOM;
 
 namespace HoustonBrowser.Core
 {
@@ -23,6 +23,7 @@ namespace HoustonBrowser.Core
         IJS js;
         IUI ui;
         RenderPage renderTree;
+        Queue<DomEvent> eventsQueue = new Queue<DomEvent>();
 
         public IJS Js { get => js; }
 
@@ -37,6 +38,7 @@ namespace HoustonBrowser.Core
 
             this.control=new BrowserControl();
             this.js=new JSModule();
+            
             
 
 
@@ -54,9 +56,25 @@ namespace HoustonBrowser.Core
 
         private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
-            RenderPage renderTree = new RenderPage(parser.Parse(httpClient.Get(e.UrlString)));
+            HTMLDocument dom = parser.Parse(httpClient.Get(e.UrlString));
+            js.SetContext(dom);
+            renderTree = new RenderPage(dom);
+            RegisterEvents();
             RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
             onRender(this, renderEventArgs);
+        }
+
+        private void Control_PointerPressed(object sender, PointerPressedEventArgs e)
+        {
+            Node node = renderTree.DomNodes[sender as BrowserControl];
+            MouseEvent mouseEvent = new MouseEvent(node, "mousedown", true, true, null, 0, 10, 10, 10, 10, false, false, false, false, 0, null);
+            node.DispatchEvent(mouseEvent);
+        }
+
+        private void Listener_HandleDomEvent(object sender, DomEvent e)
+        {
+            eventsQueue.Enqueue(e);
+            ProcessEvents();
         }
 
         private void Ui_onMouseClick(object sender, PointerPressedEventArgs e)
@@ -78,5 +96,55 @@ namespace HoustonBrowser.Core
             string s = httpClient.GetStatus() + "\n" + parser.Parse() + "\n" + js.Process("") + "\n" + control.Render();
             onRender(this, new RenderEventArgs(null));
         }
+
+        private void RegisterEvents()
+        {
+            foreach (var control in renderTree.ListOfControls)
+            {
+                if (renderTree.DomNodes[control].Attributes != null)
+                {
+                    foreach (KeyValuePair<string, Node> atr in renderTree.DomNodes[control].Attributes)
+                    {
+                        switch (atr.Key)
+                        {
+                            case "onmousedown":
+                                EventListener listener = new EventListener();
+                                listener.HandleDomEvent += Listener_HandleDomEvent;
+                                renderTree.DomNodes[control].AddEventListener("mousedown", listener, false);
+                                control.PointerPressed += Control_PointerPressed;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+        private void ProcessEvents()
+        {
+            DomEvent @event;
+            while (eventsQueue.Count != 0)
+            {
+                @event = eventsQueue.Dequeue();
+                if (@event.Bubbles)
+                {
+                    Node node = @event.CurrentNode;
+                    while (node != null)
+                    {
+                        Node atr;
+                        if (node.Attributes!=null && (atr=node.Attributes.GetNamedItem("on" + @event.Type)) != null)
+                        {
+                            js.Process(atr.NodeValue);
+                        }
+                        node = node.ParentNode;
+                    }
+                }
+            }
+        }
+
+
     }
 }
