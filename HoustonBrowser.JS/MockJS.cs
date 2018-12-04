@@ -1,4 +1,5 @@
 using System;
+using HoustonBrowser.DOM;
 
 namespace HoustonBrowser.JS
 {
@@ -29,6 +30,11 @@ namespace HoustonBrowser.JS
             }
 
             return "JS Works";
+        }
+
+        public void SetContext(Document doc)
+        {
+           
         }
     }
 }

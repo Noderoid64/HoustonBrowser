@@ -5,7 +5,8 @@ using HoustonBrowser.DOM.Interface;
 
 namespace HoustonBrowser.DOM
 {
-    public class Node : INode, EventTarget
+
+    public class Node : INode,IEventTarget
     {
         public enum TypeOfNode
         {
@@ -37,6 +38,7 @@ namespace HoustonBrowser.DOM
 
         protected NamedNodeMap attributes;
         readonly Document ownerDocument;
+        private Dictionary<string, EventListener> registeredEvents = new Dictionary<string, EventListener>();
 
         public string NodeName { get => nodeName; }
         public string NodeValue { get => nodeValue; set => nodeValue = value; }
@@ -137,19 +139,20 @@ namespace HoustonBrowser.DOM
         }
 
 
-
         public void AddEventListener(string type, EventListener listener, bool useCapture)
         {
-            events.Add(type,listener);
+            registeredEvents.Add(type, listener);
+
         }
 
         public void RemoveEventListener(string type, EventListener listener, bool useCapture)
         {
-            events.Remove(type);
+            registeredEvents.Remove(type);
         }
 
-        public bool DispatchEvent(Event evt)
+        public bool DispatchEvent(DomEvent @event)
         {
+            if (registeredEvents.ContainsKey(@event.Type)) registeredEvents[@event.Type].Trigger(this, @event);
             return true;
         }
     }

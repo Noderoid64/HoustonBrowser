@@ -2,12 +2,10 @@ using System;
 
 namespace HoustonBrowser.DOM
 {
-    public interface EventTarget
+    public interface IEventTarget
     {
         void AddEventListener(string type, EventListener listener, bool useCapture);
-
         void RemoveEventListener(string type, EventListener listener, bool useCapture);
-
-        bool DispatchEvent(Event evt);
+        bool DispatchEvent(DomEvent @event);
     }
 }

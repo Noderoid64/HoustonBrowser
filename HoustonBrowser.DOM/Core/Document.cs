@@ -65,5 +65,31 @@ namespace HoustonBrowser.DOM
 
             return list;
         }
+
+        public Node GetElementById(string id)
+        {
+            Node elem = null;
+
+            Queue<Node> nodes = new Queue<Node>();
+            nodes.Enqueue(this);
+            Node temp = null;
+            while (nodes.Count != 0)
+            {
+                temp = nodes.Dequeue();
+                Node idNode;
+                if (temp.Attributes!=null && (idNode=temp.Attributes.GetNamedItem("id"))!=null && idNode.NodeValue == id)
+                {
+                    elem = temp as Element;
+                    break;
+                }
+                foreach (var item in temp.ChildNodes)
+                {
+                    nodes.Enqueue(item);
+                }
+
+            }
+            
+            return elem;
+        }
     }
 }

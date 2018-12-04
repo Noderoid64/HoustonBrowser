@@ -9,6 +9,8 @@ namespace HoustonBrowser.Controls
 {
     public class BrowserControl: IBrowserControl
     {
+
+            public MyPanel Parent {get;set;}
             public string Name{get;set;}
             public Geometry Form {get; set;}
             public virtual IBrush BackgroundBrush {get;set;} 
@@ -95,10 +97,10 @@ namespace HoustonBrowser.Controls
                         OnPointerReleased(this, new PointerReleasedEventArgs());
                     }
 
-
                 }
             }
 
+            public Point PressedLocation {get;set;}
 
             private bool _isPressed;
             private FormattedText _formattedText;
@@ -157,7 +159,7 @@ namespace HoustonBrowser.Controls
                     context.DrawText(ForegroundBrush, origin, this.FormattedText);
                 }
             }
-
+            
             private FormattedText CreateFormattedText()
             {
                 return new FormattedText

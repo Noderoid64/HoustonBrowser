@@ -120,9 +120,20 @@ namespace HoustonBrowser
                     {
                         cntrl.PointerPressed+=drawPanelLink_OnPointerPressed;
                     }
+                    if(cntrl is RichText)
+                    {
+                        ((RichText)cntrl).LinkPressed+=drawPanelRichText_OnLinkPressed;
+                    }
                 }
             }
             drawPanel.InvalidateVisual();
+        }
+
+        private void drawPanelRichText_OnLinkPressed(object sender, string e)
+        {
+            var arg  =  new PageLoadEventArgs(e);
+            urlTextBox.Text=e;
+            this.onPageLoad(sender, arg);
         }
 
         private void drawPanelLink_OnPointerPressed(object sender, PointerPressedEventArgs e)
