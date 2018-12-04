@@ -121,6 +121,7 @@ namespace HoustonBrowser.JS
         {
             BinaryExpression callexpr = expression as BinaryExpression;
             HostObject memb = EvalExpression(callexpr.FirstValue) as HostObject;
+            if (memb == null) throw new Exception($"Can't call function. There are no such object in context."); // should throw js error;
             UnaryExpression expr = callexpr.SecondValue;
             Primitive res = null;
             int i = 0;

@@ -9,7 +9,7 @@ namespace HoustonBrowser.Parsing
     {
         private string HTMLDoc;
         private string attributeName;
-
+        HTMLDocument doc;
         public Parser()
         {
             
@@ -21,14 +21,14 @@ namespace HoustonBrowser.Parsing
         {   
             return "";
         }
-        public HTMLDocument Parse(string value)
+        public HTMLDocument Parse(string value, HTMLDocument document)
         {
             List<Node> stackOfOpenedElements = new List<Node>();
             List<int> StackOfTemplateInsertModesUsed = new List<int>();
             List<Node> listOfOpenTags = new List<Node>();
             List<Token> tokens = new List<Token>();
             
-            HTMLDocument doc = new HTMLDocument();
+            HTMLDocument doc = document;
 
             HtmlLexAnalyser lexAnalyser = new HtmlLexAnalyser(value);
             Stack<Node> nodes=new Stack<Node>();

@@ -16,7 +16,7 @@ namespace HoustonBrowser.Render
 
         public double Height { get; set; } = 500;                                              
         public List<BrowserControl> ListOfControls { get => renderTree.GetListOfControls();  }
-
+        public Dictionary<BrowserControl, Node> DomNodes { get => domNodes; }
 
         public RenderPage(HTMLDocument document)
         {

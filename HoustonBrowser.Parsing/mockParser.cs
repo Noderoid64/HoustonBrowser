@@ -16,5 +16,10 @@ namespace HoustonBrowser.Parsing
         {
             return new HTMLDocument();
         }
+
+        public HTMLDocument Parse(string value, HTMLDocument doc)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

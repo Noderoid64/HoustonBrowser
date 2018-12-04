@@ -22,7 +22,7 @@ namespace HoustonBrowser.Core
         IBrowserControl control;
         IJS js;
         IUI ui;
-      
+        HTMLDocument dom;
         RenderPage renderTree;
         Queue<DomEvent> eventsQueue = new Queue<DomEvent>();
 
@@ -40,9 +40,6 @@ namespace HoustonBrowser.Core
 
             this.control=new BrowserControl();
             this.js=new JSModule();
-            
-            
-
 
             ui.onKeyDown += Ui_onKeyDown;
             ui.onMouseClick += Ui_onMouseClick;
@@ -61,12 +58,13 @@ namespace HoustonBrowser.Core
            
             if (e.UrlString != null)
             {
-              HTMLDocument dom = parser.Parse(httpClient.Get(e.UrlString));
-              js.SetContext(dom);
-              renderTree = new RenderPage(dom);
-              RegisterEvents();
-              RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
-              onRender(this, renderEventArgs);
+                dom = new HTMLDocument();
+                js.SetContext(dom);
+                parser.Parse(httpClient.Get(e.UrlString), dom);
+                renderTree = new RenderPage(dom);
+                RegisterEvents();
+                RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
+                onRender(this, renderEventArgs);
             }
         }
 
@@ -144,6 +142,10 @@ namespace HoustonBrowser.Core
                         if (node.Attributes!=null && (atr=node.Attributes.GetNamedItem("on" + @event.Type)) != null)
                         {
                             js.Process(atr.NodeValue);
+                            renderTree = new RenderPage(dom);
+                            RegisterEvents();
+                            RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
+                            onRender(this, renderEventArgs);
                         }
                         node = node.ParentNode;
                     }

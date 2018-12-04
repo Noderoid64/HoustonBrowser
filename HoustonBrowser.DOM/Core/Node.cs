@@ -141,7 +141,7 @@ namespace HoustonBrowser.DOM
 
         public void AddEventListener(string type, EventListener listener, bool useCapture)
         {
-            registeredEvents.Add(type, listener);
+            registeredEvents.TryAdd(type, listener);
 
         }
 
