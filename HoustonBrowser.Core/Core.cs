@@ -66,25 +66,6 @@ namespace HoustonBrowser.Core
                 RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
                 onRender(this, renderEventArgs);
             }
-            else
-            {
-                using (StreamReader stream = new StreamReader("file.txt"))
-                {
-                    string str = "";
-                    string ln = "";
-
-                    while ((ln = stream.ReadLine()) != null)
-                    {
-                        str += ln + "\r\n";
-                    }
-
-                    dom = new HTMLDocument();
-                    parser.Parse(str, dom);
-                    renderTree = new RenderPage(dom);
-                    RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
-                    onRender(this, renderEventArgs);
-                }
-            }
         }
 
         private void Control_PointerPressed(object sender, PointerPressedEventArgs e)

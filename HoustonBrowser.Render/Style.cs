@@ -13,7 +13,7 @@ namespace HoustonBrowser.Render
         public Rectangle DistanceBetweenBlock { get => distanceBetweenBlock; }
 
         public FontStyle FontStyle { get; set; } = FontStyle.Normal;
-        public string Font { get; set; } = "Arial";
+        public string Font { get; set; } = "Century";
         public double SizeFont { get; set; } = 14;
         public bool Bold { get; set; } = false;
 
