@@ -29,6 +29,12 @@ namespace HoustonBrowser.HttpModule.Model
         }
         public override void FromString(string value)
         {
+            if (value == null)
+            {
+                FillNotFound();
+                return;
+            }
+
             int headerIndex = value.IndexOf("\r\n");
             int bodyIndex = value.IndexOf("\r\n\r\n");
 
@@ -75,5 +81,15 @@ namespace HoustonBrowser.HttpModule.Model
         }
         #endregion
 
+        private void FillNotFound()
+        {
+            if (Version == null)
+                Version = new HttpVersion();
+                Version = HttpVersion.Get11();
+                StatusCode = HttpStatusCode.NotFound;
+                ReasonPhrase = "NotFound";
+                body.FromString("<html><head>HoustonBrowser</head><body><h1>404 Not Found</h1></body></html>");
+
+        }
     }
 }
