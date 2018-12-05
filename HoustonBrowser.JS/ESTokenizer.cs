@@ -239,7 +239,7 @@ namespace HoustonBrowser.JS
     
         bool Punctuator()
         {
-            string[] keywords = {"==", "!=", "{","}","(",")",".",";","=",",","||","&&","+","-","*","/"};
+            string[] keywords = {"+=","-=", "!=",">","<", "{","}","(",")",".",";","=",",","||","&&","+","-","*","/"};
             
             foreach (var item in keywords)
             {
