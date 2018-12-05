@@ -31,6 +31,8 @@ namespace HoustonBrowser.HttpModule
         // 4xx Client Error
         public const ushort BadRequest = 400;
 
+        public const ushort NotFound = 404;
+
         // 5xx Server Error
         public const ushort InternalServerError = 500;
 
