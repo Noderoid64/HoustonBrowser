@@ -29,6 +29,9 @@ namespace HoustonBrowser
         public event EventHandler<PageLoadEventArgs> onPageLoad;
         public event EventHandler<AvaloniaPropertyChangedEventArgs> onSizeChanged;
 
+        private List<string> urls;
+        private int currentUrl;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,6 +44,10 @@ namespace HoustonBrowser
             searchButton = this.Find<Avalonia.Controls.Button>("btnSearch"); 
             scrollViewer = this.Find<ScrollViewer>("scroll");
             drawPanel.MinHeight = scrollViewer.Height;
+
+            urls=new List<string>();
+            backButton.Click+=backButton_OnClick;
+            forwardButton.Click+=forwardButton_OnClick;
 
             core = new Core.Core(this);
             core.onRender+= Core_onRender;
@@ -96,6 +103,17 @@ namespace HoustonBrowser
 
         private void searchButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if(urls.Count==0)
+            {
+                urls.Add(this.urlTextBox.Text);
+                currentUrl=0;
+            }
+            else if(urls[currentUrl]!=this.urlTextBox.Text)
+            {
+                urls.RemoveRange(currentUrl+1, urls.Count-currentUrl-1);
+                urls.Add(this.urlTextBox.Text);
+                currentUrl++;
+            }
             var arg  =  new PageLoadEventArgs(this.urlTextBox.Text);
             this.onPageLoad(sender, arg);
         }
@@ -104,8 +122,19 @@ namespace HoustonBrowser
         {
             if(e.Key == Key.Enter)
             {
-            var arg  =  new PageLoadEventArgs(this.urlTextBox.Text);
-            this.onPageLoad(sender, arg);
+                if(urls.Count==0)
+                {
+                    urls.Add(this.urlTextBox.Text);
+                    currentUrl=0;
+                }
+                else if(urls[currentUrl]!=this.urlTextBox.Text)
+                {
+                    urls.RemoveRange(currentUrl+1, urls.Count-currentUrl-1);
+                    urls.Add(this.urlTextBox.Text);
+                    currentUrl++;
+                }
+                var arg  =  new PageLoadEventArgs(this.urlTextBox.Text);
+                this.onPageLoad(sender, arg);
             }
         }
 
@@ -131,6 +160,12 @@ namespace HoustonBrowser
 
         private void drawPanelRichText_OnLinkPressed(object sender, string e)
         {
+            if(urls[currentUrl]!=e)
+            {
+                urls.RemoveRange(currentUrl+1, urls.Count-currentUrl-1);
+                urls.Add(e);
+                currentUrl++;
+            }
             var arg  =  new PageLoadEventArgs(e);
             urlTextBox.Text=e;
             this.onPageLoad(sender, arg);
@@ -139,10 +174,41 @@ namespace HoustonBrowser
         private void drawPanelLink_OnPointerPressed(object sender, PointerPressedEventArgs e)
         {
             var linkUrl=((LinkLabel)sender).URL;
+            
+            if(urls[currentUrl]!=linkUrl)
+            {
+                urls.RemoveRange(currentUrl+1, urls.Count-currentUrl-1);
+                urls.Add(linkUrl);
+                currentUrl++;
+            }
             var arg  =  new PageLoadEventArgs(linkUrl);
             urlTextBox.Text=linkUrl;
             this.onPageLoad(sender, arg);
         }
+
+        private void backButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if(currentUrl>0)
+            {
+                currentUrl--;
+                var arg  =  new PageLoadEventArgs(urls[currentUrl]);
+                urlTextBox.Text=urls[currentUrl];
+                this.onPageLoad(sender, arg);
+            }
+        }
+
+        private void forwardButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            currentUrl++;
+            if(currentUrl<urls.Count)
+            {
+                var arg  =  new PageLoadEventArgs(urls[currentUrl]);
+                urlTextBox.Text=urls[currentUrl];
+                this.onPageLoad(sender, arg);
+            }
+        }
+
+
 
     }
 }
