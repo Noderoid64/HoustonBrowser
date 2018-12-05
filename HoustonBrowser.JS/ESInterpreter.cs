@@ -103,10 +103,23 @@ namespace HoustonBrowser.JS
                 case ExpressionType.NewExpression:
                     return ProcessNewExpression(expression);
 
+                case ExpressionType.WhileExpression:
+                    ProcessWhileExpression(expression);
+                    break;
                 default:
                     break;
             }
             return null;
+        }
+
+        private void ProcessWhileExpression(UnaryExpression expression)
+        {
+            BinaryExpression we = expression as BinaryExpression;
+            while (TypeConverter.ToBoolean(EvalExpression(we.FirstValue)))
+            {
+                Process(we.SecondValue);
+            }
+
         }
 
         private Primitive ProcessNewExpression(UnaryExpression expression)
