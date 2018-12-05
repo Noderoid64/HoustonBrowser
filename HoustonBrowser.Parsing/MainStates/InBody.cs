@@ -24,6 +24,9 @@ namespace HoustonBrowser.Parsing
             openTagsDict.Add("h1", h1OpenProcessing);//headers
             openTagsDict.Add("h2", h2OpenProcessing);
             openTagsDict.Add("h3", h3OpenProcessing);
+            openTagsDict.Add("h4", h4OpenProcessing);//headers
+            openTagsDict.Add("h5", h5OpenProcessing);
+            openTagsDict.Add("h6", h6OpenProcessing);
             openTagsDict.Add("p", pOpenProcessing);//Containers
             openTagsDict.Add("a", aOpenProcessing);//link
             openTagsDict.Add("div", divOpenProcessing);
@@ -38,6 +41,9 @@ namespace HoustonBrowser.Parsing
             closeTagsDict.Add("h1", h1CloseProcessing);//headers
             closeTagsDict.Add("h2", h2CloseProcessing);
             closeTagsDict.Add("h3", h3CloseProcessing);
+            closeTagsDict.Add("h4", h4CloseProcessing);//headers
+            closeTagsDict.Add("h5", h5CloseProcessing);
+            closeTagsDict.Add("h6", h6CloseProcessing);
             closeTagsDict.Add("p", pCloseProcessing);//Containers
             closeTagsDict.Add("a", aCloseProcessing);//link
             closeTagsDict.Add("div", divCloseProcessing);
@@ -157,6 +163,36 @@ namespace HoustonBrowser.Parsing
             StatesData.OpenedTags.Peek().AppendChild(item);
             StatesData.OpenedTags.Push(item);
         }
+        private void h4OpenProcessing()
+        {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "p")
+            {
+                StatesData.OpenedTags.Pop();
+            }
+            var item = new HTMLH4Element();
+            StatesData.OpenedTags.Peek().AppendChild(item);
+            StatesData.OpenedTags.Push(item);
+        }
+        private void h5OpenProcessing()
+        {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "p")
+            {
+                StatesData.OpenedTags.Pop();
+            }
+            var item = new HTMLH5Element();
+            StatesData.OpenedTags.Peek().AppendChild(item);
+            StatesData.OpenedTags.Push(item);
+        }
+        private void h6OpenProcessing()
+        {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "p")
+            {
+                StatesData.OpenedTags.Pop();
+            }
+            var item = new HTMLH6Element();
+            StatesData.OpenedTags.Peek().AppendChild(item);
+            StatesData.OpenedTags.Push(item);
+        }
         private void h1CloseProcessing()
         {
             if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "h1")
@@ -190,6 +226,39 @@ namespace HoustonBrowser.Parsing
                 Console.WriteLine("Error with closing tag h3");
             }
         }
+        private void h4CloseProcessing()
+        {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "h4")
+            {
+                StatesData.OpenedTags.Pop();
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag h4");
+            }
+        }
+        private void h5CloseProcessing()
+        {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "h5")
+            {
+                StatesData.OpenedTags.Pop();
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag h5");
+            }
+        }
+        private void h6CloseProcessing()
+        {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "h6")
+            {
+                StatesData.OpenedTags.Pop();
+            }
+            else
+            {
+                Console.WriteLine("Error with closing tag h6");
+            }
+        }
         #endregion
         private void pOpenProcessing()
         {
@@ -214,7 +283,9 @@ namespace HoustonBrowser.Parsing
         }
         private void aOpenProcessing()
         {
-            AddingStructureTag("a");
+            var item = new HTMLAnchorElement();
+            StatesData.OpenedTags.Peek().AppendChild(item);
+            StatesData.OpenedTags.Push(item);
         }
         private void aCloseProcessing()
         {
@@ -299,7 +370,9 @@ namespace HoustonBrowser.Parsing
         }
         private void iOpenProcessing()
         {
-            AddingStructureTag("i");
+            var item = new HTMLIElement();
+            StatesData.OpenedTags.Peek().AppendChild(item);
+            StatesData.OpenedTags.Push(item);
         }
         private void iCloseProcessing()
         {
@@ -319,11 +392,17 @@ namespace HoustonBrowser.Parsing
         }
         private void hrOpenProcessing()
         {
-            AddingStructureTag("hr");
+            var item = new HTMLHRElement();
+            StatesData.OpenedTags.Peek().AppendChild(item);
+            StatesData.OpenedTags.Push(item);
             lastNonCloseTagOpened = "hr";
         }
         private void bodyCloseProcessing()
         {
+            if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "p")
+            {
+                StatesData.OpenedTags.Pop();
+            }
             if (StatesData.OpenedTags.Count != 0 && StatesData.OpenedTags.Peek().NodeName == "body")
             {
                 StatesData.OpenedTags.Pop();
