@@ -23,5 +23,6 @@
     <ProjectReference Include="..\HoustonBrowser.Network\HoustonBrowser.Network.csproj" />
     <ProjectReference Include="..\HoustonBrowser.Parsing\HoustonBrowser.Parsing.csproj" />
     <ProjectReference Include="..\HoustonBrowser.Render\HoustonBrowser.Render.csproj" />
+    <ProjectReference Include="..\MercuryLogger\MercuryLogger\MercuryLogger.csproj" />
   </ItemGroup>
 </Project>
