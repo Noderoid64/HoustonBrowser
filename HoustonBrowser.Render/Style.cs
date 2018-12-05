@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Avalonia.Media;
 
 namespace HoustonBrowser.Render
 {
@@ -11,7 +12,7 @@ namespace HoustonBrowser.Render
         public Rectangle DistanceBetweenControl { get => distanceBetweenControl; }
         public Rectangle DistanceBetweenBlock { get => distanceBetweenBlock; }
 
-        public string FontStyle { get; set; } = "Normal";
+        public FontStyle FontStyle { get; set; } = FontStyle.Normal;
         public string Font { get; set; } = "Arial";
         public double SizeFont { get; set; } = 14;
         public bool Bold { get; set; } = false;

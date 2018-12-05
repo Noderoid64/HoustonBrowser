@@ -42,7 +42,7 @@ namespace HoustonBrowser.Render
                 [typeof(HTMLH4Element)] = GetH4Control,
                 [typeof(HTMLH5Element)] = GetH5Control,
                 [typeof(HTMLH6Element)] = GetH6Control,
-           //     [typeof(HTMLIElement)] = GetIControl,
+                [typeof(HTMLIElement)] = GetIControl,
                 [typeof(HTMLParagraphElement)] = GetParagraphControl,
                 [typeof(Text)] = GetTextControl,
             };
@@ -72,6 +72,7 @@ namespace HoustonBrowser.Render
                 Font = renderNode.PreviousNode.Style.Font,
                 SizeFont = renderNode.PreviousNode.Style.SizeFont,
                 Bold = renderNode.PreviousNode.Style.Bold,
+                FontStyle = renderNode.PreviousNode.Style.FontStyle,
             };
 
             var control = new Label()
@@ -83,9 +84,9 @@ namespace HoustonBrowser.Render
             };
 
             if (renderNode.Style.Bold)
-                control.TextTypeface = new Typeface(renderNode.Style.Font, renderNode.Style.SizeFont, FontStyle.Normal, FontWeight.Bold);
+                control.TextTypeface = new Typeface(renderNode.Style.Font, renderNode.Style.SizeFont, renderNode.Style.FontStyle, FontWeight.Bold);
             else
-                control.TextTypeface = new Typeface(renderNode.Style.Font, renderNode.Style.SizeFont, FontStyle.Normal, FontWeight.Normal);
+                control.TextTypeface = new Typeface(renderNode.Style.Font, renderNode.Style.SizeFont, renderNode.Style.FontStyle, FontWeight.Normal);
 
             return control;
         }
@@ -159,11 +160,12 @@ namespace HoustonBrowser.Render
 
         public static BrowserControl GetIControl(RenderObj renderNode, Node node)
         {
-            renderNode.Style = new Style(17, 17, 0, 0)
+            renderNode.Style = new Style(0, 0, 0, 0)
             {
                 Font = renderNode.PreviousNode.Style.Font,
-                SizeFont = 30,
-                Bold = true,
+                SizeFont = renderNode.PreviousNode.Style.SizeFont,
+                Bold = renderNode.PreviousNode.Style.Bold,
+                FontStyle = FontStyle.Italic
             };
 
             return new Controls.Rectangle()
@@ -177,7 +179,7 @@ namespace HoustonBrowser.Render
             renderNode.Style = new Style(17, 17, 0, 0)
             {
                 // Font = renderNode.PreviousNode.Style.Font,
-                Font = "TimsNewRoman",
+                Font = renderNode.PreviousNode.Style.Font,
                 SizeFont = 30,
                 Bold = true,
             };
@@ -193,7 +195,7 @@ namespace HoustonBrowser.Render
             renderNode.Style = new Style(13, 13, 0, 0)
             {
                 Font = renderNode.PreviousNode.Style.Font,
-                SizeFont = 25,
+                SizeFont = 24,
                 Bold = true,
             };
 
@@ -254,7 +256,7 @@ namespace HoustonBrowser.Render
             renderNode.Style = new Style(10, 10, 0, 0)
             {
                 Font = renderNode.PreviousNode.Style.Font,
-                SizeFont = 20,
+                SizeFont = 10,
                 Bold = true,
             };
 
