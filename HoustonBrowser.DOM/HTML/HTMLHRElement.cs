@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HoustonBrowser.DOM
 {
-    class HTMLHRElement : Element
+    public class HTMLHRElement : Element
     {
         public string Src { get; set; }
         public double Width { get; set; }

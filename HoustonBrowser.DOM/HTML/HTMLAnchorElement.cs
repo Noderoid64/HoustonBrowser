@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HoustonBrowser.DOM
 {
-    class HTMLAnchorElement: Element
+    public class HTMLAnchorElement: Element
     {
         public string Href { get; set; }
 
