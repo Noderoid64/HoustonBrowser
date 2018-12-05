@@ -9,7 +9,7 @@ namespace HoustonBrowser.Render
         protected RenderObj previousObj;
         protected RenderTree rootObj;
 
-        public Style style;
+        public Style Style { get; set; }
         public Node nodeOfDom;
         public Node NodeOfDom { get => nodeOfDom; }
         public bool IsFixedSize { get; set; } = false;
@@ -29,7 +29,7 @@ namespace HoustonBrowser.Render
             set
             {
                 left = value;
-                ControlRenderObj.Left = value + style.DistanceBetweenControl.Left;
+                ControlRenderObj.Left = value + Style.DistanceBetweenControl.Left;
             }
         }
 
@@ -42,7 +42,7 @@ namespace HoustonBrowser.Render
             set
             {
                 top = value;
-                ControlRenderObj.Top = value + style.DistanceBetweenControl.Top;
+                ControlRenderObj.Top = value + Style.DistanceBetweenControl.Top;
             }
         }
 
@@ -55,7 +55,7 @@ namespace HoustonBrowser.Render
             set
             {
                 width = value;
-                ControlRenderObj.Width = value - style.DistanceBetweenControl.Width;
+                ControlRenderObj.Width = value - Style.DistanceBetweenControl.Width;
             }
         }
 
@@ -63,12 +63,12 @@ namespace HoustonBrowser.Render
         {
             get
             {
-                return style.DistanceBetweenControl.Height + ControlRenderObj.Height;
+                return Style.DistanceBetweenControl.Height + ControlRenderObj.Height;
             }
             set
             {
                 height = value;
-                ControlRenderObj.Height = value - style.DistanceBetweenControl.Height;
+                ControlRenderObj.Height = value - Style.DistanceBetweenControl.Height;
             }
         }
 
@@ -76,7 +76,7 @@ namespace HoustonBrowser.Render
         {
             get
             {
-                return ControlRenderObj.Left + style.DistanceBetweenBlock.Left;
+                return ControlRenderObj.Left + Style.DistanceBetweenBlock.Left;
             }
         }
 
@@ -84,7 +84,7 @@ namespace HoustonBrowser.Render
         {
             get
             {
-                return ControlRenderObj.Top + style.DistanceBetweenBlock.Top;
+                return ControlRenderObj.Top + Style.DistanceBetweenBlock.Top;
             }
         }
 
@@ -92,7 +92,7 @@ namespace HoustonBrowser.Render
         {
             get
             {
-                return ControlRenderObj.Width - style.DistanceBetweenBlock.Width;
+                return ControlRenderObj.Width - Style.DistanceBetweenBlock.Width;
             }
         }
 
@@ -100,7 +100,7 @@ namespace HoustonBrowser.Render
         {
             get
             {
-                return ControlRenderObj.Height - style.DistanceBetweenBlock.Height;
+                return ControlRenderObj.Height - Style.DistanceBetweenBlock.Height;
             }
         }
 
@@ -122,7 +122,7 @@ namespace HoustonBrowser.Render
             this.previousObj = previousObj;
             this.rootObj = rootObj;
 
-            ControlRenderObj = Control.Get(ref style, this, node);
+            ControlRenderObj = Control.Get(this, node);
             Left = previousObj.LeftBlock;
             Top = previousObj.TopBlock;
             if (!IsFixedSize)
@@ -203,7 +203,7 @@ namespace HoustonBrowser.Render
                     obj.ReLocation(obj.Left - objLeft, obj.Top - objTop);
                 }
 
-                ControlRenderObj.Height = localHeight + style.DistanceBetweenBlock.Height;
+                ControlRenderObj.Height = localHeight + Style.DistanceBetweenBlock.Height;
             }
         }
 

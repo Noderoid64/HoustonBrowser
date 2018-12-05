@@ -25,7 +25,6 @@ namespace HoustonBrowser.Render
         }
 
         private delegate BrowserControl GetControl(
-            ref Style style,
             RenderObj renderNode,
             Node node
         );
@@ -37,229 +36,232 @@ namespace HoustonBrowser.Render
                 //[typeof(HTMLButtonElement)] = GetButtonControl,
                 [typeof(HTMLDivElement)] = GetDivControl,
                 //[typeof(HTMLFormElement)] = GetFormControl,
-                //[typeof(HTMLH1Element)] = GetH1Control,
-                //[typeof(HTMLH2Element)] = GetH2Control,
-                //[typeof(HTMLH3Element)] = GetH3Control,
-                //[typeof(HTMLH4Element)] = GetH4Control,
-                //[typeof(HTMLH5Element)] = GetH5Control,
-                //[typeof(HTMLH6Element)] = GetH6Control,
+                [typeof(HTMLH1Element)] = GetH1Control,
+                [typeof(HTMLH2Element)] = GetH2Control,
+                [typeof(HTMLH3Element)] = GetH3Control,
+                [typeof(HTMLH4Element)] = GetH4Control,
+                [typeof(HTMLH5Element)] = GetH5Control,
+                [typeof(HTMLH6Element)] = GetH6Control,
+           //     [typeof(HTMLIElement)] = GetIControl,
                 [typeof(HTMLParagraphElement)] = GetParagraphControl,
                 [typeof(Text)] = GetTextControl,
             };
 
         public static bool IsNodeRender(Node node)
-        {                                    
+        {
             return ControlsDictionary.ContainsKey(node.GetType());
         }
 
 
-        public static BrowserControl Get(
-           ref Style style,
-           RenderObj renderNode,
-           Node node
-       )
+        public static BrowserControl Get(RenderObj renderNode, Node node)
         {
             GetControl control;
             if (ControlsDictionary.TryGetValue(node.GetType(), out control))
             {
-                return control(ref style, renderNode, node);
+                return control(renderNode, node);
             }
 
-            Console.WriteLine("Zad");
-            style = new Style(0, 0, 0, 0);
             return null;
         }
 
-
-        public static BrowserControl GetH1Control(
-            ref Style style,
-            RenderObj renderNode,
-            Node node
-        )
+        public static BrowserControl GetTextControl(RenderObj renderNode, Node node)
         {
-
             renderNode.IsFixedSize = true;
-            style = new Style(10, 10, 0, 0);
-            var control = new Label()
+            renderNode.Style = new Style(0, 0, 0, 0)
             {
-                Width = renderNode.Width,
-                WrapText = TextWrapping.Wrap,
-                Text = node.FirstChild.NodeValue,
-                TextTypeface = new Typeface("Arial", 10,FontStyle.Normal,FontWeight.Bold)
+                Font = renderNode.PreviousNode.Style.Font,
+                SizeFont = renderNode.PreviousNode.Style.SizeFont,
+                Bold = renderNode.PreviousNode.Style.Bold,
             };
 
-            return control;
-        }
-
-        public static BrowserControl GetH2Control(
-            ref Style style,
-            RenderObj renderNode,
-            Node node
-        )
-        {
-            renderNode.IsFixedSize = true;
-            var control = new Label()
-            {
-                Width = renderNode.Width,
-                WrapText = TextWrapping.Wrap,
-                Text = node.FirstChild.NodeValue,
-                TextTypeface = new Typeface("Arial", 12,FontStyle.Normal, FontWeight.Bold)
-            };
-
-            style = new Style(10, 10, 0, 0);
-
-            return control;
-        }
-
-        public static BrowserControl GetH3Control(ref Style style, RenderObj renderNode, Node node)
-        {
-            renderNode.IsFixedSize = true;
-            var control = new Label()
-            {
-                Width = renderNode.Width,
-                WrapText = TextWrapping.Wrap,
-                Text = node.FirstChild.NodeValue,
-                TextTypeface = new Typeface("Arial", 14, FontStyle.Normal, FontWeight.Bold)
-        };
-
-            style = new Style(10, 10, 0, 0);
-
-            return control;
-        }
-
-
-        public static BrowserControl GetH4Control(ref Style style, RenderObj renderNode, Node node)
-        {
-            renderNode.IsFixedSize = true;
-            var control = new Label()
-            {
-                Width = renderNode.Width,
-                WrapText = TextWrapping.Wrap,
-                Text = node.FirstChild.NodeValue,
-                TextTypeface = new Typeface("Arial", 16, FontStyle.Normal, FontWeight.Bold)
-            };
-
-            style = new Style(10, 10, 0, 0);
-
-            return control;
-        }
-
-        public static BrowserControl GetH5Control(ref Style style, RenderObj renderNode, Node node
-)
-        {
-            renderNode.IsFixedSize = true;
-            var control = new Label()
-            {
-                Width = renderNode.Width,
-                WrapText = TextWrapping.Wrap,
-                Text = node.FirstChild.NodeValue,
-                TextTypeface = new Typeface("Arial", 18, FontStyle.Normal, FontWeight.Bold)
-            };
-
-            style = new Style(10, 10, 0, 0);
-
-            return control;
-        }
-
-        public static BrowserControl GetH6Control(ref Style style, RenderObj renderNode, Node node)
-        {
-            renderNode.IsFixedSize = true;
-            var control = new Label()
-            {
-                Width = renderNode.Width,
-                WrapText = TextWrapping.Wrap,
-                Text = node.FirstChild.NodeValue,
-                TextTypeface = new Typeface("Arial", 20, FontStyle.Normal, FontWeight.Bold)
-            };
-
-            style = new Style(10, 10, 0, 0);
-
-            return control;
-        }
-
-        public static BrowserControl GetTextControl(
-            ref Style style,
-            RenderObj renderNode,
-            Node node
-            )
-        {
-            renderNode.IsFixedSize = true;
             var control = new Label()
             {
                 Width = renderNode.Width,
                 WrapText = TextWrapping.Wrap,
                 Text = node.NodeValue,
-                BackgroundBrush=new SolidColorBrush(new Color(200, 250, 0, 0))
+                // BackgroundBrush = new SolidColorBrush(new Color(200, 250, 0, 0))
             };
 
-            style = new Style(0, 0, 0, 0);
+            if (renderNode.Style.Bold)
+                control.TextTypeface = new Typeface(renderNode.Style.Font, renderNode.Style.SizeFont, FontStyle.Normal, FontWeight.Bold);
+            else
+                control.TextTypeface = new Typeface(renderNode.Style.Font, renderNode.Style.SizeFont, FontStyle.Normal, FontWeight.Normal);
 
             return control;
         }
 
-        public static BrowserControl GetBodyControl(
-            ref Style style,
-            RenderObj renderNode,
-            Node node
-            )
+        public static BrowserControl GetBodyControl(RenderObj renderNode, Node node)
         {
-            var control =  new Controls.Rectangle()
+            renderNode.Style = new Style(10, 10, 10, 10);
+
+            var control = new Controls.Rectangle()
             {
-                BackgroundBrush = new SolidColorBrush(new Color(255, 100, 100, 0))
+                // BackgroundBrush = new SolidColorBrush(new Color(255, 100, 100, 0))
             };
-            style = new Style(10, 10, 10, 10);
 
             return control;
         }
 
-        public static BrowserControl GetButtonControl(
-            ref Style style,
-            RenderObj renderNode,
-            Node node
-        )
+        public static BrowserControl GetButtonControl(RenderObj renderNode, Node node)
         {
             renderNode.IsFixedSize = true;
-            style = new Style(0, 0, 0, 0);
+            renderNode.Style = new Style(0, 0, 0, 0)
+            {
+                Font = renderNode.Style.Font,
+                SizeFont = renderNode.Style.SizeFont,
+                Bold = renderNode.Style.Bold,
+            };
 
             return new Controls.Button()
-            { Text = node.NodeValue,
+            {
+                Text = node.NodeValue,
                 Width = 30
             };
         }
 
-        public static BrowserControl GetDivControl(
-            ref Style style,
-            RenderObj renderNode,
-            Node node
-        )
+        public static BrowserControl GetDivControl(RenderObj renderNode, Node node)
         {
-            style = new Style(0, 0, 0, 0);
+            renderNode.Style = new Style(0, 0, 0, 0)
+            {
+                Font = renderNode.PreviousNode.Style.Font,
+                SizeFont = renderNode.PreviousNode.Style.SizeFont,
+                Bold = renderNode.PreviousNode.Style.Bold,
+            };
 
             var control = new Controls.Rectangle()
             {
                 Height = 1,
                 Width = renderNode.Width,
-                BackgroundBrush = new SolidColorBrush(new Color(255, 0, 0, 200))
+             //   BackgroundBrush = new SolidColorBrush(new Color(255, 0, 0, 200))
             };
 
             return control;
         }
 
-        public static BrowserControl GetParagraphControl(
-            ref Style style,
-            RenderObj renderNode,
-            Node node
-            )
+        public static BrowserControl GetParagraphControl(RenderObj renderNode, Node node)
         {
+            renderNode.Style = new Style(15, 15, 0, 0)
+            {
+                Font = renderNode.PreviousNode.Style.Font,
+                SizeFont = renderNode.PreviousNode.Style.SizeFont,
+                Bold = renderNode.PreviousNode.Style.Bold,
+            };
+
             var control = new Controls.Rectangle()
             {
                 Height = 1,
-                BackgroundBrush = new SolidColorBrush(new Color(255, 0, 100, 100))
+
+                // BackgroundBrush = new SolidColorBrush(new Color(255, 0, 100, 100))
             };
 
-            style = new Style(15, 15, 0, 0);
-
             return control;
+        }
+
+        public static BrowserControl GetIControl(RenderObj renderNode, Node node)
+        {
+            renderNode.Style = new Style(17, 17, 0, 0)
+            {
+                Font = renderNode.PreviousNode.Style.Font,
+                SizeFont = 30,
+                Bold = true,
+            };
+
+            return new Controls.Rectangle()
+            {
+                Height = 1,
+            };
+        }
+
+        public static BrowserControl GetH1Control(RenderObj renderNode, Node node)
+        {
+            renderNode.Style = new Style(17, 17, 0, 0)
+            {
+                // Font = renderNode.PreviousNode.Style.Font,
+                Font = "TimsNewRoman",
+                SizeFont = 30,
+                Bold = true,
+            };
+
+            return new Controls.Rectangle()
+            {
+                Height = 1,
+            };
+        }
+
+        public static BrowserControl GetH2Control(RenderObj renderNode, Node node)
+        {
+            renderNode.Style = new Style(13, 13, 0, 0)
+            {
+                Font = renderNode.PreviousNode.Style.Font,
+                SizeFont = 25,
+                Bold = true,
+            };
+
+            return new Controls.Rectangle()
+            {
+                Height = 1,
+            };
+        }
+
+        public static BrowserControl GetH3Control(RenderObj renderNode, Node node)
+        {
+            renderNode.Style = new Style(11, 11, 0, 0)
+            {
+                Font = renderNode.PreviousNode.Style.Font,
+                SizeFont = 20,
+                Bold = true,
+            };
+
+            return new Controls.Rectangle()
+            {
+                Height = 1,
+            };
+        }
+
+
+        public static BrowserControl GetH4Control(RenderObj renderNode, Node node)
+        {
+            renderNode.Style = new Style(10, 10, 0, 0)
+            {
+                Font = renderNode.PreviousNode.Style.Font,
+                SizeFont = 15,
+                Bold = true,
+            };
+
+            return new Controls.Rectangle()
+            {
+                Height = 1,
+            };
+        }
+
+        public static BrowserControl GetH5Control(RenderObj renderNode, Node node)
+        {
+            renderNode.Style = new Style(10, 10, 0, 0)
+            {
+                Font = renderNode.PreviousNode.Style.Font,
+                SizeFont = 12,
+                Bold = true,
+            };
+
+            return new Controls.Rectangle()
+            {
+                Height = 1,
+            };
+        }
+
+        public static BrowserControl GetH6Control(RenderObj renderNode, Node node)
+        {
+            renderNode.Style = new Style(10, 10, 0, 0)
+            {
+                Font = renderNode.PreviousNode.Style.Font,
+                SizeFont = 20,
+                Bold = true,
+            };
+
+            return new Controls.Rectangle()
+            {
+                Height = 1,
+            };
         }
     }
 }

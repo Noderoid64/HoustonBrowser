@@ -11,7 +11,9 @@ namespace HoustonBrowser.Render
         public Rectangle DistanceBetweenControl { get => distanceBetweenControl; }
         public Rectangle DistanceBetweenBlock { get => distanceBetweenBlock; }
 
-        public double Font { get; set; } = 14;
+        public string FontStyle { get; set; } = "Normal";
+        public string Font { get; set; } = "Arial";
+        public double SizeFont { get; set; } = 14;
         public bool Bold { get; set; } = false;
 
         double marginBlockStart;
