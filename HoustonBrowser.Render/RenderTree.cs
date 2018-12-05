@@ -9,7 +9,7 @@ namespace HoustonBrowser.Render
     {
         public RenderTree(Node node, double width, double height) : base(node)
         {
-            ControlRenderObj = Control.GetBodyControl(ref style, this, node);
+            ControlRenderObj = Control.GetBodyControl(this, node);
             Width = width;
             Left = 0;
             Top = 0;

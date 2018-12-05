@@ -55,7 +55,7 @@ namespace HoustonBrowser.Core
 
         private void Ui_onPageLoad(object sender, PageLoadEventArgs e)
         {
-           
+
             if (e.UrlString != null)
             {
                 dom = new HTMLDocument();
@@ -65,6 +65,25 @@ namespace HoustonBrowser.Core
                 RegisterEvents();
                 RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
                 onRender(this, renderEventArgs);
+            }
+            else
+            {
+                using (StreamReader stream = new StreamReader("file.txt"))
+                {
+                    string str = "";
+                    string ln = "";
+
+                    while ((ln = stream.ReadLine()) != null)
+                    {
+                        str += ln + "\r\n";
+                    }
+
+                    dom = new HTMLDocument();
+                    parser.Parse(str, dom);
+                    renderTree = new RenderPage(dom);
+                    RenderEventArgs renderEventArgs = new RenderEventArgs(renderTree.ListOfControls);
+                    onRender(this, renderEventArgs);
+                }
             }
         }
 
