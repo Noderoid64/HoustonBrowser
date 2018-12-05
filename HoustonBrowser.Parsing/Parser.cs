@@ -12,7 +12,10 @@ namespace HoustonBrowser.Parsing
         HTMLDocument doc;
         public Parser()
         {
-            
+            StatesData.InBody.onNonHtmlEvent += (caller, args) =>
+            {
+                onNonHtmlEvent(caller, args);
+            };
         }
 
         public event EventHandler<string> onNonHtmlEvent;
@@ -36,6 +39,7 @@ namespace HoustonBrowser.Parsing
             State state = new State();//main parse class
             StatesData.Reload();//IF SOME PROBLEMS DETECTED CHECK THIS METHOD
             StatesData.SetData(nodes, doc);//Adding data
+
             while (!StatesData.IsLast)
             {
                 lexAnalyser.InsertionState=StatesData.currentState;
