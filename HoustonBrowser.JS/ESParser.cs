@@ -533,8 +533,13 @@ TODO:
             if (expr != null)
             {
                 oldPos = pos;
-                UnaryExpression newExpr = RelationalExpression1();
-                if (newExpr == null) pos = oldPos;
+                UnaryExpression next = RelationalExpression1();
+                if (next != null)
+                {
+                    next.FirstValue = expr;
+                    return next;
+                }
+                pos = oldPos;
                 return expr;
             }
             pos = oldPos;
@@ -545,6 +550,7 @@ TODO:
         {
             int oldPos = pos;
             UnaryExpression expr, next;
+            string oper = "";
             switch (tokens[pos].GetTokenValue())
             {
                 case ">":
@@ -553,13 +559,17 @@ TODO:
                 case "<=":
                 case "in":
                 case "instanseof":
-                    if (Match(tokens[pos].GetTokenValue()) &&
+                    if (Match(oper=tokens[pos].GetTokenValue()) &&
                         (expr = ShiftExpression()) != null)
                     {
                         oldPos = pos;
                         next = RelationalExpression1();
-                        if (next != null) return new BinaryExpression(ExpressionType.BinaryExpression, expr, next, ">");
-                        return expr;
+                        if (next != null)
+                        {
+                            next.FirstValue = expr;
+                            return new BinaryExpression(ExpressionType.BinaryExpression, null, next, oper);
+                        }
+                        return new BinaryExpression(ExpressionType.BinaryExpression, null, expr, oper);
                     }
                     break;
 

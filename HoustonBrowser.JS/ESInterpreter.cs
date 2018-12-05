@@ -208,6 +208,12 @@ namespace HoustonBrowser.JS
             double l = 0, r = 0;
             switch (oper)
             {
+                            
+                case ">":
+                    l = TypeConverter.ToNumber(leftOp);
+                    r = TypeConverter.ToNumber(rightOp);
+                    res = new Primitive(ESType.Boolean, l > r);
+                    break;
                 case "+":
 
                     if (leftOp.Type == ESType.String || rightOp.Type == ESType.String)
@@ -303,7 +309,21 @@ namespace HoustonBrowser.JS
             BinaryExpression assignmentExpr = expression as BinaryExpression;
             Property a = EvalProperty(assignmentExpr.FirstValue);
             Primitive b = EvalExpression(assignmentExpr.SecondValue);
-            a.Value = b;
+            switch (assignmentExpr.Oper)
+            {
+                case "=":
+                    a.Value = b;
+                    break;
+                case "+=":
+                    a.Value = ProcessBinaryExpression(a.Value,b,"+");
+                    break;
+                case "-=":
+                    a.Value = ProcessBinaryExpression(a.Value,b,"+");
+                    break;                
+                default:
+                    break;
+            }
+            
             return a.Value;
         }
 
