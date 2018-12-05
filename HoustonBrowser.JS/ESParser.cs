@@ -155,8 +155,8 @@ TODO:
             if ((node = IfStatement())!=null) return node;
             pos = oldPos;
 
-            // IterationStatement();
-            //pos = oldPos;
+            if ((node = IterationStatement()) != null) return node;
+            pos = oldPos;
 
             // if (ContinueStatement()) return true;
             // pos = oldPos;
@@ -1023,10 +1023,19 @@ TODO:
             }
 
 
-        /* 
-                bool IterationStatement()
-                { return false; }
-
+ 
+        UnaryExpression IterationStatement()
+        {
+            int oldPos = pos;
+            UnaryExpression expr, statement;
+            if (Match("while") && Match("(") &&
+            (expr = Expression()) != null && Match(")") && (statement = Statement()) != null)
+            {
+                return new BinaryExpression(ExpressionType.WhileExpression, expr, statement, null);
+            }
+            pos = oldPos;
+            return null; ; }
+        /*
                 bool ContinueStatement()
                 {
                     int oldPos = pos;
