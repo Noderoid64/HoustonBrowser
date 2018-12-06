@@ -199,9 +199,10 @@ namespace HoustonBrowser
 
         private void forwardButton_OnClick(object sender, RoutedEventArgs e)
         {
-            currentUrl++;
-            if(currentUrl<urls.Count)
+            
+            if(currentUrl+1<urls.Count)
             {
+                currentUrl++;
                 var arg  =  new PageLoadEventArgs(urls[currentUrl]);
                 urlTextBox.Text=urls[currentUrl];
                 this.onPageLoad(sender, arg);
